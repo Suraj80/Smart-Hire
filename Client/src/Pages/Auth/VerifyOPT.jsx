@@ -25,7 +25,7 @@ function VerifyOPT() {
     };
     convertValues();
     const options = {
-      url: "https://smart-cruiter-fyp-production.up.railway.app/verify-forget-pwd",
+      url: "http://localhost:8080/verify-forget-pwd",
       method: "POST",
       headers: {
         Accept: "application/json",

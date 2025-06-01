@@ -21,13 +21,14 @@ function HomePage() {
   const [organizationData, setOrganizationData] = useState();
   const [organizationDeatails, setOrganizationDetails] = useState();
   const CheckAuth = async () => {
+    const token = localStorage.getItem("token");
     axios
       .post(
         "https://smart-cruiter-fyp-production.up.railway.app/home",
         {},
         {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization: token ? `Bearer ${token}` : "",
           },
         }
       )
@@ -42,6 +43,10 @@ function HomePage() {
       })
       .catch(function (error) {
         console.log(error);
+        // Redirect to login if authentication fails
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+          window.location.href = "/login";
+        }
       });
   };
 
@@ -53,8 +58,8 @@ function HomePage() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json;charset=UTF-8",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-
         data: {
           organization_id: localStorage.getItem("organization_id"),
         },

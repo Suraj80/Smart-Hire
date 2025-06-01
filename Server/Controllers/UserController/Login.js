@@ -33,15 +33,6 @@ const login = async (req, res, next) => {
         //     });
         // }
 
-        const checkStatus = findUser.isVerified;
-        if (checkStatus == false) {
-            return res.status(403).json({
-                error: "Email isn't verified, kindly first verify your email address",
-            });
-        }
-
-
-
         // Compare the passwords
         const unhashed = await bcrypt.compare(password, findUser.password);
         if (!unhashed) {

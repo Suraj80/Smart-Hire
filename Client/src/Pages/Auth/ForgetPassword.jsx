@@ -20,7 +20,7 @@ function ForgetPassword() {
   const handleLogin = async (inputData) => {
     console.log(" i am going to run");
     const options = {
-      url: "https://smart-cruiter-fyp-production.up.railway.app/forget-password",
+      url: "http://localhost:8080/forget-password",
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -74,7 +74,7 @@ function ForgetPassword() {
         </h1>
 
         <p className="heading3 text-center w-4/5 mt-8 block m-auto">
-          Enter your email and we’ll send you a link to get back into your
+          Enter your email and we'll send you a link to get back into your
           account.
         </p>
 

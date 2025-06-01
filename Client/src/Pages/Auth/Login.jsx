@@ -27,7 +27,7 @@ function Login() {
   // -> handle login api call
   const handleLogin = async (inputData) => {
     const options = {
-      url: "https://smart-cruiter-fyp-production.up.railway.app/login",
+      url: "http://localhost:8080/login",
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -49,19 +49,22 @@ function Login() {
       })
       .catch(function (error) {
         console.log(error);
-        //USING ALL EDGE CASES TO SHOW RELEVENT MESSSAGES ON INPUT
-        if (error.response.status == 404) {
-          SetError("No user found");
-        } else if (error.response.status == 403) {
-          SetError(
-            "Email isn't verified, kindly first verify your email address."
-          );
-        } else if (error.response.status == 401) {
-          SetError("Incorrect password.");
-        } else if (error.response.status == 400) {
-          SetError("All fields are required.");
+        if (error.response) {
+          if (error.response.status == 404) {
+            SetError("No user found");
+          } else if (error.response.status == 403) {
+            SetError(
+              "Email isn't verified, kindly first verify your email address."
+            );
+          } else if (error.response.status == 401) {
+            SetError("Incorrect password.");
+          } else if (error.response.status == 400) {
+            SetError("All fields are required.");
+          } else {
+            SetError("Something went wrong.");
+          }
         } else {
-          SetError("Something went wrong.");
+          SetError("No response from server. Please check your network or try again later.");
         }
       });
   };
@@ -99,7 +102,7 @@ function Login() {
                   className="h-10 input input-bordered w-full"
                   id="email"
                   name="email"
-                  value={formik.values.name}
+                  value={formik.values.email}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   placeholder="Your email @"

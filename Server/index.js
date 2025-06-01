@@ -2,6 +2,7 @@ const express = require('express')
 require("dotenv").config();
 const ngrok = require('ngrok');
 
+
 // const fileUpload = require('express-fileupload')
 var bodyParser = require('body-parser')
 const mongoose = require('mongoose');
@@ -17,7 +18,13 @@ const SettingRouter = require('./Routes/SettingRouter.js');
 
 // -----| Configration |-----
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: [
+        'http://localhost:5173',
+        'https://your-frontend-domain.com' // <-- Replace with your deployed frontend domain if needed
+    ],
+    credentials: true
+}));
 mongoose.set('strictQuery', false);
 app.use(express.urlencoded({ extended: true }))
 // app.use(fileUpload())
