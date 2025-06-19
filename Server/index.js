@@ -18,10 +18,12 @@ const SettingRouter = require('./Routes/SettingRouter.js');
 
 // -----| Configration |-----
 const app = express();
+// Enable CORS for local frontend and production frontend
 app.use(cors({
     origin: [
         'http://localhost:5173',
-        'https://your-frontend-domain.com' // <-- Replace with your deployed frontend domain if needed
+        'http://localhost:8080', // <-- Replace with your deployed frontend domain if needed
+       // Allow production frontend
     ],
     credentials: true
 }));

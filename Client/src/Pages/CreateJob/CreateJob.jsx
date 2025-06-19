@@ -12,7 +12,7 @@ function CreateJob() {
     const fetchData = async () => {
       // axios POST request
       const options = {
-        url: "https://smart-cruiter-fyp-production.up.railway.app/job/get-jobs",
+        url: "http://localhost:8080/job/get-jobs",
         method: "POST",
         headers: {
           Accept: "application/json",

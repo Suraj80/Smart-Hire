@@ -15,7 +15,7 @@ function ReccomendedCandidateDetailsCard({ id, user, SetUser, setID }) {
     const getCanidateDetails = () => {
       // axios POST request
       const options = {
-        url: "https://smart-cruiter-fyp-production.up.railway.app/details/active/reccomended/details",
+        url: "http://localhost:8080/details/active/reccomended/details",
         method: "POST",
         headers: {
           Accept: "application/json",

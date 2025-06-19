@@ -59,7 +59,7 @@ function ProfileAddTeam() {
   const post_Method = () => {
     // axios POST request
     const options = {
-      url: "https://smart-cruiter-fyp-production.up.railway.app/profile/setup",
+      url: "http://localhost:8080/profile/setup",
       method: "POST",
       headers: {
         Accept: "application/json",

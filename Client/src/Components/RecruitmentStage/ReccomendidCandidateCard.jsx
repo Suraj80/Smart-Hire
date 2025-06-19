@@ -8,7 +8,7 @@ function ReccomendidCandidateCard({ id }) {
   useEffect(() => {
     const getCandidates = () => {
       const options = {
-        url: "https://smart-cruiter-fyp-production.up.railway.app/details/active/reccomended",
+        url: "http://localhost:8080/details/active/reccomended",
         method: "POST",
         headers: {
           Accept: "application/json",

@@ -1,6 +1,7 @@
 const express = require('express');
 const GetProfilePicture = require('../Controllers/Dashboard/GetProfilePic.js');
 const Home = require('../Controllers/Dashboard/Home.js');
+const Dashboard = require('../Controllers/Dashboard/Dashboard.js');
 const forget_password = require('../Controllers/UserController/ForgetPassword.js');
 const login = require('../Controllers/UserController/Login.js');
 const register = require('../Controllers/UserController/Register.js');
@@ -24,20 +25,33 @@ UserRouter.post("/login", login);
 
 UserRouter.post("/register", register)
 
-// -> Verify Email
 
-UserRouter.get("/verify", VerifyMail)
 
 
 // -> Forget Password
+
 UserRouter.post("/forget-password", forget_password)
 
-// -> Verify Forget Password by verifying token
-UserRouter.post("/verify-forget-pwd", verifyForgetPwd)
 
-//-> Making a new password
-UserRouter.post("/new-password", updatePassword)
 
+
+// -> Verify Forget Password
+
+UserRouter.post("/verify-forget-password", verifyForgetPwd)
+
+
+
+
+// -> Update Password
+
+UserRouter.post("/update-password", updatePassword)
+
+
+
+
+// -> Verify Mail
+
+UserRouter.post("/verify-mail", VerifyMail)
 
 
 
@@ -46,7 +60,11 @@ UserRouter.post("/new-password", updatePassword)
 
 //I left Auth Middleware  intentionally to increase devlopment speed
 // Will implement it while deploying it on any hosting platform
-UserRouter.post("/home", AuthMiddleware, VerifyToken)
-UserRouter.post("/dashboard", Home)
+UserRouter.post("/home", Home)
+UserRouter.post("/dashboard", Dashboard)
+
+// -> Get Profile Picture
+
 UserRouter.post("/getProfilePic", GetProfilePicture)
+
 module.exports = UserRouter;

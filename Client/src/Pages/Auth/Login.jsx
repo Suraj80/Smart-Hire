@@ -40,10 +40,6 @@ function Login() {
       .then((response) => {
         console.log(response);
         if (response.status == 200) {
-          //1st store the Token for authorization
-
-          const token = response.data.token;
-          localStorage.setItem("token", token);
           navigate("/");
         }
       })

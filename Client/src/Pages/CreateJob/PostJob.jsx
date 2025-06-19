@@ -51,7 +51,7 @@ function PostJob() {
   const handleSubmit = async () => {
     // axios POST request
     const options = {
-      url: "https://smart-cruiter-fyp-production.up.railway.app/job/post",
+      url: "http://localhost:8080/job/post",
       method: "POST",
       headers: {
         Accept: "application/json",

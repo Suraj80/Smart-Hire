@@ -10,16 +10,18 @@ function TopNavigationBar({ title }) {
   const [profileURL, setProfileURL] = useState();
   const [showMenu, setShowMenu] = useState(false);
   useEffect(() => {
+    const orgId = localStorage.getItem("organization_id");
+    if (!orgId || orgId === "null" || orgId === "undefined") return;
     // axios POST request
     const options = {
-      url: "https://smart-cruiter-fyp-production.up.railway.app/getProfilePic",
+      url: "http://localhost:8080/getProfilePic",
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
       },
       data: {
-        organization_id: localStorage.getItem("organization_id"),
+        organization_id: orgId,
       },
     };
 

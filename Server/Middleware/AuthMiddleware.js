@@ -28,7 +28,7 @@ function AuthMiddleware(req, res, next) {
     // 🔓 Skip auth in development
     if (process.env.NODE_ENV === 'development') {
         console.log("🧪 Development mode: Skipping auth middleware");
-        req.body.userID = "test-user-id"; // You can set a dummy user ID
+        req.user = { id: "test-user-id" }; // Set dummy user object
         return next();
     }
 
@@ -41,7 +41,7 @@ function AuthMiddleware(req, res, next) {
             if (error) {
                 return res.status(400).send({ message: "Invalid token" });
             }
-            req.body.userID = data.id;
+            req.user = { id: data.id }; // Set user object with id
             next();
         });
     } else {

@@ -3,7 +3,8 @@ const Job = require("../../Models/JobModel");
 const StatMainPage = async (req, res) => {
     const id = req.body.id;
     if (!id) {
-        res.status(440).json({ message: "No id found" })
+        res.status(440).json({ message: "No id found" });
+        return;
     }
 
 

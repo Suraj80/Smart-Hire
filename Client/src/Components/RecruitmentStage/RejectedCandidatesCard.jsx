@@ -26,7 +26,7 @@ function RejectedCandidateCard({ id }) {
   useEffect(() => {
     const getCandidates = async () => {
       const options = {
-        url: "https://smart-cruiter-fyp-production.up.railway.app/details/active/rejected",
+        url: "http://localhost:8080/details/active/rejected",
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -68,7 +68,7 @@ function RejectedCandidateCard({ id }) {
       setShowSpinner(true);
       // axios POST request
       const options = {
-        url: "https://smart-cruiter-fyp-production.up.railway.app/details/active/hired/sendEmail",
+        url: "http://localhost:8080/details/active/hired/sendEmail",
         method: "POST",
         headers: {
           Accept: "application/json",

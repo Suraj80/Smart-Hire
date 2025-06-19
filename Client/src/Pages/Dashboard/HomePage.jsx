@@ -21,19 +21,12 @@ function HomePage() {
   const [organizationData, setOrganizationData] = useState();
   const [organizationDeatails, setOrganizationDetails] = useState();
   const CheckAuth = async () => {
-    const token = localStorage.getItem("token");
     axios
       .post(
-        "https://smart-cruiter-fyp-production.up.railway.app/home",
-        {},
-        {
-          headers: {
-            Authorization: token ? `Bearer ${token}` : "",
-          },
-        }
+        "http://localhost:8080/home",
+        { email: "testuser@example.com" }
       )
       .then(function (response) {
-        // console.log(response);
         if (response.data.org_registered == true) {
           setOrganizationData(response.data);
           setProfileSetup(true);
@@ -43,10 +36,6 @@ function HomePage() {
       })
       .catch(function (error) {
         console.log(error);
-        // Redirect to login if authentication fails
-        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-          window.location.href = "/login";
-        }
       });
   };
 
@@ -54,24 +43,21 @@ function HomePage() {
     dispatch(fetchOrganizationDataStart());
 
     axios
-      .post("https://smart-cruiter-fyp-production.up.railway.app/dashboard", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json;charset=UTF-8",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        data: {
+      .post("http://localhost:8080/dashboard", 
+        {
           organization_id: localStorage.getItem("organization_id"),
         },
-      })
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json;charset=UTF-8",
+          },
+        }
+      )
       .then(function (response) {
-        // console.log(response);
-        //Translating an ARRAY -> OBJECT
         const arr = Object.entries(response.data.organizaion);
         setOrganizationDetails(arr);
         dispatch(fetchOrganizationDataSuccess(arr));
-
-        // setOrganizationDetails(response.data.organizaion);
       })
       .catch(function (error) {
         dispatch(fetchOrganizationDataFailure(error.message));

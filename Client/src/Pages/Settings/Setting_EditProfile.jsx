@@ -88,7 +88,7 @@ function Setting_EditProfile() {
 
     axios
       .post(
-        "https://smart-cruiter-fyp-production.up.railway.app/settings/updateProfileData",
+        "http://localhost:8080/settings/updateProfileData",
         {
           inputValue,
           org_id,
