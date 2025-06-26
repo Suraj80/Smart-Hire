@@ -1,7 +1,7 @@
 const express = require("express");
 const UpdateProfilePicture = require("../Controllers/Settings/UpdateProfilePicture");
 const multer = require('multer');
-const UpdateProfileSettings = require("../Controllers/Settings/UpdateProfileSettings");
+const { UpdateProfileSettings, AddDepartment } = require("../Controllers/Settings/UpdateProfileSettings");
 
 
 
@@ -23,5 +23,6 @@ const upload = multer({ storage });
 
 SettingRouter.post("/updateProfile", upload.single('file'), UpdateProfilePicture)
 SettingRouter.post("/updateProfileData", upload.single('file'), UpdateProfileSettings)
+SettingRouter.post("/addDepartment", AddDepartment)
 
 module.exports = SettingRouter;

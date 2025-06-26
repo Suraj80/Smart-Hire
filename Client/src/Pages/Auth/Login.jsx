@@ -5,6 +5,7 @@ import { object, string } from "yup";
 import MainButton from "../../Components/Common/MainButton";
 import ErrorLogo from "../../assets/icons/error.png";
 import { Link, useNavigate } from "react-router-dom";
+
 function Login() {
   // -> To handle error's
   const [error, SetError] = useState();
@@ -74,128 +75,204 @@ function Login() {
   });
 
   return (
-    <div className=" bg-gray-100 h-screen w-screen">
-      <div className="flex flex-wrap justify-center m-auto items-center  bg-white  w-full  sm:w-3/4 h-auto shadows">
-        <div className="w-full  p-10  sm:w-1/2">
-          <h1 className="font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-blue-500 to-black">
-            Smart Cruiter
-          </h1>
-          <img
-            className="m-auto mt-4"
-            width={100}
-            src="https://1000logos.net/wp-content/uploads/2022/07/Logo-ATT.png"
-            alt=""
-          />
-          <div className=" w-full">
-            <form
-              className="form-control w-full m-2"
-              onSubmit={formik.handleSubmit}
-            >
-              <div className="w-4/5">
-                <label className="label line1">Email</label>
-                <input
-                  type="email"
-                  className="h-10 input input-bordered w-full"
-                  id="email"
-                  name="email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  placeholder="Your email @"
-                  autoComplete="on"
-                />
-                {/* ERROR MSG */}
-                {formik.errors.email && formik.touched.email ? (
-                  <span className="text-blue-600"> {formik.errors.email}</span>
-                ) : null}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div className="flex flex-col lg:flex-row">
+          {/* Left Panel - Form */}
+          <div className="flex-1 p-6 lg:p-8">
+            <div className="max-w-sm mx-auto">
+              {/* Header */}
+              <div className="text-center mb-6">
+                <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-3">
+                  Smart Cruiter
+                </h1>
+                <div className="flex justify-center mb-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <img
+                      className="w-10 h-10 object-contain filter brightness-0 invert"
+                      src="https://1000logos.net/wp-content/uploads/2022/07/Logo-ATT.png"
+                      alt="Logo"
+                    />
+                  </div>
+                </div>
+                <p className="text-gray-600 text-base">Welcome back! Please sign in to your account</p>
               </div>
-              <div className="w-4/5">
-                <label className="label line1">Password</label>
-                <input
-                  type="password"
-                  className="h-10 input input-bordered w-full"
-                  id="password"
-                  name="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  autoComplete="on"
-                  placeholder="*_*_*"
-                />
-                {formik.errors.password && formik.touched.password ? (
-                  <span className="text-blue-600">
-                    {" "}
-                    {formik.errors.password}
-                  </span>
-                ) : null}
-              </div>
-              <div className="flex justify-start mt-8">
-                <div className="hidden sm:block">
-                  <input
-                    type="checkbox"
-                    // checked="checked"
-                    className="checkbox bg-white"
-                  />
-                  <label htmlFor="" className="ml-2 line2">
-                    keep me login
+
+              {/* Form */}
+              <form className="space-y-4" onSubmit={formik.handleSubmit}>
+                {/* Email Field */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-gray-700">
+                    Email Address
                   </label>
+                  <div className="relative">
+                    <input
+                      type="email"
+                      className={`w-full px-3 py-2.5 border-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-0 ${
+                        formik.errors.email && formik.touched.email
+                          ? 'border-red-300 focus:border-red-500 bg-red-50'
+                          : 'border-gray-200 focus:border-blue-500 bg-white hover:border-gray-300'
+                      }`}
+                      id="email"
+                      name="email"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      placeholder="Enter your email address"
+                      autoComplete="on"
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                      </svg>
+                    </div>
+                  </div>
+                  {formik.errors.email && formik.touched.email && (
+                    <p className="text-red-500 text-sm font-medium flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      {formik.errors.email}
+                    </p>
+                  )}
                 </div>
 
-                <div className=" ml-0  sm:ml-24">
-                  <Link to={"/forgetpwd"} className="line1 cursor-pointer">
-                    Forget password?
+                {/* Password Field */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-gray-700">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="password"
+                      className={`w-full px-3 py-2.5 border-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-0 ${
+                        formik.errors.password && formik.touched.password
+                          ? 'border-red-300 focus:border-red-500 bg-red-50'
+                          : 'border-gray-200 focus:border-blue-500 bg-white hover:border-gray-300'
+                      }`}
+                      id="password"
+                      name="password"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      autoComplete="on"
+                      placeholder="Enter your password"
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      </svg>
+                    </div>
+                  </div>
+                  {formik.errors.password && formik.touched.password && (
+                    <p className="text-red-500 text-sm font-medium flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      {formik.errors.password}
+                    </p>
+                  )}
+                </div>
+
+                {/* Remember Me & Forget Password */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <label className="ml-2 text-sm text-gray-600 font-medium">
+                      Keep me logged in
+                    </label>
+                  </div>
+                  <Link 
+                    to="/forgetpwd" 
+                    className="text-sm text-blue-600 hover:text-blue-800 font-semibold transition-colors duration-200"
+                  >
+                    Forgot password?
                   </Link>
                 </div>
-              </div>
-              {/* Error message part */}
-              {error == null ? null : (
-                <div className="border-2 solid  border-blue-700 bg-blue-700 text-white rounded-lg p-2 w-4/5 ml-2 mt-1 ">
-                  <img
-                    width={20}
-                    src={ErrorLogo}
-                    alt=""
-                    className="inline mr-2"
-                  />
-                  <p className="inline font-semibold">{error}</p>{" "}
+
+                {/* Error Message */}
+                {error && (
+                  <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+                    <div className="flex items-center">
+                      <img
+                        width={20}
+                        src={ErrorLogo}
+                        alt="Error"
+                        className="mr-3 flex-shrink-0"
+                      />
+                      <p className="text-red-700 font-medium">{error}</p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Login Button */}
+                <div className="pt-2">
+                  <MainButton value={"Sign In"} />
                 </div>
-              )}
+              </form>
 
-              <div className="-ml-2 mt-4   sm:mt-8 sm:ml-12">
-                <MainButton value={"Login"} />
+              {/* Divider */}
+              <div className="my-6">
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-200"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-4 bg-white text-gray-500 font-medium">Or continue with</span>
+                  </div>
+                </div>
               </div>
-            </form>
 
-            <hr className="mt-6 mb-4 w-2/4 ml-16 " />
-
-            <h4 className="inline line2 text-secondrytext ml-0 sm:ml-12">
-              Don't have an account yet?{" "}
-              <Link
-                to={"/register"}
-                className="inline ml-2 cursor-pointer text-black"
-              >
-                Signup
-              </Link>
-            </h4>
-            <div>
-              <h4 className="inline line2 text-secondrytext ml-0 sm:ml-12">
-                Explore Jobs?
-                <Link
-                  to={"/portal/job"}
-                  className="inline ml-2 cursor-pointer text-gray-100 bg-gray-700 p-1 rounded-md"
-                >
-                  View
-                </Link>
-              </h4>
+              {/* Sign Up & Explore Links */}
+              <div className="space-y-3 text-center">
+                <p className="text-gray-600 text-sm">
+                  Don't have an account yet?{" "}
+                  <Link
+                    to="/register"
+                    className="text-blue-600 hover:text-blue-800 font-semibold transition-colors duration-200"
+                  >
+                    Sign up here
+                  </Link>
+                </p>
+                <p className="text-gray-600 text-sm">
+                  Want to explore jobs?{" "}
+                  <Link
+                    to="/portal/job"
+                    className="inline-flex items-center px-3 py-1 rounded-lg bg-gray-800 hover:bg-gray-900 text-white text-sm font-medium transition-colors duration-200"
+                  >
+                    View Jobs
+                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-        {/* 2nd Div */}
-        <div className="w-1/2 h-screen hidden shadows sm:block">
-          <img
-            className="h-screen"
-            src="https://www.atheneum.ai/wp-content/uploads/2019/07/Atheneum-Product-Corporate.png"
-            alt=""
-          />
+
+          {/* Right Panel - Image */}
+          <div className="hidden lg:block lg:w-1/2 bg-gradient-to-br from-blue-600 to-indigo-800 relative overflow-hidden">
+            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+            <img
+              className="h-full w-full object-cover"
+              src="https://www.atheneum.ai/wp-content/uploads/2019/07/Atheneum-Product-Corporate.png"
+              alt="Login Background"
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center text-white p-8">
+                <h2 className="text-3xl font-bold mb-4">Welcome to Smart Cruiter</h2>
+                <p className="text-xl opacity-90">Your gateway to finding the perfect career opportunity</p>
+                <div className="mt-8 flex justify-center space-x-2">
+                  <div className="w-2 h-2 bg-white rounded-full opacity-50"></div>
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                  <div className="w-2 h-2 bg-white rounded-full opacity-50"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

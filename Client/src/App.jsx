@@ -38,6 +38,7 @@ import MainPageOfSetting from "./Pages/Settings/MainPageOfSetting";
 import Setting_EditProfile from "./Pages/Settings/Setting_EditProfile";
 import ProtectedRoute from "./Components/Common/ProtectedRoute";
 import NotPageFound404 from "./Pages/Dashboard/NotPageFound404";
+import DepartmentDetails from "./Pages/Dashboard/DepartmentDetails";
 
 function App() {
   return (
@@ -108,6 +109,7 @@ function App() {
             path="/settings/profile"
             element={<Setting_EditProfile />}
           ></Route>
+          <Route path="/department/:name" element={<DepartmentDetails />} />
         </Route>
         {/* **************************** */}
         {/* FOR END - USER */}
