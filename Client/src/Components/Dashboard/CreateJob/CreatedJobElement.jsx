@@ -7,8 +7,21 @@ import SocialIcon from "../../../assets/icons/share.svg";
 
 function CreatedJobElement({ data, setData }) {
   const navigate = useNavigate();
+
   const handleJob = (id) => {
     navigate(`/jobd/${id}`);
+  };
+
+  const handleDelete = async (event, id) => {
+    event.stopPropagation(); // Prevent card navigation
+    if (!window.confirm("Are you sure you want to delete this job?")) return;
+    try {
+      await axios.delete(`http://localhost:8080/jobs/delete`, { data: { job_id: id } });
+      // Remove the deleted job from the list
+      setData((prev) => prev.filter((job) => job._id !== id));
+    } catch (error) {
+      alert("Failed to delete job.");
+    }
   };
 
   return (
@@ -32,15 +45,9 @@ function CreatedJobElement({ data, setData }) {
             </div>
 
             {/* Stats Section */}
-            <div className="grid grid-cols-2 gap-4 mb-4 flex-1">
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <div className="text-xs text-gray-600 mb-1">Total Candidates</div>
-                <div className="text-xl font-bold text-gray-900">{e.applicants_no}</div>
-              </div>
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <div className="text-xs text-gray-600 mb-1">Active Candidates</div>
-                <div className="text-xl font-bold text-gray-900">0</div>
-              </div>
+            <div className="text-center p-3 bg-gray-50 rounded-lg mb-4 flex-1">
+              <div className="text-xs text-gray-600 mb-1">Total Candidates</div>
+              <div className="text-xl font-bold text-gray-900">{e.applicants_no}</div>
             </div>
 
             {/* Footer Section */}
@@ -48,18 +55,6 @@ function CreatedJobElement({ data, setData }) {
               <p className="text-xs text-gray-500 font-medium">
                 JOB-ID: {index}
               </p>
-              <div className="flex gap-3">
-                <img 
-                  src={DeleteIcon} 
-                  alt="Delete job" 
-                  className="w-4 h-4 cursor-pointer hover:opacity-70 transition-opacity" 
-                />
-                <img 
-                  src={SocialIcon} 
-                  alt="Share job" 
-                  className="w-4 h-4 cursor-pointer hover:opacity-70 transition-opacity" 
-                />
-              </div>
             </div>
           </div>
         );

@@ -8,6 +8,8 @@ const multer = require('multer');
 const GetOrganizationPostedJobApplicants = require('../Controllers/Jobs/GetOrganizationPostedJob');
 const FilterShowActiveJobs = require('../Controllers/Jobs/Filter-ShowActiveJobs');
 const FilterShowClosedJobs = require('../Controllers/Jobs/FilterShowClosedJobs');
+const DeleteJob = require('../Controllers/Jobs/DeleteJob');
+const UpdateJob = require('../Controllers/Jobs/UpdateJob');
 
 
 const JobRouter = express.Router();
@@ -18,6 +20,8 @@ JobRouter.post("/get-jobs/active", FilterShowActiveJobs);
 JobRouter.post("/get-jobs/closed", FilterShowClosedJobs);
 JobRouter.post("/get-jobs/details", GetSelectedJobDescription);
 JobRouter.get("/get-all-jobs", GetAllPostedJobs)
+JobRouter.delete("/delete", DeleteJob);
+JobRouter.patch("/update", UpdateJob);
 
 
 
