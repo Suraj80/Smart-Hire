@@ -30,8 +30,8 @@ function ProfileAddTeam() {
     city: Office_Profile.office_details.office_Value.city,
     country: Office_Profile.office_details.office_Value.country,
     region: Office_Profile.office_details.office_Value.region,
-    fb_link: Office_Profile.social_links.facebook_url,
-    insta_link: Office_Profile.social_links.insta_url,
+    fb_link: Office_Profile.social_links.facebook_url || "N/A",
+    insta_link: Office_Profile.social_links.insta_url || "N/A",
     linkedin_link: Office_Profile.social_links.linkedin_url,
     yt_link: Office_Profile.social_links.yt_url,
   };
@@ -54,6 +54,7 @@ function ProfileAddTeam() {
     logo: logo.url,
     detailed_data: data,
     team_details: team_details,
+    userID: localStorage.getItem("user_id"),
   };
   const [type, setType] = useState();
   const post_Method = () => {

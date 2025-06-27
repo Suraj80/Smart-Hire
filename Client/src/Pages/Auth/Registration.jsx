@@ -68,6 +68,7 @@ function Registration() {
         console.log(response);
         if (response.status == 200) {
           console.log(200);
+          localStorage.setItem("email", inputData.email);
           onOpen();
         }
       })
@@ -93,69 +94,88 @@ function Registration() {
   });
 
   return (
-    <div className="flex h-screen bg-background">
-      <div className="m-auto flex  w-full sm:w-3/4 h-5/6 sm:h-5/6  shadows">
-        <div className="w-2/5 shadows hidden sm:block ">
-          <img
-            className="h-full w-full"
-            src="https://images.unsplash.com/photo-1486175060817-5663aacc6655?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGJ1aWxkaW5nc3xlbnwwfHwwfHw%3D&w=1000&q=80"
-            alt=""
-          />
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div className="flex flex-col lg:flex-row min-h-[500px]">
+          {/* Left Panel - Image */}
+          <div className="lg:w-2/5 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 z-10"></div>
+            <img
+              className="h-full w-full object-cover"
+              src="https://images.unsplash.com/photo-1486175060817-5663aacc6655?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGJ1aWxkaW5nc3xlbnwwfHwwfHw%3D&w=1000&q=80"
+              alt="Smart Cruiter"
+            />
+            <div className="absolute inset-0 flex items-center justify-center z-20">
+              <div className="text-center text-white p-6">
+                <h3 className="text-3xl font-bold mb-4">Welcome to Smart Cruiter</h3>
+                <p className="text-lg opacity-90">Join thousands of companies finding their perfect candidates</p>
+              </div>
+            </div>
+          </div>
 
-        <div className="w-full sm:w-3/5">
-          <h2 className="text-center heading2b mt-5 sm:mt-5 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-black">
-            Become A Part Of Smart Cruiter
-          </h2>
+          {/* Right Panel - Form */}
+          <div className="lg:w-3/5 p-4 lg:p-8 flex flex-col justify-center">
+            <div className="mb-6 text-center">
+              <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                Create Your Account
+              </h2>
+              <p className="text-gray-600">Start your recruitment journey today</p>
+            </div>
 
-          <Modal
-            closeOnOverlayClick={false}
-            isOpen={isOpen}
-            onClose={onClose}
-            size={"xl"}
-          >
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>
-                Account is Registered{" "}
-                <img
-                  className="inline mb-1"
-                  width={30}
-                  src="https://cdn-icons-png.flaticon.com/512/6559/6559073.png"
-                ></img>
-                <hr className="mt-1" />
-              </ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <h2 className="text-lg">
-                  We have sent you an activation link on your email:
-                  <d style={{ paddingRight: "3px" }}> </d>
-                  <h1 className="inline font-bold text-gray-600">
-                    {formik.values.email}
-                  </h1>
-                  <d style={{ paddingLeft: "3px" }}> </d>
-                  kindly open your email and click on received link button to
-                  verify your email account.
-                </h2>
-              </ModalBody>
+            {/* Success Modal */}
+            <Modal
+              closeOnOverlayClick={false}
+              isOpen={isOpen}
+              onClose={onClose}
+              size={"xl"}
+            >
+              <ModalOverlay bg="blackAlpha.600" />
+              <ModalContent borderRadius="xl" p={4}>
+                <ModalHeader fontSize="2xl" fontWeight="bold" color="green.600">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                      <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    Account Created Successfully!
+                  </div>
+                  <hr className="mt-4 border-gray-200" />
+                </ModalHeader>
+                <ModalCloseButton />
+                <ModalBody py={6}>
+                  <div className="bg-blue-50 rounded-lg p-4 mb-4">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                      ✅ User Registration Successful
+                    </h3>
+                    <p className="text-gray-700">
+                      Your account has been created successfully for{" "}
+                      <span className="font-bold text-blue-600">{formik.values.email}</span>
+                    </p>
+                    <p className="text-gray-600 mt-2 text-sm">
+                      You can now proceed to login and start using Smart Cruiter.
+                    </p>
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    onClick={() => navigate("/login")}
+                    colorScheme="blue"
+                    size="lg"
+                    borderRadius="lg"
+                    px={8}
+                  >
+                    Go to Login
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
 
-              <ModalFooter margin={"auto"}>
-                <Button
-                  onClick={() => navigate("/login")}
-                  colorScheme="blue"
-                  mr={3}
-                >
-                  Go to Login
-                </Button>{" "}
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-
-          <form action="" onSubmit={formik.handleSubmit}>
-            <div className="py-3 px-8">
-              <div className="flex mb-0">
-                <div className="w-1/2 mr-1">
-                  <label className="label line1 block " htmlFor="first_name">
+            <form onSubmit={formik.handleSubmit} className="space-y-4">
+              {/* Name and Username Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="block text-sm font-semibold text-gray-700" htmlFor="f_name">
                     First Name
                   </label>
                   <input
@@ -165,18 +185,23 @@ function Registration() {
                     onBlur={formik.handleBlur}
                     name="f_name"
                     id="f_name"
-                    placeholder="Ali"
-                    autoComplete="on"
-                    className="input input-bordered h-10 w-full max-w-xs"
+                    placeholder="Enter your first name"
+                    autoComplete="given-name"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
                   />
-                  {/* ERROR MSG */}
-                  <span className="text-blue-600">
-                    {formik.errors.f_name}
-                  </span>{" "}
+                  {formik.errors.f_name && formik.touched.f_name && (
+                    <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      {formik.errors.f_name}
+                    </p>
+                  )}
                 </div>
-                <div className="w-1/2 mr-1  ml-6">
-                  <label className="label block line1" htmlFor="last_name">
-                    UserName{" "}
+
+                <div className="space-y-1">
+                  <label className="block text-sm font-semibold text-gray-700" htmlFor="username">
+                    Username
                   </label>
                   <input
                     value={formik.values.username}
@@ -185,21 +210,26 @@ function Registration() {
                     name="username"
                     id="username"
                     type="text"
-                    placeholder="Ahmad"
-                    autoComplete="on"
-                    className="input input-bordered h-10 w-4/5 max-w-xs"
+                    placeholder="Choose a username"
+                    autoComplete="username"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
                   />
-                  {/* ERROR MSG */}
-                  {formik.errors.username && formik.touched.username ? (
-                    <span className="text-blue-600">
-                      {" "}
+                  {formik.errors.username && formik.touched.username && (
+                    <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
                       {formik.errors.username}
-                    </span>
-                  ) : null}
+                    </p>
+                  )}
                 </div>
               </div>
-              <div className="mb-0">
-                <label className="label line1">Email</label>
+
+              {/* Email */}
+              <div className="space-y-1">
+                <label className="block text-sm font-semibold text-gray-700" htmlFor="email">
+                  Email Address
+                </label>
                 <input
                   value={formik.values.email}
                   onChange={formik.handleChange}
@@ -207,118 +237,135 @@ function Registration() {
                   name="email"
                   id="email"
                   type="email"
-                  placeholder="alexa@meta.com"
-                  className="h-10 input input-bordered w-3/4"
+                  placeholder="Enter your email address"
+                  autoComplete="email"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
                 />
-                {/* ERROR MSG */}
-                {formik.errors.email && formik.touched.email ? (
-                  <span className="text-blue-600">
-                    <br /> {formik.errors.email}
-                  </span>
-                ) : null}
+                {formik.errors.email && formik.touched.email && (
+                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    {formik.errors.email}
+                  </p>
+                )}
               </div>
 
-              <div className="mb-0">
-                <label className="label line1">
-                  Company Name{" "}
-                  {formik.errors.company_name && formik.touched.company_name ? (
-                    <span className="text-blue-600 relative -left-52">
-                      {" "}
-                      {formik.errors.company_name}
-                    </span>
-                  ) : null}
+              {/* Company Name */}
+              <div className="space-y-1">
+                <label className="block text-sm font-semibold text-gray-700" htmlFor="company_name">
+                  Company Name
                 </label>
-
                 <input
                   type="text"
-                  placeholder="META Inc"
-                  className="h-10 input input-bordered w-3/4"
+                  placeholder="e.g. META Inc"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
                   value={formik.values.company_name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   name="company_name"
                   id="company_name"
+                  autoComplete="organization"
                 />
-                {/* ERROR MSG */}
+                {formik.errors.company_name && formik.touched.company_name && (
+                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    {formik.errors.company_name}
+                  </p>
+                )}
               </div>
 
-              <div className="flex mb-0">
-                <div className="w-1/2 mr-1">
-                  <label className="label line1 block " htmlFor="password">
+              {/* Password Fields */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="block text-sm font-semibold text-gray-700" htmlFor="password">
                     Password
                   </label>
                   <input
                     type="password"
-                    placeholder="***"
-                    className="input input-bordered h-10 w-full max-w-xs"
+                    placeholder="Create a strong password"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     name="password"
                     id="password"
-                    autoComplete="on"
+                    autoComplete="new-password"
                   />
-                  {/* ERROR MSG */}
-                  {formik.errors.password && formik.touched.password ? (
-                    <span className="text-blue-600">
-                      {" "}
-                      {formik.errors.password}
-                    </span>
-                  ) : null}
+                  {formik.errors.password && formik.touched.password && (
+                    <p className="text-red-500 text-xs mt-1 flex items-start gap-1">
+                      <svg className="w-3 h-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      <span>{formik.errors.password}</span>
+                    </p>
+                  )}
                 </div>
-                <div className="w-1/2 mr-1  ml-6">
-                  <label
-                    className="label block line1"
-                    htmlFor="confirm_passowrd"
-                  >
-                    Confirm Password{" "}
+
+                <div className="space-y-1">
+                  <label className="block text-sm font-semibold text-gray-700" htmlFor="confirm_password">
+                    Confirm Password
                   </label>
                   <input
                     type="password"
-                    placeholder="***"
-                    autoComplete="on"
-                    className="input input-bordered h-10 w-full max-w-xs"
+                    placeholder="Confirm your password"
+                    autoComplete="new-password"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
                     value={formik.values.confirm_password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     name="confirm_password"
                     id="confirm_password"
                   />
-                  {/* ERROR MSG */}
-                  {formik.errors.confirm_password &&
-                  formik.touched.confirm_password ? (
-                    <span className="text-blue-600">
-                      {" "}
+                  {formik.errors.confirm_password && formik.touched.confirm_password && (
+                    <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
                       {formik.errors.confirm_password}
-                    </span>
-                  ) : null}
+                    </p>
+                  )}
                 </div>
               </div>
-            </div>
-            {/* Error message part */}
-            {error == null ? null : (
-              <div className="border-2 solid border-blue-700 bg-blue-700 text-white rounded-lg p-2 w-4/5  mt-1 ml-12  m-auto block ">
-                <img
-                  src={ErrorLogo}
-                  width={20}
-                  alt=""
-                  className="inline mr-2"
-                />
-                <p className="inline font-semibold text-center">{error}</p>{" "}
+
+              {/* Error Message */}
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-center gap-2">
+                  <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <p className="text-red-800 font-medium text-sm">{error}</p>
+                </div>
+              )}
+
+              {/* Submit Button */}
+              <div className="pt-3">
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl"
+                >
+                  Create Account
+                </button>
               </div>
-            )}
-            <div className="block m-auto text-center mt-2">
-              <MainButton value={"Register"}></MainButton>
-              <p className="line2 text-secondrytext mt-3">
-                Already have an account?
-                <Link to={"/"}>
-                  <a href="" className="inline ml-2 cursor-pointer text-black">
-                    Login
-                  </a>
-                </Link>
-              </p>
-            </div>
-          </form>
+
+              {/* Login Link */}
+              <div className="text-center pt-2">
+                <p className="text-gray-600 text-sm">
+                  Already have an account?{" "}
+                  <Link
+                    to="/login"
+                    className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-200 hover:underline"
+                  >
+                    Sign in here
+                  </Link>
+                </p>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

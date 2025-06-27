@@ -17,7 +17,7 @@ const OrganizationSchema = new mongoose.Schema({
 
     },
     phoneNo: {
-        type: Number,
+        type: String,
         required: [true, 'Phone No is required'],
     },
     website: {

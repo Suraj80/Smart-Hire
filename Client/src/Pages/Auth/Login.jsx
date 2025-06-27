@@ -41,7 +41,8 @@ function Login() {
       .then((response) => {
         console.log(response);
         if (response.status == 200) {
-          navigate("/");
+          localStorage.setItem("email", inputData.email);
+          navigate("/dashboard");
         }
       })
       .catch(function (error) {
@@ -258,12 +259,12 @@ function Login() {
             <div className="absolute inset-0 bg-black bg-opacity-20"></div>
             <img
               className="h-full w-full object-cover"
-              src="https://www.atheneum.ai/wp-content/uploads/2019/07/Atheneum-Product-Corporate.png"
+              src="https://images.pexels.com/photos/290275/pexels-photo-290275.jpeg?_gl=1*1ghx0td*_ga*MTg3NTA5MDIyMS4xNzQ5NjE4MTA5*_ga_8JE65Q40S6*czE3NTA5Mzc0MjMkbzIkZzAkdDE3NTA5Mzc0MjMkajYwJGwwJGgw"
               alt="Login Background"
             />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center text-white p-8">
-                <h2 className="text-3xl font-bold mb-4">Welcome to Smart Cruiter</h2>
+                <h2 className="text-3xl font-bold mb-4">Welcome to Smart Hire</h2>
                 <p className="text-xl opacity-90">Your gateway to finding the perfect career opportunity</p>
                 <div className="mt-8 flex justify-center space-x-2">
                   <div className="w-2 h-2 bg-white rounded-full opacity-50"></div>

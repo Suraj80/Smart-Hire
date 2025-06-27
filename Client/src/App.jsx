@@ -39,13 +39,14 @@ import Setting_EditProfile from "./Pages/Settings/Setting_EditProfile";
 import ProtectedRoute from "./Components/Common/ProtectedRoute";
 import NotPageFound404 from "./Pages/Dashboard/NotPageFound404";
 import DepartmentDetails from "./Pages/Dashboard/DepartmentDetails";
+import IndexPage from "./Pages/IndexPage";
 
 function App() {
   return (
     <div>
       <Routes>
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/dashboard" element={<HomePage />} />
           <Route path="/jobs" element={<CreateJob />}></Route>
           <Route path="/postjob" element={<PostJob />}></Route>
           <Route path="/JobDetails/:id" element={<JobDetails />}></Route>
@@ -115,6 +116,7 @@ function App() {
         {/* FOR END - USER */}
         {/* **************************** */}
         <Route path="/*" element={<NotPageFound404 />} />{" "}
+        <Route path="/" element={<IndexPage />} />
         <Route path="/verifyotp" element={<VerifyOPT />} />
         <Route path="/newpassword" element={<EnterNewPassword />} />
         <Route path="/login" element={<Login />} />

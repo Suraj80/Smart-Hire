@@ -8,7 +8,7 @@ function LeftMenuBar() {
   const menuItems = [
     {
       name: "Home",
-      path: "/",
+      path: "/dashboard",
       icon: (
         <svg
           width="20"
@@ -218,6 +218,19 @@ function LeftMenuBar() {
               </Link>
             </li>
           ))}
+          {/* Setup Organisation Button */}
+          <li>
+            <Link
+              to="/profilesetup/organization"
+              className="flex items-center px-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 group text-gray-700 hover:bg-blue-50 hover:text-blue-700"
+              title={isCollapsed ? 'Setup Organisation' : ''}
+            >
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="flex-shrink-0 text-gray-500 group-hover:text-blue-700">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7V6a2 2 0 012-2h2a2 2 0 012 2v1m0 0v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7m6 0h6m0 0V6a2 2 0 012-2h2a2 2 0 012 2v1m0 0v10a2 2 0 01-2 2h-2a2 2 0 01-2-2V7" />
+              </svg>
+              {!isCollapsed && <span className="ml-3 truncate">Setup Organisation</span>}
+            </Link>
+          </li>
         </ul>
       </nav>
 

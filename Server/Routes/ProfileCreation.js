@@ -39,7 +39,7 @@ const upload = multer({ storage: storage, multerFilter });
 // -> MAIN CODE
 
 //1st Time Profile Setup Route
-ProfileSetup.post("/setup", AuthMiddleware, ProfileRouter);
+ProfileSetup.post("/setup", ProfileRouter);
 
 ProfileSetup.post("/", (req, res) => {
     res.send("welcome")

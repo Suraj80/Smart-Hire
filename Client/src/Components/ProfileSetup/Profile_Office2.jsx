@@ -10,7 +10,20 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 function Profile_Office2() {
   const location = useLocation();
-  const { basicInfo, image } = location.state;
+  // Fallback for missing state
+  const basicInfo = location.state?.basicInfo || {};
+  const image = location.state?.image || null;
+  if (!location.state) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="bg-white p-8 rounded shadow text-center">
+          <h2 className="text-xl font-bold mb-4">Missing Information</h2>
+          <p className="mb-4">Required information to set up your office is missing. Please start the setup process from the beginning.</p>
+          <button className="btn bg-blue-500 text-white" onClick={() => window.location.href = '/profilesetup'}>Go to Setup</button>
+        </div>
+      </div>
+    );
+  }
   // console.log("this is:" + i);
 
   const navigate = useNavigate();

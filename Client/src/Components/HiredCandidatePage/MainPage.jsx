@@ -27,58 +27,68 @@ function MainPage() {
   }, [0]);
 
   const navigate = useNavigate();
+  
   return (
     <div className="p-6">
       <h2 className="heading3 sm:text-justify text-center sm:font-normal font-medium">
         Hired Candidate Details
       </h2>
-      <div className="flex p-2 mt-12 flex-wrap gap-12 items-center justify-center">
+      
+      {/* Fixed grid layout for better alignment */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-12">
         {createdJobs?.map((element, index) => {
           return (
             <div
               onClick={() => navigate(`details/${element._id}`)}
               key={index}
-              className="cursor-pointer bg-white border border-solid border-gray-200 shadow-md rounded-lg w-80 h-72 pb-2
-        hover:bg-gray-50
-        "
+              className="cursor-pointer bg-white border border-solid border-gray-200 shadow-md rounded-lg 
+                         hover:bg-gray-50 hover:shadow-lg transition-all duration-200 
+                         flex flex-col h-80 w-full max-w-sm mx-auto"
             >
-              <div className="flex-wrap gap-0 flex justify-around p-4">
-                <div className="">
-                  <h3 className="heading3 font-medium inline">
+              {/* Header section with job position and department */}
+              <div className="flex flex-col gap-3 p-4 border-b border-gray-100">
+                <div className="text-center">
+                  <h3 className="heading3 font-medium text-lg text-gray-800 line-clamp-2">
                     {element.jobPosition}
                   </h3>
                 </div>
-                <div className="mt-2">
-                  <h2 className="inline bg-black text-white p-4 rounded-3xl">
+                <div className="flex justify-center">
+                  <span className="bg-black text-white px-4 py-2 rounded-full text-sm font-medium">
                     {element.department}
-                  </h2>
+                  </span>
                 </div>
               </div>
 
-              <div className="overflow-hidden">
-                {element.department == "HR" ? (
-                  <img
-                    className="w-1/2 block m-auto p-2"
-                    src="https://cdn.dribbble.com/users/878959/screenshots/4460762/hr.png"
-                    alt=""
-                  />
-                ) : element.department == "IT" ? (
-                  <img
-                    className="w-1/2 block m-auto p-2"
-                    src="https://img.freepik.com/premium-vector/back-end-development-abstract-concept-vector-illustration_107173-25072.jpg"
-                    alt=""
-                  />
-                ) : (
-                  <img
-                    className="w-1/2 block m-auto p-2"
-                    src="https://media.istockphoto.com/id/1201845960/vector/business-hierarchy-ceo-organization-job-working-leadership.jpg?s=612x612&w=0&k=20&c=QTi2Ha-Q3kcdAldcJ3_NhMluaSczHn-ne5leHbHpV0k="
-                    alt=""
-                  />
-                )}
-
-                <h2 className="text-center heading3 font-medium text-xl underline">
-                  {element.applicants_no} Applied
-                </h2>
+              {/* Image and applicants section */}
+              <div className="flex-1 flex flex-col justify-between p-4">
+                <div className="flex justify-center items-center flex-1">
+                  {element.department === "HR" ? (
+                    <img
+                      className="w-24 h-24 object-contain"
+                      src="https://cdn.dribbble.com/users/878959/screenshots/4460762/hr.png"
+                      alt="HR Department"
+                    />
+                  ) : element.department === "IT" ? (
+                    <img
+                      className="w-24 h-24 object-contain"
+                      src="https://img.freepik.com/premium-vector/back-end-development-abstract-concept-vector-illustration_107173-25072.jpg"
+                      alt="IT Department"
+                    />
+                  ) : (
+                    <img
+                      className="w-24 h-24 object-contain"
+                      src="https://media.istockphoto.com/id/1201845960/vector/business-hierarchy-ceo-organization-job-working-leadership.jpg?s=612x612&w=0&k=20&c=QTi2Ha-Q3kcdAldcJ3_NhMluaSczHn-ne5leHbHpV0k="
+                      alt="Other Department"
+                    />
+                  )}
+                </div>
+                
+                {/* Applicants count */}
+                <div className="text-center mt-4">
+                  <h2 className="heading3 font-medium text-lg text-blue-600 underline">
+                    {element.applicants_no} Applied
+                  </h2>
+                </div>
               </div>
             </div>
           );

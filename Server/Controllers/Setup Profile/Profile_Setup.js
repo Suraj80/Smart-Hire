@@ -46,6 +46,9 @@ const ProfileRouter = async (req, res, next) => {
 
     // -> so 1st check is there is valid reg user which is trying to setup org account
     const checkUser = await userModel.findById(req.body.userID)
+    if (!checkUser) {
+        return res.status(404).json({ message: "User not found" });
+    }
     console.log(checkUser)
     if (checkUser.org_registered == false) {
 
@@ -101,11 +104,28 @@ const ProfileRouter = async (req, res, next) => {
 
     }
 
-    //1st Make Sure Is Organization is already registered or not
+    // If already registered, update the existing organization
     else if (checkUser.org_registered == true) {
-        // console.log('2nd time hai');
-        // console.log('already organizaion is REGISTERED  :-> STATUS  = ' + checkUser.org_registered);
-        return res.status(400).json({ message: "Already Organization Setup Or Fill Employee All Details" })
+        const org = await OrganizationModal.findById(checkUser.org_id);
+        if (org) {
+            org.organization_name = org_name;
+            org.phoneNo = phone;
+            org.website = website_link;
+            org.logo = "Temp_URL";
+            org.departments = departments2;
+            org.office_address = address;
+            org.office_city = city;
+            org.office_country = country;
+            org.fb_url = fb_link;
+            org.linkedIn_url = linkedIn_link;
+            org.insta_url = insta_link;
+            org.yt_url = yt_link;
+            org.team_members = data;
+            await org.save();
+            return res.status(200).json({ message: "Organization updated" });
+        } else {
+            return res.status(404).json({ message: "Organization not found" });
+        }
     }
 
 

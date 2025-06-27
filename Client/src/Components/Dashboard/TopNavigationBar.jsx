@@ -57,7 +57,7 @@ function TopNavigationBar({ title }) {
     localStorage.removeItem("token");
     localStorage.removeItem("organization_id");
     localStorage.removeItem("user_id");
-    navigate("/login");
+    navigate("/");
   };
 
   return (

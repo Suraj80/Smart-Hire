@@ -131,10 +131,6 @@ function HomePage() {
   useEffect(() => {
     CheckAuth();
     CheckOrganization();
-    // Redirect to organization setup if no org
-    if (profileSetup === false) {
-      navigate("/profilesetup/organization");
-    }
   }, [profileSetup]);
 
   const depImages = [DepartmentPhoto, DepartmentPhoto2, DepartmentPhoto3];

@@ -1,15 +1,18 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { MdDoneAll, MdRemoveDone } from "react-icons/md";
+import { MdDoneAll, MdRemoveDone, MdArrowBack, MdCalendarToday, MdLocationOn, MdSchool, MdWork } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import NoUser from "../../assets/illustrations/no_user.svg";
+
 function MainAreaOfHiredCandidateDetails() {
   const [user, setUser] = useState();
+  const [loading, setLoading] = useState(true);
   let { id } = useParams();
 
   useEffect(() => {
     const fetchAllInterviewingCanidate = () => {
+      setLoading(true);
       // axios POST request
       const options = {
         url: "http://localhost:8080/details/active/hired",
@@ -30,6 +33,9 @@ function MainAreaOfHiredCandidateDetails() {
         })
         .catch((e) => {
           console.log(e);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     };
 
@@ -37,100 +43,160 @@ function MainAreaOfHiredCandidateDetails() {
   }, [0]);
 
   const navigate = useNavigate();
-  return (
-    <div className="p-6">
-      <div>
-        <h2 className="heading3">
-          Hired Candidate Details {">"} Frontend Develoepr
-        </h2>
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          <p className="text-slate-600 font-medium">Loading hired candidates...</p>
+        </div>
       </div>
-      <div className="flex  w-full mt-12 flex-wrap gap-8 items-center justify-center">
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      {/* Header Section */}
+      <div className="bg-white shadow-sm border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex items-center space-x-4">
+            <button 
+              onClick={() => navigate(-1)}
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors duration-200"
+            >
+              <MdArrowBack className="text-slate-600 text-xl" />
+            </button>
+            <div>
+              <h1 className="text-2xl font-bold text-slate-900">Hired Candidates</h1>
+              <p className="text-slate-600 mt-1">Frontend Developer Position</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-6 py-8">
         {user?.length !== 0 ? (
-          user?.map((e, index) => {
-            var educationLevelLastValue = e?.level.slice(-1)[0];
-            return (
-              <div
-                key={index}
-                onClick={() =>
-                  navigate(`/JobDetails/interviewing/details/${e._id}`)
-                }
-              >
-                <div className="w-full block m-auto bg-white h-auto p-5  shadow-md rounded-md hover:bg-gray-50 hover:border border-solid border-gray-300  cursor-pointer  ">
-                  <div className="  flex  flex-wrap sm:flex-nowrap justify-between items-center">
-                    <div className="m-auto ">
-                      <img
-                        width={150}
-                        src={e?.ResumeURL}
-                        alt=""
-                        className="rounded-full "
-                      />
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {user?.map((e, index) => {
+              var educationLevelLastValue = e?.level.slice(-1)[0];
+              return (
+                <div
+                  key={index}
+                  onClick={() =>
+                    navigate(`/JobDetails/interviewing/details/${e._id}`)
+                  }
+                  className="group cursor-pointer"
+                >
+                  <div className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-slate-100 overflow-hidden">
+                    {/* Status Badge */}
+                    <div className="absolute top-4 right-4 z-10">
+                      {e?.interviewDate !== "nill" ? (
+                        <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium flex items-center space-x-1">
+                          <MdDoneAll className="text-sm" />
+                          <span>Interviewed</span>
+                        </div>
+                      ) : (
+                        <div className="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-sm font-medium flex items-center space-x-1">
+                          <MdRemoveDone className="text-sm" />
+                          <span>Pending</span>
+                        </div>
+                      )}
                     </div>
-                    {/* 2nd Profile Info */}
-                    <div className="ml-6 flex  flex-col w-full">
-                      <h2 className="heading4 font-medium text-2xl mb-4">
-                        {e?.firstName + " " + e?.lastName}
-                      </h2>
-                      <div className="flex flex-wrap sm:flex-nowrap gap-2 justify-around">
-                        <div className=" bg-white border border-solid border-gray-300 rounded-lg p-2 text-center">
-                          <div>
-                            <h4 className="block line1 font-medium">
-                              Experience
-                            </h4>
-                            <h4 className="inline">{e?.duration[0]}</h4>
+
+                    {/* Profile Section */}
+                    <div className="p-6 pb-4">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="relative">
+                          <img
+                            width={80}
+                            height={80}
+                            src={e?.ResumeURL}
+                            alt={`${e?.firstName} ${e?.lastName}`}
+                            className="rounded-full object-cover border-4 border-white shadow-lg"
+                          />
+                          <div className="absolute -bottom-1 -right-1 bg-green-500 w-6 h-6 rounded-full border-2 border-white"></div>
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-900 mt-4 group-hover:text-indigo-600 transition-colors">
+                          {e?.firstName + " " + e?.lastName}
+                        </h3>
+                        <p className="text-slate-500 text-sm mt-1">Frontend Developer</p>
+                      </div>
+                    </div>
+
+                    {/* Details Grid */}
+                    <div className="px-6 pb-6">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="bg-slate-50 rounded-xl p-3 hover:bg-slate-100 transition-colors">
+                          <div className="flex items-center space-x-2 mb-1">
+                            <MdWork className="text-indigo-600 text-sm" />
+                            <span className="text-xs font-medium text-slate-600 uppercase tracking-wide">Experience</span>
                           </div>
+                          <p className="text-slate-900 font-semibold text-sm">{e?.duration[0]}</p>
                         </div>
 
-                        <div className="  bg-white border border-solid border-gray-300 rounded-lg p-2 text-center">
-                          <div>
-                            <h4 className="block line1 font-medium">
-                              Education
-                            </h4>
-                            <h4 className="inline">
-                              {educationLevelLastValue}
-                            </h4>
+                        <div className="bg-slate-50 rounded-xl p-3 hover:bg-slate-100 transition-colors">
+                          <div className="flex items-center space-x-2 mb-1">
+                            <MdSchool className="text-emerald-600 text-sm" />
+                            <span className="text-xs font-medium text-slate-600 uppercase tracking-wide">Education</span>
                           </div>
+                          <p className="text-slate-900 font-semibold text-sm">{educationLevelLastValue}</p>
                         </div>
 
-                        <div className=" bg-white border border-solid border-gray-300 rounded-lg p-2 text-center">
-                          <div>
-                            <h4 className="block line1 font-medium">City</h4>
-                            <h4 className="inline">{e?.city}</h4>
+                        <div className="bg-slate-50 rounded-xl p-3 hover:bg-slate-100 transition-colors">
+                          <div className="flex items-center space-x-2 mb-1">
+                            <MdLocationOn className="text-rose-600 text-sm" />
+                            <span className="text-xs font-medium text-slate-600 uppercase tracking-wide">Location</span>
                           </div>
+                          <p className="text-slate-900 font-semibold text-sm">{e?.city}</p>
                         </div>
 
-                        <div className="bg-white border border-solid border-gray-300 rounded-lg p-2 text-center">
-                          <div>
-                            <h4 className="block line1 font-medium">
-                              Interview Date
-                            </h4>
-                            <h4 className="inline">{e?.interviewDate}</h4>
+                        <div className="bg-slate-50 rounded-xl p-3 hover:bg-slate-100 transition-colors">
+                          <div className="flex items-center space-x-2 mb-1">
+                            <MdCalendarToday className="text-purple-600 text-sm" />
+                            <span className="text-xs font-medium text-slate-600 uppercase tracking-wide">Interview</span>
                           </div>
+                          <p className="text-slate-900 font-semibold text-sm">
+                            {e?.interviewDate !== "nill" ? e?.interviewDate : "Not scheduled"}
+                          </p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex w-full sm:w-auto items-center justify-center">
-                      {e?.interviewDate !== "nill" ? (
-                        <div className="bg-gray-50 rounded-xl p-4 items-center justify-center shadow-md mt-8">
-                          <MdDoneAll className=" text-2xl  text-green-600" />
+                    {/* Action Footer */}
+                    <div className="bg-gradient-to-r from-indigo-50 to-blue-50 px-6 py-4 group-hover:from-indigo-100 group-hover:to-blue-100 transition-all">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-slate-600">View Details</span>
+                        <div className="text-indigo-600 group-hover:translate-x-1 transition-transform">
+                          →
                         </div>
-                      ) : (
-                        <div className="bg-gray-50 rounded-xl p-4 items-center justify-center shadow-md mt-8">
-                          <MdRemoveDone className=" text-2xl  text-gray-500" />
-                        </div>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })
+              );
+            })}
+          </div>
         ) : (
-          <div>
-            <img className="w-2/6 block m-auto mt-16" src={NoUser} alt="" />
-            <h2 className="p-2 heading2b text-center mt-8">
-              No candidate is hired so far...
-            </h2>
+          <div className="flex flex-col items-center justify-center py-16">
+            <div className="bg-white rounded-3xl p-12 shadow-sm border border-slate-100 max-w-md mx-auto text-center">
+              <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-slate-100 to-slate-200 rounded-full flex items-center justify-center">
+                <img className="w-20 h-20 opacity-60" src={NoUser} alt="No candidates" />
+              </div>
+              <h2 className="text-2xl font-bold text-slate-900 mb-3">
+                No Hired Candidates Yet
+              </h2>
+              <p className="text-slate-600 leading-relaxed">
+                Once you hire candidates for this position, they will appear here with their details and interview status.
+              </p>
+              <button 
+                onClick={() => navigate('/candidates')}
+                className="mt-6 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+              >
+                Browse Candidates
+              </button>
+            </div>
           </div>
         )}
       </div>
