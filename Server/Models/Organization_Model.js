@@ -18,49 +18,48 @@ const OrganizationSchema = new mongoose.Schema({
     },
     phoneNo: {
         type: String,
-        required: [true, 'Phone No is required'],
+        default: ""
     },
     website: {
         type: String,
-        required: [true, 'Website URL is required'],
+        default: ""
     },
     logo: {
         type: String,
-        required: true
+        default: ""
     },
     departments: {
-        type: [String],
-        min: 1,
+        type: [String]
 
     },
     office_address: {
         type: String,
-        required: [true, 'Address is required'],
+        default: ""
     },
     office_city: {
         type: String,
-        required: [true, 'Office City is required'],
+        default: ""
     },
     office_country: {
         type: String,
-        required: [true, 'Office Country is required'],
+        default: ""
     },
 
     fb_url: {
         type: String,
-        required: [true, 'FB URL is required'],
+        default: ""
     },
     linkedIn_url: {
         type: String,
-        required: [true, 'LinkedIn URL is required'],
+        default: ""
     },
     insta_url: {
         type: String,
-        required: [true, 'Insta URL is required'],
+        default: ""
     },
     yt_url: {
         type: String,
-        required: [true, 'YT URL is required'],
+        default: ""
     },
     // team_members: [
 

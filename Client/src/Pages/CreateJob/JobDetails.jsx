@@ -12,6 +12,8 @@ import NoUser from "../../assets/illustrations/no_user.svg";
 function JobDetails() {
   const { id } = useParams();
   const [candidates, setCandidates] = useState();
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  
   useEffect(() => {
     const fetchData = () => {
       // dispath(startFetchingCandidatesData());
@@ -40,121 +42,237 @@ function JobDetails() {
 
     fetchData();
   }, [0]);
+
   //To handle nabvigation and move user to next page
   const navigate = useNavigate();
   const handleNavigation = (e) => {
     navigate(`/JobDetails/applied/${e}`);
   };
 
+  const toggleFilter = () => {
+    setIsFilterOpen(!isFilterOpen);
+  };
+
+  // Close filter when clicking outside on mobile
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      setIsFilterOpen(false);
+    }
+  };
+
   return (
-    <div className="flex ">
-      <div className="hidden sm:block w-2/12 h-screen ">
+    <div className="flex min-h-screen bg-gray-50">
+      {/* Sidebar */}
+      <div className="hidden sm:block w-2.3/12 h-screen sticky top-0">
         <LeftMenuBar />
       </div>
-      <div className="w-full  bg-">
-        <div className="p-0">
-          <TopNavigationBar title={"Applied"} />
-          <TopRcruitementCycle id={id} />
-          {/* FILTER PROFILE AND APPLICANT LIST SECTION */}
-          <div className="flex flex-row ">
-            <div className="sm:block hidden w-3/12 ml-4 ">
-              <FilterProfiles can={candidates} setCan={setCandidates} />
+      
+      {/* Main Content */}
+      <div className="flex-1 overflow-hidden">
+        <div className="h-full">
+          {/* Top Navigation */}
+          <div className="bg-white shadow-sm border-b border-gray-200">
+            <TopNavigationBar title={"Applied"} />
+          </div>
+          
+          {/* Recruitment Cycle */}
+          <div className="bg-white border-b border-gray-100">
+            <TopRcruitementCycle id={id} />
+          </div>
+
+          {/* Main Content Area */}
+          <div className="relative flex gap-6 p-6 h-full">
+            {/* Filter Overlay for Mobile */}
+            {isFilterOpen && (
+              <div 
+                className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden"
+                onClick={handleOverlayClick}
+              />
+            )}
+
+            {/* Collapsible Filter Sidebar */}
+            <div className={`
+              fixed sm:relative 
+              top-0 left-0 sm:left-auto
+              h-full sm:h-auto
+              w-80 sm:w-80
+              bg-white sm:bg-transparent
+              shadow-xl sm:shadow-none
+              z-50 sm:z-auto
+              transform sm:transform-none
+              transition-transform duration-300 ease-in-out
+              ${isFilterOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'}
+              ${isFilterOpen ? 'sm:block' : 'hidden sm:hidden'}
+              flex-shrink-0
+            `}>
+              <div className="sticky top-6 p-4 sm:p-0">
+                {/* Close button for mobile */}
+                <div className="flex justify-between items-center mb-4 sm:hidden">
+                  <h3 className="text-lg font-semibold text-gray-900">Filters</h3>
+                  <button
+                    onClick={toggleFilter}
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                <FilterProfiles can={candidates} setCan={setCandidates} />
+              </div>
             </div>
 
-            <div className="flex overflow-hidden flex-wrap w-full sm:w-11/12 m-auto  mt-0">
-              {/*  ~~ HANDLING WITH APPLICANT UI CODE DIRECTLY HERE INSTEAD OF
-              COMPONENTS */}
-              {candidates?.length !== 0 ? (
-                candidates?.map((e, index) => {
-                  return (
-                    <>
-                      <div
-                        key={index}
-                        onClick={(event) => handleNavigation(e._id)}
-                        className=" cursor-pointer  p-6  mt-9 w-11/12 flex  m-auto  rounded-lg border border-solid border-gray-200 hover:bg-gray-100"
-                      >
-                        {/* CANIDATE PROFILE PICTURE */}
-
-                        <div className="">
-                          <img
-                            width={120}
-                            height={120}
-                            src={e?.ResumeURL}
-                            alt=""
-                            className="rounded-full w-16 md:w-28 lg:w-28"
-                          />
-                        </div>
-                        {/* EDUCATION , CITY AND EXPERINCE STAT UI */}
-                        <div className="flex flex-col w-full ml-4">
-                          {/* NAME FIELD */}
-                          <div>
-                            <h3 className="heading2b">
-                              {e.firstName + " " + e.lastName}
-                            </h3>
-                          </div>
-                          <div className="flex sm:gap-0 gap-4 justify-between mt-4">
-                            <div className="p-2 w-1/4 flex flex-col justify-center text-center border border-solid border-gray-400 rounded-lg  ">
-                              <div>
-                                <h3 className="line1 font-medium">
-                                  Experience
-                                </h3>
-                              </div>
-                              <div>
-                                <h3>{e.duration[0] + "/year"}</h3>
-                              </div>
-                            </div>
-                            {/* EDUCATION STAT */}
-                            <div className=" p-2 flex flex-col justify-center text-center border border-solid border-gray-400 rounded-lg w-2/6 ">
-                              <div>
-                                <h3 className="line1 font-medium">Education</h3>
-                              </div>
-                              <div>
-                                <h3>{e.level[0]}</h3>
-                              </div>
-                            </div>
-                            {/* CITY STAT */}
-                            <div className="p-2 flex flex-col justify-center text-center border border-solid border-gray-400 rounded-lg  sm:w-3/12 ">
-                              <div>
-                                <h3 className="line1 font-medium">City</h3>
-                              </div>
-                              <div>
-                                <h3>{e.city}</h3>
-                              </div>
-                            </div>
-                            <div className="relative right-16 sm:right-0 w-16">
-                              <button className="bg-gray-800 text-white p-1 h-10 w-20 rounded-3xl relative -top-12">
-                                Applied
-                              </button>
-
-                              <img
-                                className="sm:block hidden float-right ml-2 cursor-pointer"
-                                src={ShowMoreIcon}
-                                width={18}
-                                alt=""
-                              />
-                            </div>
-                          </div>
-                        </div>
+            {/* Candidates List */}
+            <div className="flex-1 min-w-0">
+              <div className="space-y-4">
+                {candidates?.length !== 0 ? (
+                  <>
+                    {/* Results Header with Filter Button */}
+                    <div className="mb-6">
+                      <div className="flex items-center justify-between mb-2">
+                        <h2 className="text-2xl font-bold text-gray-900">
+                          Applied Candidates
+                        </h2>
+                        <button
+                          onClick={toggleFilter}
+                          className={`
+                            flex items-center gap-2 px-4 py-2 rounded-lg border transition-all duration-200
+                            ${isFilterOpen 
+                              ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700' 
+                              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400'
+                            }
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                          `}
+                        >
+                          <svg 
+                            className="w-5 h-5" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                          >
+                            <path 
+                              strokeLinecap="round" 
+                              strokeLinejoin="round" 
+                              strokeWidth={2} 
+                              d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" 
+                            />
+                          </svg>
+                          <span className="font-medium">
+                            {isFilterOpen ? 'Hide Filters' : 'Show Filters'}
+                          </span>
+                        </button>
                       </div>
-                    </>
-                  );
-                })
-              ) : (
-                <div className="block -ml-10">
-                  <img
-                    src={NoUser}
-                    className="w-2/5 block m-auto  mt-40"
-                    alt=""
-                  />
-                  <h2 className="heading2b text-center mt-6">
-                    No Applied Candidate
-                  </h2>
-                </div>
-              )}
-              {/* 
-              <AppliedApplicantProfile id={id} />
+                      <p className="text-gray-600">
+                        {candidates?.length || 0} candidate{candidates?.length !== 1 ? 's' : ''} found
+                      </p>
+                    </div>
 
-              <AppliedApplicantProfile /> */}
+                    {/* Candidates Grid */}
+                    <div className="grid gap-4">
+                      {candidates?.map((candidate, index) => (
+                        <div
+                          key={index}
+                          onClick={() => handleNavigation(candidate._id)}
+                          className="group bg-white rounded-xl border border-gray-200 p-6 cursor-pointer transition-all duration-200 hover:shadow-lg hover:border-blue-200 hover:-translate-y-1 active:transform-none"
+                        >
+                          <div className="flex items-start gap-6">
+                            {/* Profile Picture */}
+                            <div className="flex-shrink-0">
+                              <div className="relative">
+                                <img
+                                  src={candidate?.ResumeURL}
+                                  alt={`${candidate.firstName} ${candidate.lastName}`}
+                                  className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg ring-2 ring-gray-100 group-hover:ring-blue-200 transition-all duration-200"
+                                />
+                                <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white"></div>
+                              </div>
+                            </div>
+
+                            {/* Candidate Info */}
+                            <div className="flex-1 min-w-0">
+                              {/* Name and Status */}
+                              <div className="flex items-start justify-between mb-4">
+                                <div>
+                                  <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
+                                    {candidate.firstName} {candidate.lastName}
+                                  </h3>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 border">
+                                    Applied
+                                  </span>
+                                  <button className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-2 hover:bg-gray-100 rounded-lg">
+                                    <img
+                                      src={ShowMoreIcon}
+                                      width={18}
+                                      alt="More options"
+                                      className="w-5 h-5"
+                                    />
+                                  </button>
+                                </div>
+                              </div>
+
+                              {/* Stats Cards */}
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                {/* Experience Card */}
+                                <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-4 text-center group-hover:from-blue-100 group-hover:to-blue-200 transition-all duration-200">
+                                  <div className="text-blue-600 font-medium text-sm mb-1">
+                                    Experience
+                                  </div>
+                                  <div className="text-blue-900 font-bold text-lg">
+                                    {candidate.duration[0]}
+                                    <span className="text-sm font-normal ml-1">years</span>
+                                  </div>
+                                </div>
+
+                                {/* Education Card */}
+                                <div className="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-lg p-4 text-center group-hover:from-purple-100 group-hover:to-purple-200 transition-all duration-200">
+                                  <div className="text-purple-600 font-medium text-sm mb-1">
+                                    Education
+                                  </div>
+                                  <div className="text-purple-900 font-bold text-base truncate">
+                                    {candidate.level[0]}
+                                  </div>
+                                </div>
+
+                                {/* Location Card */}
+                                <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-lg p-4 text-center group-hover:from-green-100 group-hover:to-green-200 transition-all duration-200">
+                                  <div className="text-green-600 font-medium text-sm mb-1">
+                                    Location
+                                  </div>
+                                  <div className="text-green-900 font-bold text-base truncate">
+                                    {candidate.city}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  // Empty State
+                  <div className="flex flex-col items-center justify-center py-20 px-6">
+                    <div className="w-64 h-64 mb-8">
+                      <img
+                        src={NoUser}
+                        alt="No candidates found"
+                        className="w-full h-full object-contain opacity-80"
+                      />
+                    </div>
+                    <div className="text-center max-w-md">
+                      <h2 className="text-2xl font-bold text-gray-900 mb-3">
+                        No Applied Candidates
+                      </h2>
+                      <p className="text-gray-600 text-lg leading-relaxed">
+                        There are currently no candidates who have applied for this position. 
+                        Check back later or review your job posting to attract more applicants.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

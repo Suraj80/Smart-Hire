@@ -8,7 +8,7 @@ import SocialIcon from "../../../assets/icons/share.svg";
 function CreatedJobElement({ data, setData }) {
   const navigate = useNavigate();
   const handleJob = (id) => {
-    navigate(`/JobDetails/${id}`);
+    navigate(`/jobd/${id}`);
   };
 
   return (

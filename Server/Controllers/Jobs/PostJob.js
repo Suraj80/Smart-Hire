@@ -8,7 +8,7 @@ const PostJobRouter = async (req, res, next) => {
     // console.log(form, description, org_details);
 
     const Postjob = await new Job({
-        jobPosition: form.postition,
+        jobPosition: form.position,
         officeLocation: form.office_location,
         department: form.department,
         jobType: form.job_type,

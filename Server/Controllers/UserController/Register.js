@@ -2,6 +2,7 @@ const userModel = require("../../Models/User_Model");
 const bcrypt = require("bcrypt");
 const express = require("express");
 const mailer = require("nodemailer");
+const OrganizationModal = require('../../Models/Organization_Model');
 const app = express();
 
 
@@ -364,6 +365,19 @@ const register = async (req, res, next) => {
 
     await user.save();
     await sendVerifyEmail(f_name, email, user._id)
+
+    // Create a new organization for the user
+    const newOrganization = new OrganizationModal({
+      username: email,
+      organization_name: company_name,
+    });
+    const savedOrganization = await newOrganization.save();
+
+    // Update the user with the new organization ID
+    user.org_id = savedOrganization._id;
+    user.org_registered = true;
+    await user.save();
+
   } catch (error) {
     // -> Handling error
     console.log("An error occured:>  " + error);

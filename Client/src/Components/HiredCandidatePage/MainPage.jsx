@@ -39,7 +39,7 @@ function MainPage() {
         {createdJobs?.map((element, index) => {
           return (
             <div
-              onClick={() => navigate(`details/${element._id}`)}
+              onClick={() => navigate(`/JobDetails/${element._id}`)}
               key={index}
               className="cursor-pointer bg-white border border-solid border-gray-200 shadow-md rounded-lg 
                          hover:bg-gray-50 hover:shadow-lg transition-all duration-200 

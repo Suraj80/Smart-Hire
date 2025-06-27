@@ -18,6 +18,7 @@ import JobDetails from "./Pages/CreateJob/JobDetails";
 import PostedJobs from "./Pages/EndUser/postedJobs";
 import PostedJobDescription from "./Pages/EndUser/PostedJobDescription";
 import PostedJobApplyForm from "./Pages/EndUser/PostedJobApplyForm";
+import JobD from "./Pages/CreateJob/jobd";
 
 import AppliedCandidateDetails from "./Pages/RecruitmentCycle/AppliedCandidateDetails";
 import InterviewingCandidate from "./Pages/RecruitmentCycle/InterviewingCandidate";
@@ -111,6 +112,7 @@ function App() {
             element={<Setting_EditProfile />}
           ></Route>
           <Route path="/department/:name" element={<DepartmentDetails />} />
+          <Route path="/jobd/:id" element={<JobD />} />
         </Route>
         {/* **************************** */}
         {/* FOR END - USER */}
@@ -193,18 +195,6 @@ export default App;
 //             <Route path="portal/job" element={<PostedJobs />} />
 //           </>
 //         )}
-//         {/* <Route path="/home" element={<HomePage />} /> */}
-
-//         {/* <Route
-//           path="/home"
-//           element={
-//             <HomePage />
-//             // <ProtectedRoute
-//             //   isSignedIn={isAuthenticated}
-//             //   children={<HomePage />}
-//             // ></ProtectedRoute>
-//           }
-//         /> */}
 //         <Route path="/register" element={<Registration />} />
 //         <Route path="/" element={<Login />} />
 //         <Route path="/forgetpwd" element={<ForgetPassword />} />
@@ -219,7 +209,6 @@ export default App;
 //             //   children={<CreateJob />}
 //             // />
 //           }
-//           // {/* // element={<CreateJob />} */}
 //         />
 //         <Route
 //           path="/postjob"

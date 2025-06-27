@@ -16,7 +16,7 @@ function PostJob() {
   const [description, setDescription] = useState("");
 
   const [formData, setFormData] = useState({
-    postition: "",
+    position: "",
     office_location: "",
     department: "",
     job_type: "",
@@ -31,8 +31,8 @@ function PostJob() {
   );
   
   var org_data = [];
-  org_data.push(count?.[8][1]);
-  org_data.push(count?.[9][1]);
+  org_data.push(formData.office_location);
+  org_data.push("India");
   org_data.push(count?.[2][1]);
   org_data.push(count?.[0][1]);
 
@@ -46,6 +46,12 @@ function PostJob() {
   };
 
   const handleSubmit = async () => {
+    // Set city from office_location and country as India
+    const jobData = {
+      ...formData,
+      city: formData.office_location,
+      country: "India",
+    };
     const options = {
       url: "http://localhost:8080/job/post",
       method: "POST",
@@ -54,7 +60,7 @@ function PostJob() {
         "Content-Type": "application/json;charset=UTF-8",
       },
       data: {
-        form: formData,
+        form: jobData,
         description: description,
         org_details: org_data,
       },
@@ -157,11 +163,11 @@ function PostJob() {
                       </label>
                       <input
                         type="text"
-                        value={formData.postition}
+                        value={formData.position}
                         onChange={(e) => {
                           setFormData((oldValue) => ({
                             ...oldValue,
-                            postition: e.target.value,
+                            position: e.target.value,
                           }));
                         }}
                         placeholder="e.g. Senior Software Engineer"
@@ -175,7 +181,7 @@ function PostJob() {
                         Office Location <span className="text-red-500">*</span>
                       </label>
                       <select
-                        onClick={(e) => {
+                        onChange={(e) => {
                           setFormData((old) => ({
                             ...old,
                             office_location: e.target.value,
@@ -187,7 +193,14 @@ function PostJob() {
                         <option disabled value="">
                           Select office location
                         </option>
-                        <option value={count?.[8][1]}>{count?.[8][1]}</option>
+                        <option value="Pune">Pune</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Kolkata">Kolkata</option>
+                        <option value="Ahmedabad">Ahmedabad</option>
                       </select>
                     </div>
                   </div>
