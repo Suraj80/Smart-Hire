@@ -13,6 +13,7 @@ const GetOrganizationPostedJobApplicants = async (req, res, next) => {
     const findApplicants = await Candidate.find(
         {
             jobID: job_id,
+            recruitmentCycle: "Applied"
         })
 
     if (findApplicants) {

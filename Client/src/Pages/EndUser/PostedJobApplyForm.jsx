@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { 
-  User, 
-  GraduationCap, 
-  Briefcase, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Calendar, 
-  Building, 
-  Github, 
-  Linkedin, 
-  Upload, 
-  Camera, 
-  FileText, 
-  Plus, 
-  CheckCircle,
-  ArrowLeft
-} from "lucide-react";
+import axios from "axios";
+import { React, useState, CSSProperties } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import ClipLoader from "react-spinners/ClipLoader";
 
+import {
+  FcBusinessman,
+  FcGraduationCap,
+  FcAssistant,
+  FcAdvertising,
+  FcPlus,
+  FcCamera,
+  FcDocument,
+} from "react-icons/fc";
+
+import { FiPlusCircle } from "react-icons/fi";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import Congrats from "../../assets/illustrations/congrats.svg";
+import { BeatLoader } from "react-spinners";
 function PostedJobApplyForm() {
-  // __ Modal to show success msg when user registration get complete
+  // __ Modal to show sucess msg when user registration get complete
   const [showModal, setShowModal] = useState(false);
   // __  To store the Date Of Birth
   const [startDate, setStartDate] = useState(new Date());
@@ -79,6 +79,10 @@ function PostedJobApplyForm() {
   const [file, setFile] = useState();
   const [resume, setResume] = useState();
 
+  const location = useLocation();
+  const Organization_id = location.state?.orgID;
+  const { id } = useParams();
+
   const handleResumeUpload = (e) => {
     setResume(e.target.files[0]);
   };
@@ -89,6 +93,9 @@ function PostedJobApplyForm() {
 
   const submit = async (e) => {
     e.preventDefault();
+    // const formData = await new FormData();
+    // await formData.append("file", file);
+    //to enable loading animation
     setLoading(!loading);
     const DoB = {
       day: startDate.getDate(),
@@ -105,614 +112,2239 @@ function PostedJobApplyForm() {
       accadamicsSession: educationSessionInformation,
       profesional: professionalInformation,
       contact: contactInformation,
-      org_id: "sample_org",
-      job_id: "sample_job",
+      org_id: Organization_id,
+      job_id: id,
+    };
+    // console.log(userData);
+    const options = {
+      url: "http://localhost:8080/job/apply-to-job",
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "multipart/form-data; ",
+      },
+      data: userData,
     };
 
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      setHideForm("none");
-      setShowModal(true);
-    }, 2000);
+    axios(options)
+      .then((response) => {
+        if (response.status == 200) {
+          setLoading(!loading);
+          setHideForm("none");
+          setShowModal(true);
+        } else if (response.status == 206) {
+          setLoading(!loading);
+
+          alert("Enter valid information in Form");
+        } else {
+          setLoading(!loading);
+
+          alert("Enter all information as they were asked");
+        }
+      })
+      .catch((e) => {
+        setLoading(false);
+        alert("kindly fill the complete form ");
+      });
   };
 
+  const navigate = useNavigate();
   const handleGoBack = () => {
-    console.log("Going back to job portal");
+    navigate("/portal/job");
   };
 
   // LOADING STATE ANIMATION CODE
   let [loading, setLoading] = useState(false);
-
-  const formatDate = (date) => {
-    return date.toLocaleDateString();
+  const CSSProperties = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "lightblue",
   };
-
+  // console.log(educationSessionInformation);
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative px-6 py-20 text-center">
-          <h1 className="text-5xl font-bold mb-4 tracking-tight">Product Manager</h1>
-          <p className="text-xl opacity-90 max-w-2xl mx-auto">
-            Join our innovative team and help shape the future of our products
+    <div>
+      <div className="bg-gradient-to-b from-gray-900 to-gray-600 bg-gradient-to-r h-40 flex items-center justify-center shadow-xl">
+        <h1 className="text-4xl heading text-white text-center">
+          Product Manager
+        </h1>
+      </div>
+      {/* ~~~ ON SUCESS JOB APPLY MODAL UI CODE */}
+
+      {showModal == true ? (
+        <div className="z-10 bg-white justify-center w-1/3 left-1/3 4 mt-12 p-6 modalShadow m-auto absolute">
+          <h1 className="heading2b text-blue-500 text-center">Congrats!</h1>
+          <img
+            className="block m-auto mt-4"
+            width={180}
+            src={Congrats}
+            alt=""
+          />
+          <p className="line1 text-center mt-4">
+            Your application is subbmited successfully
           </p>
+          <button
+            onClick={handleGoBack}
+            className="shadow bg-blue-500 p-3 rounded-lg block m-auto heading4 text-white mt-4 hover:bg-gray-600"
+          >
+            Go Back
+          </button>
         </div>
-      </div>
+      ) : undefined}
 
-      {/* Success Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-2xl transform animate-in fade-in duration-300">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="w-8 h-8 text-green-600" />
-            </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Congratulations!</h2>
-            <p className="text-gray-600 mb-6">
-              Your application has been submitted successfully. We'll review it and get back to you soon.
-            </p>
-            <button
-              onClick={handleGoBack}
-              className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Jobs
-            </button>
+      {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+      <div
+        style={{ display: `${hideForm}` }}
+        className="w-4/5 m-auto bg-gray-100 rounded-lg shadows flex flex-wrap gap-6 p-8 mt-12 mb-12"
+      >
+        <div className="block w-full">
+          <h2 className="text-3xl heading2 text-center mb-8">
+            Fill out the form
+          </h2>
+          <h3 className="heading3 font-medium ">
+            <FcBusinessman className="inline text-4xl" /> Personal Information{" "}
+          </h3>
+        </div>
+        <div>
+          <label className="label line1">First Name</label>
+          <input
+            type="text"
+            className="h-10 input input-bordered w-full"
+            id="text"
+            name="name"
+            required
+            autoComplete="on"
+            placeholder="Ali"
+            value={personalInformation.firstName}
+            onChange={(e) => {
+              setPersonalInformation((oldValue) => ({
+                ...oldValue,
+                firstName: e.target.value,
+              }));
+            }}
+          />
+        </div>
+
+        <div className="ml-12">
+          <label className="label line1">Last Name</label>
+          <input
+            type="text"
+            required
+            className="h-10 input input-bordered w-full"
+            id="text"
+            name="name"
+            autoComplete="on"
+            placeholder="Adnan"
+            value={personalInformation.lastName}
+            onChange={(e) => {
+              setPersonalInformation((oldValue) => ({
+                ...oldValue,
+                lastName: e.target.value,
+              }));
+            }}
+          />
+        </div>
+
+        <div className="ml-2 ">
+          <label htmlFor="dob" className="label line1">
+            Data Of Birth
+          </label>
+          <DatePicker
+            showIcon
+            className="cursor-pointer bg-white w-44 p-2 rounded-md border border-solid border-gray-300"
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+          />
+        </div>
+
+        <div className="ml-8">
+          <label className="label line1">Gender</label>
+          <select
+            onChange={(e) => {
+              setPersonalInformation((oldValue) => ({
+                ...oldValue,
+                gender: e.target.value,
+              }));
+            }}
+            className="select select-bordered w-full  max-w-xs text-gray-500"
+          >
+            <option disabled selected className="text-gray-700">
+              Select Gender
+            </option>
+            <option value={"Female"}>Female</option>
+            <option value={"Male"}>Male</option>
+          </select>
+        </div>
+
+        <div className=" w-2/6">
+          <label className="label line1">Address</label>
+          <input
+            required
+            type="text"
+            className="h-10 input input-bordered w-full"
+            id="text"
+            name="address"
+            autoComplete="on"
+            placeholder="G-9/4 ISB"
+            value={personalInformation.address}
+            onChange={(e) => {
+              setPersonalInformation((oldValue) => ({
+                ...oldValue,
+                address: e.target.value,
+              }));
+            }}
+          />
+        </div>
+
+        <div className="ml-12">
+          <label className="label line1">City</label>
+          <input
+            type="text"
+            className="h-10 input input-bordered w-full"
+            id="text"
+            name="address"
+            autoComplete="on"
+            placeholder="Islamabad"
+            value={personalInformation.city}
+            onChange={(e) => {
+              setPersonalInformation((oldValue) => ({
+                ...oldValue,
+                city: e.target.value,
+              }));
+            }}
+          />
+        </div>
+
+        <div className="ml-12">
+          <label className="label line1">Zip-Code</label>
+          <input
+            type="number"
+            className="h-10 input input-bordered w-1/2"
+            id="text"
+            name="address"
+            autoComplete="on"
+            placeholder="0110"
+            value={personalInformation.zipCode}
+            onChange={(e) => {
+              setPersonalInformation((oldValue) => ({
+                ...oldValue,
+                zipCode: e.target.value,
+              }));
+            }}
+          />
+        </div>
+        {/* ~~~~~ PROFILE PIC UPLOAD UI CODE  ~~~~~~~~*/}
+        <div className="mt-2 flex justify-center m-auto p-4 items-center bg-transparent shadow-md cursor-pointer h-1/2 rounded-md">
+          <div
+            className="border bg-transparent border-gray-400 border-dashed rounded-md p-4 flex flex-col items-center justify-center
+            hover:bg-gray-100
+          "
+          >
+            <FcCamera className="text-4xl block" />
+            <h3 className="mt-2 line1">Click here to Upload profile picture</h3>
+            <input
+              type="file"
+              name="profile"
+              onChange={handleProfilePic}
+              id=""
+              alt="select profile picture"
+              accept="image/*"
+              style={{
+                position: "relative",
+                top: "5px",
+                background: "white",
+                color: "white",
+                display: "block",
+                margin: "auto",
+                width: "6.5em",
+                border: "1px solid black",
+                boxShadow: "2px 2px 2px 1px white",
+                borderRadius: "12px",
+              }}
+            />
           </div>
         </div>
-      )}
+        {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+        {/* ACCAADAMIC QUALITFICATION */}
+        {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+        <h3 className="heading3 mt-8 block w-full font-medium">
+          <FcGraduationCap className="inline text-4xl mr-2" />
+          Accadamics Qualification
+        </h3>
 
-      {/* Main Form */}
-      <div style={{ display: hideForm }} className="max-w-4xl mx-auto px-6 py-8">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          {/* Form Header */}
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 border-b border-gray-200">
-            <h2 className="text-3xl font-bold text-gray-800 text-center mb-2">
-              Application Form
-            </h2>
-            <p className="text-gray-600 text-center">
-              Please fill out all sections to complete your application
-            </p>
-          </div>
+        <div className="w-1/4">
+          <label className="label line1">Institute</label>
+          <select
+            onChange={(e) => {
+              setEducationalInformation((prevState) => ({
+                ...prevState,
+                institute: [...prevState.institute, e.target.value],
+              }));
+            }}
+            value={educationalInformation.institute[0]}
+            className="select select-bordered w-full  max-w-xs text-gray-500"
+          >
+            <option disabled selected className="text-gray-700">
+              Select Insitute
+            </option>
+            <option value="Air University Islamabad">
+              Air University Islamabad
+            </option>
+            <option value="Bahauddin Zakariya University, Multan">
+              Bahauddin Zakariya University, Multan
+            </option>
+            <option value="Balochistan University of Engineering and Technology, Khuzdar">
+              Balochistan University of Engineering and Technology, Khuzdar
+            </option>
+            <option value="Balochistan University of Information Technology, Engineering and Management Sciences, Quetta">
+              Balochistan University of Information Technology, Engineering and
+              Management Sciences, Quetta
+            </option>
+            <option value="Benazir Bhutto Shaheed University, Lyari">
+              Benazir Bhutto Shaheed University, Lyari
+            </option>
+            <option value="Benazir Bhutto Shaheed University of Technology and Skill Development, Khairpur Mirs">
+              Benazir Bhutto Shaheed University of Technology and Skill
+              Development, Khairpur Mirs
+            </option>
+            <option value="Comsats University Islamabad">
+              Comsats University,Islamabad
+            </option>
+            <option value="Dow University of Health Sciences, Karachi">
+              Dow University of Health Sciences, Karachi
+            </option>
+            <option value="Fatima Jinnah Women University, Rawalpindi">
+              Fatima Jinnah Women University, Rawalpindi
+            </option>
+            <option value="Federal Urdu University of Arts, Sciences and Technology, Islamabad">
+              Federal Urdu University of Arts, Sciences and Technology,
+              Islamabad
+            </option>
+            <option value="Ghazi University, Dera Ghazi Khan">
+              Ghazi University, Dera Ghazi Khan
+            </option>
+            <option value="Government College University, Faisalabad">
+              Government College University, Faisalabad
+            </option>
+            <option value="Government College University, Lahore">
+              Government College University, Lahore
+            </option>
+            <option value="Government College Women University, Sialkot">
+              Government College Women University, Sialkot
+            </option>
+            <option value="Government Sadiq College Women University, Bahawalpur">
+              Government Sadiq College Women University, Bahawalpur
+            </option>
+            <option value="Institute of Business Administration, Karachi">
+              Institute of Business Administration, Karachi
+            </option>
+            <option value="Islamia University, Bahawalpur">
+              Islamia University, Bahawalpur
+            </option>
+            <option value="Karakoram International University, Gilgit">
+              Karakoram International University, Gilgit
+            </option>
+            <option value="Kohat University of Science and Technology, Kohat">
+              Kohat University of Science and Technology, Kohat
+            </option>
+            <option value="Kwara State University, Malete">
+              Kwara State University, Malete
+            </option>
+            <option value="Lahore College for Women University, Lahore">
+              Lahore College for Women University, Lahore
+            </option>
+            <option value="Lahore Garrison University, Lahore">
+              Lahore Garrison University, Lahore
+            </option>
+            <option value="Lahore University of Management Sciences, Lahore">
+              Lahore University of Management Sciences, Lahore
+            </option>
+            <option value="Lasbela University of Agriculture, Water and Marine Sciences, Uthal">
+              Lasbela University of Agriculture, Water and Marine Sciences,
+              Uthal
+            </option>
 
-          <div className="p-8 space-y-12">
-            {/* Personal Information Section */}
-            <section>
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <User className="w-5 h-5 text-blue-600" />
-                </div>
-                <h3 className="text-2xl font-semibold text-gray-800">Personal Information</h3>
-              </div>
+            <option value="Mirpur University of Science and Technology, Mirpur">
+              Mirpur University of Science and Technology, Mirpur
+            </option>
+            <option value="Mohi-ud-Din Islamic University, Nerian Sharif">
+              Mohi-ud-Din Islamic University, Nerian Sharif
+            </option>
+            <option value="Mohammad Ali Jinnah University, Islamabad">
+              Mohammad Ali Jinnah University, Islamabad
+            </option>
+            <option value="Mohammad Ali Jinnah University, Karachi">
+              Mohammad Ali Jinnah University, Karachi
+            </option>
+            <option value="Muhammad Nawaz Sharif University of Agriculture, Multan">
+              Muhammad Nawaz Sharif University of Agriculture, Multan
+            </option>
+            <option value="Multan College of Arts, Multan">
+              Multan College of Arts, Multan
+            </option>
+            <option value="Mehran University of Engineering and Technology, Jamshoro">
+              Mehran University of Engineering and Technology, Jamshoro
+            </option>
+            <option value="Mir Chakar Khan Rind University of Technology, Dera Ghazi Khan">
+              Mir Chakar Khan Rind University of Technology, Dera Ghazi Khan
+            </option>
+            <option value="NED University of Engineering and Technology, Karachi">
+              NED University of Engineering and Technology, Karachi
+            </option>
+            <option value="National College of Arts, Lahore">
+              National College of Arts, Lahore
+            </option>
+            <option value="National Defense University, Islamabad">
+              National Defense University, Islamabad
+            </option>
+            <option value="National Textile University, Faisalabad">
+              National Textile University, Faisalabad
+            </option>
+            <option value="National University of Computer and Emerging Sciences, Islamabad">
+              National University of Computer and Emerging Sciences, Islamabad
+            </option>
+            <option value="National University of Modern Languages, Islamabad">
+              National University of Modern Languages, Islamabad
+            </option>
+            <option value="National University of Sciences and Technology, Islamabad">
+              National University of Sciences and Technology, Islamabad
+            </option>
+            <option value="NED University of Engineering and Technology, Karachi">
+              NED University of Engineering and Technology, Karachi
+            </option>
+            <option value="Pakistan Institute of Development Economics, Islamabad">
+              Pakistan Institute of Development Economics, Islamabad
+            </option>
+            <option value="Pakistan Institute of Engineering and Applied Sciences, Islamabad">
+              Pakistan Institute of Engineering and Applied Sciences, Islamabad
+            </option>
+            <option value="Pakistan Military Academy, Abbottabad">
+              Pakistan Military Academy, Abbottabad
+            </option>
+            <option value="Pakistan Naval Academy, Karachi">
+              Pakistan Naval Academy, Karachi
+            </option>
+            <option value="Pir Mehr Ali Shah Arid Agriculture University, Rawalpindi">
+              Pir Mehr Ali Shah Arid Agriculture University, Rawalpindi
+            </option>
+            <option value="Quaid-e-Awam University of Engineering, Science and Technology, Nawabshah">
+              Quaid-e-Awam University of Engineering, Science and Technology,
+              Nawabshah
+            </option>
+            <option value="Quaid-i-Azam University, Islamabad">
+              Quaid-i-Azam University, Islamabad
+            </option>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    First Name *
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    placeholder="Enter your first name"
-                    value={personalInformation.firstName}
-                    onChange={(e) => {
-                      setPersonalInformation((oldValue) => ({
-                        ...oldValue,
-                        firstName: e.target.value,
-                      }));
-                    }}
-                  />
-                </div>
+            <option value="The Women University, Multan">
+              The Women University, Multan
+            </option>
+            <option value="University of Agriculture, Faisalabad">
+              University of Agriculture, Faisalabad
+            </option>
+            <option value="University of Azad Jammu and Kashmir, Muzaffarabad">
+              University of Azad Jammu and Kashmir, Muzaffarabad
+            </option>
+            <option value="University of Balochistan, Quetta">
+              University of Balochistan, Quetta
+            </option>
+            <option value="University of Education, Lahore">
+              University of Education, Lahore
+            </option>
+            <option value="University of Engineering and Technology, Lahore">
+              University of Engineering and Technology, Lahore
+            </option>
+            <option value="University of Engineering and Technology, Peshawar">
+              University of Engineering and Technology, Peshawar
+            </option>
+            <option value="University of Engineering and Technology, Taxila">
+              University of Engineering and Technology, Taxila
+            </option>
+            <option value="University of FATA, Kohat">
+              University of FATA, Kohat
+            </option>
+            <option value="University of Gujrat, Gujrat">
+              University of Gujrat, Gujrat
+            </option>
+            <option value="University of Haripur, Haripur">
+              University of Haripur, Haripur
+            </option>
+            <option value="University of Health Sciences, Lahore">
+              University of Health Sciences, Lahore
+            </option>
+            <option value="University of Karachi, Karachi">
+              University of Karachi, Karachi
+            </option>
+            <option value="University of Kotli Azad Jammu and Kashmir, Kotli">
+              University of Kotli Azad Jammu and Kashmir, Kotli
+            </option>
+            <option value="University of Lahore, Lahore">
+              University of Lahore, Lahore
+            </option>
+            <option value="University of Loralai, Loralai">
+              University of Loralai, Loralai
+            </option>
+            <option value="University of Malakand, Chakdara">
+              University of Malakand, Chakdara
+            </option>
+            <option value="University of Management and Technology, Lahore">
+              University of Management and Technology, Lahore
+            </option>
+            <option value="University of Okara, Okara">
+              University of Okara, Okara
+            </option>
+            <option value="University of Peshawar, Peshawar">
+              University of Peshawar, Peshawar
+            </option>
+            <option value="University of Sargodha, Sargodha">
+              University of Sargodha, Sargodha
+            </option>
+            <option value="University of Science and Technology, Bannu">
+              University of Science and Technology, Bannu
+            </option>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Last Name *
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    placeholder="Enter your last name"
-                    value={personalInformation.lastName}
-                    onChange={(e) => {
-                      setPersonalInformation((oldValue) => ({
-                        ...oldValue,
-                        lastName: e.target.value,
-                      }));
-                    }}
-                  />
-                </div>
+            <option value="University of Sindh, Jamshoro">
+              University of Sindh, Jamshoro
+            </option>
+            <option value="University of Swabi, Swabi">
+              University of Swabi, Swabi
+            </option>
+            <option value="University of Swat, Swat">
+              University of Swat, Swat
+            </option>
+            <option value="University of the Punjab, Lahore">
+              University of the Punjab, Lahore
+            </option>
+            <option value="University of Turbat, Turbat">
+              University of Turbat, Turbat
+            </option>
+            <option value="University of Veterinary and Animal Sciences, Lahore">
+              University of Veterinary and Animal Sciences, Lahore
+            </option>
+            <option value="University of Wah, Wah">
+              University of Wah, Wah
+            </option>
+            <option value="Women University of Azad Jammu and Kashmir, Bagh">
+              Women University of Azad Jammu and Kashmir, Bagh
+            </option>
+          </select>
+        </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Date of Birth *
-                  </label>
-                  <div className="relative">
-                    <Calendar className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-                    <input
-                      type="date"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      value={startDate.toISOString().split('T')[0]}
-                      onChange={(e) => setStartDate(new Date(e.target.value))}
-                    />
-                  </div>
-                </div>
+        <div className="w-1/6">
+          <label className="label line1">Level</label>
+          <select
+            onChange={(e) => {
+              setEducationalInformation((prevState) => ({
+                ...prevState,
+                level: [...prevState.level, e.target.value],
+              }));
+            }}
+            value={educationalInformation.level[0]}
+            className="select select-bordered w-full  max-w-xs text-gray-500"
+          >
+            <option disabled selected className="text-gray-700">
+              Under / Post Grad
+            </option>
+            <option>B.S</option>
+            <option>M.S</option>
+            <option>Ph.D</option>
+          </select>
+        </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Gender *
-                  </label>
-                  <select
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    onChange={(e) => {
-                      setPersonalInformation((oldValue) => ({
-                        ...oldValue,
-                        gender: e.target.value,
-                      }));
-                    }}
-                  >
-                    <option value="">Select Gender</option>
-                    <option value="Female">Female</option>
-                    <option value="Male">Male</option>
-                  </select>
-                </div>
+        <div className="w-1/5">
+          <label className="label line1">Majors In</label>
+          <select
+            onChange={(e) => {
+              setEducationalInformation((prevState) => ({
+                ...prevState,
+                majors: [...prevState.majors, e.target.value],
+              }));
+            }}
+            value={educationalInformation.majors[0]}
+            className="select select-bordered w-full  max-w-xs text-gray-500"
+          >
+            <option disabled selected className="text-gray-700">
+              Degree Program
+            </option>
+            <option value="Accounting and Finance">
+              Accounting and Finance
+            </option>
+            <option value="Actuarial Science">Actuarial Science</option>
+            <option value="Aerospace Engineering">Aerospace Engineering</option>
+            <option value="Agricultural Sciences">Agricultural Sciences</option>
+            <option value="Anthropology">Anthropology</option>
+            <option value="Applied Linguistics">Applied Linguistics</option>
+            <option value="Applied Psychology">Applied Psychology</option>
+            <option value="Architecture and Design">
+              Architecture and Design
+            </option>
+            <option value="Artificial Intelligence">
+              Artificial Intelligence
+            </option>
+            <option value="Automotive Engineering">
+              Automotive Engineering
+            </option>
+            <option value="Aviation Management">Aviation Management</option>
+            <option value="Banking and Finance">Banking and Finance</option>
+            <option value="Biochemistry">Biochemistry</option>
+            <option value="Bioinformatics">Bioinformatics</option>
+            <option value="Biological Sciences">Biological Sciences</option>
+            <option value="Biomedical Engineering">
+              Biomedical Engineering
+            </option>
+            <option value="Biotechnology">Biotechnology</option>
+            <option value="Botany">Botany</option>
+            <option value="Business Administration">
+              Business Administration
+            </option>
+            <option value="Chemical Engineering">Chemical Engineering</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Civil Engineering">Civil Engineering</option>
+            <option value="Climate Change">Climate Change</option>
+            <option value="Commerce">Commerce</option>
+            <option value="Computer Engineering">Computer Engineering</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Criminology">Criminology</option>
+            <option value="Data Science">Data Science</option>
+            <option value="Dentistry">Dentistry</option>
+            <option value="Design and Visual Arts">
+              Design and Visual Arts
+            </option>
+            <option value="Development Studies">Development Studies</option>
+            <option value="Economics">Economics</option>
+            <option value="Education">Education</option>
+            <option value="Electrical Engineering">
+              Electrical Engineering
+            </option>
+            <option value="Electronics Engineering">
+              Electronics Engineering
+            </option>
+            <option value="Energy Systems Engineering">
+              Energy Systems Engineering
+            </option>
+            <option value="English Language and Literature">
+              English Language and Literature
+            </option>
+            <option value="Environmental Sciences">
+              Environmental Sciences
+            </option>
+            <option value="Fashion Design">Fashion Design</option>
+            <option value="Film and TV Production">
+              Film and TV Production
+            </option>
+            <option value="Food Science and Technology">
+              Food Science and Technology
+            </option>
+            <option value="Forensic Sciences">Forensic Sciences</option>
+            <option value="Gender Studies">Gender Studies</option>
+            <option value="Genetics">Genetics</option>
+            <option value="Geography">Geography</option>
+            <option value="Geology">Geology</option>
+            <option value="Graphic Design">Graphic Design</option>
+            <option value="Health and Physical Education">
+              Health and Physical Education
+            </option>
+            <option value="History">History</option>
+            <option value="Hospitality and Tourism Management">
+              Hospitality and Tourism Management
+            </option>
+            <option value="Human Resource Management">
+              Human Resource Management
+            </option>
+            <option value="Industrial Design">Industrial Design</option>
+            <option value="Information Security">Information Security</option>
+            <option value="Information Technology">
+              Information Technology
+            </option>
+            <option value="International Relations">
+              International Relations
+            </option>
+            <option value="Islamic Studies">Islamic Studies</option>
+            <option value="Journalism and Mass Communication">
+              Journalism and Mass Communication
+            </option>
+            <option value="Law">Law</option>
+            <option value="Library and Information Science">
+              Library and Information Science
+            </option>
+            <option value="Linguistics">Linguistics</option>
+            <option value="Management Sciences">Management Sciences</option>
+            <option value="Marine Sciences">Marine Sciences</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Materials Science and Engineering">
+              Materials Science and Engineering
+            </option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Mechanical Engineering">
+              Mechanical Engineering
+            </option>
+            <option value="Media and Communication Studies">
+              Media and Communication Studies
+            </option>
+            <option value="Medical Laboratory Technology">
+              Medical Laboratory Technology
+            </option>
+            <option value="Medicine and Surgery">Medicine and Surgery</option>
+            <option value="Metallurgy and Materials Engineering">
+              Metallurgy and Materials Engineering
+            </option>
+            <option value="Microbiology">Microbiology</option>
+            <option value="Mining Engineering">Mining Engineering</option>
+            <option value="Multimedia Arts">Multimedia Arts</option>
+            <option value="Nanotechnology">Nanotechnology</option>
+            <option value="Natural Resource Management">
+              Natural Resource Management
+            </option>
+            <option value="Neuroscience">Neuroscience</option>
+            <option value="Nursing">Nursing</option>
+            <option value="Nutrition and Dietetics">
+              Nutrition and Dietetics
+            </option>
+            <option value="Peace and Conflict Studies">
+              Peace and Conflict Studies
+            </option>
+            <option value="Pharmaceutical Sciences">
+              Pharmaceutical Sciences
+            </option>
+            <option value="Pharmacy">Pharmacy</option>
+            <option value="Philosophy">Philosophy</option>
+            <option value="Physics">Physics</option>
+            <option value="Physiotherapy">Physiotherapy</option>
+            <option value="Plant Sciences">Plant Sciences</option>
+            <option value="Political Science">Political Science</option>
+            <option value="Project Management">Project Management</option>
+            <option value="Psychology">Psychology</option>
+            <option value="Public Administration">Public Administration</option>
+            <option value="Public Health">Public Health</option>
+            <option value="Quality Management">Quality Management</option>
+            <option value="Renewable Energy Engineering">
+              Renewable Energy Engineering
+            </option>
+            <option value="Robotics and Artificial Intelligence">
+              Robotics and Artificial Intelligence
+            </option>
+            <option value="Social Sciences">Social Sciences</option>
+            <option value="Software Engineering">Software Engineering</option>
+            <option value="Sociology">Sociology</option>
+            <option value="Soil and Environmental Sciences">
+              Soil and Environmental Sciences
+            </option>
+            <option value="Statistics">Statistics</option>
+            <option value="Supply Chain Management">
+              Supply Chain Management
+            </option>
+            <option value="Telecommunication Engineering">
+              Telecommunication Engineering
+            </option>
+            <option value="Textile Design">Textile Design</option>
+            <option value="Textile Engineering">Textile Engineering</option>
+            <option value="Tourism and Hospitality Management">
+              Tourism and Hospitality Management
+            </option>
+            <option value="Transportation Engineering">
+              Transportation Engineering
+            </option>
+            <option value="Urdu Language and Literature">
+              Urdu Language and Literature
+            </option>
+            <option value="Veterinary Sciences">Veterinary Sciences</option>
+            <option value="Water Resource Engineering">
+              Water Resource Engineering
+            </option>
+            <option value="Zoology">Zoology</option>
+          </select>
+        </div>
 
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Address *
-                  </label>
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-                    <input
-                      type="text"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="Enter your full address"
-                      value={personalInformation.address}
-                      onChange={(e) => {
-                        setPersonalInformation((oldValue) => ({
-                          ...oldValue,
-                          address: e.target.value,
-                        }));
-                      }}
-                    />
-                  </div>
-                </div>
+        {/* YEAR OR SESSION SELECTION UI CODE */}
+        <div className="w-12 ml-2">
+          <label htmlFor="session" className="label line1">
+            Session
+          </label>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    City *
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    placeholder="Enter your city"
-                    value={personalInformation.city}
-                    onChange={(e) => {
-                      setPersonalInformation((oldValue) => ({
-                        ...oldValue,
-                        city: e.target.value,
-                      }));
-                    }}
-                  />
-                </div>
+          <input
+            type="number"
+            placeholder="2k19"
+            maxLength={4}
+            required
+            value={educationSessionInformation.first.from}
+            onChange={(e) => {
+              setEducationSessionInformation((prevState) => ({
+                ...prevState,
+                first: {
+                  ...prevState.first,
+                  from: e.target.value,
+                },
+              }));
+            }}
+            className="input  input-bordered w-20"
+          />
+        </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Zip Code *
-                  </label>
-                  <input
-                    type="number"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    placeholder="Enter zip code"
-                    value={personalInformation.zipCode}
-                    onChange={(e) => {
-                      setPersonalInformation((oldValue) => ({
-                        ...oldValue,
-                        zipCode: e.target.value,
-                      }));
-                    }}
-                  />
-                </div>
-              </div>
+        <div className="ml-8 mt-14">
+          <h5 className="line1 font-medium">To</h5>
+        </div>
 
-              {/* Profile Picture Upload */}
-              <div className="mt-8">
-                <label className="block text-sm font-medium text-gray-700 mb-4">
-                  Profile Picture
-                </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 hover:bg-blue-50 transition-all duration-200">
-                  <Camera className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600 mb-4">Click to upload your profile picture</p>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleProfilePic}
-                    className="hidden"
-                    id="profile-upload"
-                  />
-                  <label
-                    htmlFor="profile-upload"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer transition-colors duration-200"
-                  >
-                    <Upload className="w-4 h-4" />
-                    Choose File
-                  </label>
-                  {file && (
-                    <p className="mt-2 text-sm text-green-600">✓ {file.name} selected</p>
-                  )}
-                </div>
-              </div>
-            </section>
+        <div className="w-12">
+          <label htmlFor="session" className="label line1 text-transparent">
+            ,
+          </label>
 
-            {/* Education Section */}
-            <section>
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <GraduationCap className="w-5 h-5 text-green-600" />
-                </div>
-                <h3 className="text-2xl font-semibold text-gray-800">Academic Qualification</h3>
-              </div>
+          <input
+            type="number"
+            placeholder="2k19"
+            maxLength={4}
+            required
+            className="input  input-bordered w-20"
+            value={educationSessionInformation.first.to}
+            onChange={(e) => {
+              setEducationSessionInformation((prevState) => ({
+                ...prevState,
+                first: {
+                  ...prevState.first,
+                  to: e.target.value,
+                },
+              }));
+            }}
+          />
+        </div>
 
-              {/* First Education Entry */}
-              <div className="bg-gray-50 rounded-lg p-6 mb-6">
-                <h4 className="text-lg font-medium text-gray-800 mb-4">Education #1</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Institute *
-                    </label>
-                    <select
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      onChange={(e) => {
-                        setEducationalInformation((prevState) => ({
-                          ...prevState,
-                          institute: [...prevState.institute, e.target.value],
-                        }));
-                      }}
-                      value={educationalInformation.institute[0] || ""}
-                    >
-                      <option value="">Select Institute</option>
-                      <option value="Air University Islamabad">Air University Islamabad</option>
-                      <option value="Comsats University Islamabad">Comsats University Islamabad</option>
-                      <option value="National University of Sciences and Technology, Islamabad">NUST Islamabad</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Level *
-                    </label>
-                    <select
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      onChange={(e) => {
-                        setEducationalInformation((prevState) => ({
-                          ...prevState,
-                          level: [...prevState.level, e.target.value],
-                        }));
-                      }}
-                      value={educationalInformation.level[0] || ""}
-                    >
-                      <option value="">Select Level</option>
-                      <option value="B.S">Bachelor's</option>
-                      <option value="M.S">Master's</option>
-                      <option value="Ph.D">Ph.D</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Major *
-                    </label>
-                    <select
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      onChange={(e) => {
-                        setEducationalInformation((prevState) => ({
-                          ...prevState,
-                          majors: [...prevState.majors, e.target.value],
-                        }));
-                      }}
-                      value={educationalInformation.majors[0] || ""}
-                    >
-                      <option value="">Select Major</option>
-                      <option value="Computer Science">Computer Science</option>
-                      <option value="Software Engineering">Software Engineering</option>
-                      <option value="Business Administration">Business Administration</option>
-                      <option value="Engineering">Engineering</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Session
-                    </label>
-                    <div className="flex gap-2">
-                      <input
-                        type="number"
-                        placeholder="From"
-                        className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                        value={educationSessionInformation.first.from || ""}
-                        onChange={(e) => {
-                          setEducationSessionInformation((prevState) => ({
-                            ...prevState,
-                            first: {
-                              ...prevState.first,
-                              from: e.target.value,
-                            },
-                          }));
-                        }}
-                      />
-                      <input
-                        type="number"
-                        placeholder="To"
-                        className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                        value={educationSessionInformation.first.to || ""}
-                        onChange={(e) => {
-                          setEducationSessionInformation((prevState) => ({
-                            ...prevState,
-                            first: {
-                              ...prevState.first,
-                              to: e.target.value,
-                            },
-                          }));
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Add More Education Button */}
-              <button
-                type="button"
-                onClick={() => {
-                  setEducationaDetailsPart2(true);
-                  setValue((prev) => (prev <= 2 ? prev + 1 : prev));
-                }}
-                className="inline-flex items-center gap-2 px-4 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-200"
-              >
-                <Plus className="w-4 h-4" />
-                Add More Education
-              </button>
-            </section>
-
-            {/* Professional Experience Section */}
-            <section>
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <Briefcase className="w-5 h-5 text-purple-600" />
-                </div>
-                <h3 className="text-2xl font-semibold text-gray-800">Professional Experience</h3>
-              </div>
-
-              <div className="bg-gray-50 rounded-lg p-6 mb-6">
-                <h4 className="text-lg font-medium text-gray-800 mb-4">Experience #1</h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Job Title *
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="e.g., Senior Developer"
-                      onChange={(e) => {
-                        setProfessionalInformation((prevState) => ({
-                          ...prevState,
-                          title: [e.target.value],
-                        }));
-                      }}
-                      value={professionalInformation.title[0] || ""}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Duration (Years) *
-                    </label>
-                    <input
-                      type="number"
-                      step="0.1"
-                      min="0"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="e.g., 2.5"
-                      onChange={(e) => {
-                        setProfessionalInformation((prevState) => ({
-                          ...prevState,
-                          duration: [e.target.value],
-                        }));
-                      }}
-                      value={professionalInformation.duration[0] || ""}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Company Name *
-                    </label>
-                    <div className="relative">
-                      <Building className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-                      <input
-                        type="text"
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                        placeholder="e.g., Google Inc."
-                        onChange={(e) => {
-                          setProfessionalInformation((prevState) => ({
-                            ...prevState,
-                            companyName: [e.target.value],
-                          }));
-                        }}
-                        value={professionalInformation.companyName[0] || ""}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setExperienceDetails(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 text-purple-600 border border-purple-600 rounded-lg hover:bg-purple-50 transition-colors duration-200"
-              >
-                <Plus className="w-4 h-4" />
-                Add More Experience
-              </button>
-            </section>
-
-            {/* Contact Information Section */}
-            <section>
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-orange-600" />
-                </div>
-                <h3 className="text-2xl font-semibold text-gray-800">Contact Information</h3>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address *
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-                    <input
-                      type="email"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="your.email@example.com"
-                      onChange={(e) => {
-                        setContactInformation((old) => ({
-                          ...old,
-                          emailAddress: e.target.value,
-                        }));
-                      }}
-                      value={contactInformation.emailAddress}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Phone Number *
-                  </label>
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-                    <input
-                      type="tel"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="+92-300-1234567"
-                      onChange={(e) => {
-                        setContactInformation((old) => ({
-                          ...old,
-                          phoneNo: e.target.value,
-                        }));
-                      }}
-                      value={contactInformation.phoneNo}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    LinkedIn Profile
-                  </label>
-                  <div className="relative">
-                    <Linkedin className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-                    <input
-                      type="url"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="linkedin.com/in/your-profile"
-                      onChange={(e) => {
-                        setContactInformation((old) => ({
-                          ...old,
-                          linkedinProfile: e.target.value,
-                        }));
-                      }}
-                      value={contactInformation.linkedinProfile}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    GitHub Profile
-                  </label>
-                  <div className="relative">
-                    <Github className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
-                    <input
-                      type="url"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      placeholder="github.com/your-username"
-                      onChange={(e) => {
-                        setContactInformation((old) => ({
-                          ...old,
-                          gitHubProfile: e.target.value,
-                        }));
-                      }}
-                      value={contactInformation.gitHubProfile}
-                    />
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* Resume Upload Section */}
-            <section>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                  <FileText className="w-5 h-5 text-red-600" />
-                </div>
-                <h3 className="text-2xl font-semibold text-gray-800">Resume Upload</h3>
-              </div>
-
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 hover:bg-blue-50 transition-all duration-200">
-                <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-600 mb-4">Upload your resume (PDF format)</p>
-                <input
-                  type="file"
-                  accept="application/pdf"
-                  onChange={handleResumeUpload}
-                  className="hidden"
-                  id="resume-upload"
-                />
-                <label
-                  htmlFor="resume-upload"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer transition-colors duration-200"
+        <div className=" w-full">
+          {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+          {/* CODE FOR 2ND EDUCATION DETAILS UI CODE */}
+          {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+          {educationDetailsPart2 == true && value >= 2 ? (
+            <div className="flex mb-6">
+              <div className="w-1/4">
+                <label className="label line1">Institute</label>
+                <select
+                  onChange={(e) => {
+                    setEducationalInformation((prevState) => ({
+                      ...prevState,
+                      institute: [...prevState.institute, e.target.value],
+                    }));
+                  }}
+                  value={educationalInformation.institute[1]}
+                  className="select select-bordered w-full  max-w-xs text-gray-500"
                 >
-                  <Upload className="w-4 h-4" />
-                  Choose PDF File
-                </label>
-                {resume && (
-                  <p className="mt-2 text-sm text-green-600">✓ {resume.name} selected</p>
-                )}
-              </div>
-            </section>
+                  <option disabled selected className="text-gray-700">
+                    Select Insitute
+                  </option>
+                  <option value="Air University Islamabad">
+                    Air University Islamabad
+                  </option>
+                  <option value="Bahauddin Zakariya University, Multan">
+                    Bahauddin Zakariya University, Multan
+                  </option>
+                  <option value="Balochistan University of Engineering and Technology, Khuzdar">
+                    Balochistan University of Engineering and Technology,
+                    Khuzdar
+                  </option>
+                  <option value="Balochistan University of Information Technology, Engineering and Management Sciences, Quetta">
+                    Balochistan University of Information Technology,
+                    Engineering and Management Sciences, Quetta
+                  </option>
+                  <option value="Benazir Bhutto Shaheed University, Lyari">
+                    Benazir Bhutto Shaheed University, Lyari
+                  </option>
+                  <option value="Benazir Bhutto Shaheed University of Technology and Skill Development, Khairpur Mirs">
+                    Benazir Bhutto Shaheed University of Technology and Skill
+                    Development, Khairpur Mirs
+                  </option>
+                  <option value="Comsats University Islamabad">
+                    Comsats University,Islamabad
+                  </option>
+                  <option value="Dow University of Health Sciences, Karachi">
+                    Dow University of Health Sciences, Karachi
+                  </option>
+                  <option value="Fatima Jinnah Women University, Rawalpindi">
+                    Fatima Jinnah Women University, Rawalpindi
+                  </option>
+                  <option value="Federal Urdu University of Arts, Sciences and Technology, Islamabad">
+                    Federal Urdu University of Arts, Sciences and Technology,
+                    Islamabad
+                  </option>
+                  <option value="Ghazi University, Dera Ghazi Khan">
+                    Ghazi University, Dera Ghazi Khan
+                  </option>
+                  <option value="Government College University, Faisalabad">
+                    Government College University, Faisalabad
+                  </option>
+                  <option value="Government College University, Lahore">
+                    Government College University, Lahore
+                  </option>
+                  <option value="Government College Women University, Sialkot">
+                    Government College Women University, Sialkot
+                  </option>
+                  <option value="Government Sadiq College Women University, Bahawalpur">
+                    Government Sadiq College Women University, Bahawalpur
+                  </option>
+                  <option value="Institute of Business Administration, Karachi">
+                    Institute of Business Administration, Karachi
+                  </option>
+                  <option value="Islamia University, Bahawalpur">
+                    Islamia University, Bahawalpur
+                  </option>
+                  <option value="Karakoram International University, Gilgit">
+                    Karakoram International University, Gilgit
+                  </option>
+                  <option value="Kohat University of Science and Technology, Kohat">
+                    Kohat University of Science and Technology, Kohat
+                  </option>
+                  <option value="Kwara State University, Malete">
+                    Kwara State University, Malete
+                  </option>
+                  <option value="Lahore College for Women University, Lahore">
+                    Lahore College for Women University, Lahore
+                  </option>
+                  <option value="Lahore Garrison University, Lahore">
+                    Lahore Garrison University, Lahore
+                  </option>
+                  <option value="Lahore University of Management Sciences, Lahore">
+                    Lahore University of Management Sciences, Lahore
+                  </option>
+                  <option value="Lasbela University of Agriculture, Water and Marine Sciences, Uthal">
+                    Lasbela University of Agriculture, Water and Marine
+                    Sciences, Uthal
+                  </option>
 
-            {/* Submit Button */}
-            <div className="text-center pt-8">
-              <button
-                onClick={submit}
-                disabled={loading}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 shadow-lg"
-              >
-                {loading ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Submitting...
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle className="w-5 h-5" />
-                    Submit Application
-                  </>
-                )}
-              </button>
+                  <option value="Mirpur University of Science and Technology, Mirpur">
+                    Mirpur University of Science and Technology, Mirpur
+                  </option>
+                  <option value="Mohi-ud-Din Islamic University, Nerian Sharif">
+                    Mohi-ud-Din Islamic University, Nerian Sharif
+                  </option>
+                  <option value="Mohammad Ali Jinnah University, Islamabad">
+                    Mohammad Ali Jinnah University, Islamabad
+                  </option>
+                  <option value="Mohammad Ali Jinnah University, Karachi">
+                    Mohammad Ali Jinnah University, Karachi
+                  </option>
+                  <option value="Muhammad Nawaz Sharif University of Agriculture, Multan">
+                    Muhammad Nawaz Sharif University of Agriculture, Multan
+                  </option>
+                  <option value="Multan College of Arts, Multan">
+                    Multan College of Arts, Multan
+                  </option>
+                  <option value="Mehran University of Engineering and Technology, Jamshoro">
+                    Mehran University of Engineering and Technology, Jamshoro
+                  </option>
+                  <option value="Mir Chakar Khan Rind University of Technology, Dera Ghazi Khan">
+                    Mir Chakar Khan Rind University of Technology, Dera Ghazi
+                    Khan
+                  </option>
+                  <option value="NED University of Engineering and Technology, Karachi">
+                    NED University of Engineering and Technology, Karachi
+                  </option>
+                  <option value="National College of Arts, Lahore">
+                    National College of Arts, Lahore
+                  </option>
+                  <option value="National Defense University, Islamabad">
+                    National Defense University, Islamabad
+                  </option>
+                  <option value="National Textile University, Faisalabad">
+                    National Textile University, Faisalabad
+                  </option>
+                  <option value="National University of Computer and Emerging Sciences, Islamabad">
+                    National University of Computer and Emerging Sciences,
+                    Islamabad
+                  </option>
+                  <option value="National University of Modern Languages, Islamabad">
+                    National University of Modern Languages, Islamabad
+                  </option>
+                  <option value="National University of Sciences and Technology, Islamabad">
+                    National University of Sciences and Technology, Islamabad
+                  </option>
+                  <option value="NED University of Engineering and Technology, Karachi">
+                    NED University of Engineering and Technology, Karachi
+                  </option>
+                  <option value="Pakistan Institute of Development Economics, Islamabad">
+                    Pakistan Institute of Development Economics, Islamabad
+                  </option>
+                  <option value="Pakistan Institute of Engineering and Applied Sciences, Islamabad">
+                    Pakistan Institute of Engineering and Applied Sciences,
+                    Islamabad
+                  </option>
+                  <option value="Pakistan Military Academy, Abbottabad">
+                    Pakistan Military Academy, Abbottabad
+                  </option>
+                  <option value="Pakistan Naval Academy, Karachi">
+                    Pakistan Naval Academy, Karachi
+                  </option>
+                  <option value="Pir Mehr Ali Shah Arid Agriculture University, Rawalpindi">
+                    Pir Mehr Ali Shah Arid Agriculture University, Rawalpindi
+                  </option>
+                  <option value="Quaid-e-Awam University of Engineering, Science and Technology, Nawabshah">
+                    Quaid-e-Awam University of Engineering, Science and
+                    Technology, Nawabshah
+                  </option>
+                  <option value="Quaid-i-Azam University, Islamabad">
+                    Quaid-i-Azam University, Islamabad
+                  </option>
+
+                  <option value="The Women University, Multan">
+                    The Women University, Multan
+                  </option>
+                  <option value="University of Agriculture, Faisalabad">
+                    University of Agriculture, Faisalabad
+                  </option>
+                  <option value="University of Azad Jammu and Kashmir, Muzaffarabad">
+                    University of Azad Jammu and Kashmir, Muzaffarabad
+                  </option>
+                  <option value="University of Balochistan, Quetta">
+                    University of Balochistan, Quetta
+                  </option>
+                  <option value="University of Education, Lahore">
+                    University of Education, Lahore
+                  </option>
+                  <option value="University of Engineering and Technology, Lahore">
+                    University of Engineering and Technology, Lahore
+                  </option>
+                  <option value="University of Engineering and Technology, Peshawar">
+                    University of Engineering and Technology, Peshawar
+                  </option>
+                  <option value="University of Engineering and Technology, Taxila">
+                    University of Engineering and Technology, Taxila
+                  </option>
+                  <option value="University of FATA, Kohat">
+                    University of FATA, Kohat
+                  </option>
+                  <option value="University of Gujrat, Gujrat">
+                    University of Gujrat, Gujrat
+                  </option>
+                  <option value="University of Haripur, Haripur">
+                    University of Haripur, Haripur
+                  </option>
+                  <option value="University of Health Sciences, Lahore">
+                    University of Health Sciences, Lahore
+                  </option>
+                  <option value="University of Karachi, Karachi">
+                    University of Karachi, Karachi
+                  </option>
+                  <option value="University of Kotli Azad Jammu and Kashmir, Kotli">
+                    University of Kotli Azad Jammu and Kashmir, Kotli
+                  </option>
+                  <option value="University of Lahore, Lahore">
+                    University of Lahore, Lahore
+                  </option>
+                  <option value="University of Loralai, Loralai">
+                    University of Loralai, Loralai
+                  </option>
+                  <option value="University of Malakand, Chakdara">
+                    University of Malakand, Chakdara
+                  </option>
+                  <option value="University of Management and Technology, Lahore">
+                    University of Management and Technology, Lahore
+                  </option>
+                  <option value="University of Okara, Okara">
+                    University of Okara, Okara
+                  </option>
+                  <option value="University of Peshawar, Peshawar">
+                    University of Peshawar, Peshawar
+                  </option>
+                  <option value="University of Sargodha, Sargodha">
+                    University of Sargodha, Sargodha
+                  </option>
+                  <option value="University of Science and Technology, Bannu">
+                    University of Science and Technology, Bannu
+                  </option>
+
+                  <option value="University of Sindh, Jamshoro">
+                    University of Sindh, Jamshoro
+                  </option>
+                  <option value="University of Swabi, Swabi">
+                    University of Swabi, Swabi
+                  </option>
+                  <option value="University of Swat, Swat">
+                    University of Swat, Swat
+                  </option>
+                  <option value="University of the Punjab, Lahore">
+                    University of the Punjab, Lahore
+                  </option>
+                  <option value="University of Turbat, Turbat">
+                    University of Turbat, Turbat
+                  </option>
+                  <option value="University of Veterinary and Animal Sciences, Lahore">
+                    University of Veterinary and Animal Sciences, Lahore
+                  </option>
+                  <option value="University of Wah, Wah">
+                    University of Wah, Wah
+                  </option>
+                  <option value="Women University of Azad Jammu and Kashmir, Bagh">
+                    Women University of Azad Jammu and Kashmir, Bagh
+                  </option>
+                </select>
+              </div>
+
+              <div className="w-1/6 ml-6">
+                <label className="label line1">Level</label>
+                <select
+                  onChange={(e) => {
+                    setEducationalInformation((prevState) => ({
+                      ...prevState,
+                      level: [...prevState.level, e.target.value],
+                    }));
+                  }}
+                  value={educationalInformation.level[1]}
+                  className="select select-bordered w-full  max-w-xs text-gray-500"
+                >
+                  <option disabled selected className="text-gray-700">
+                    Under / Post Grad
+                  </option>
+                  <option>B.S</option>
+                  <option>M.S</option>
+                  <option>Ph.D</option>
+                </select>
+              </div>
+
+              <div className="w-1/5 ml-6">
+                <label className="label line1">Majors In</label>
+                <select
+                  onChange={(e) => {
+                    setEducationalInformation((prevState) => ({
+                      ...prevState,
+                      majors: [...prevState.majors, e.target.value],
+                    }));
+                  }}
+                  value={educationalInformation.majors[1]}
+                  className="select select-bordered w-full  max-w-xs text-gray-500"
+                >
+                  <option disabled selected className="text-gray-700">
+                    Degree Program
+                  </option>
+                  <option value="Accounting and Finance">
+                    Accounting and Finance
+                  </option>
+                  <option value="Actuarial Science">Actuarial Science</option>
+                  <option value="Aerospace Engineering">
+                    Aerospace Engineering
+                  </option>
+                  <option value="Agricultural Sciences">
+                    Agricultural Sciences
+                  </option>
+                  <option value="Anthropology">Anthropology</option>
+                  <option value="Applied Linguistics">
+                    Applied Linguistics
+                  </option>
+                  <option value="Applied Psychology">Applied Psychology</option>
+                  <option value="Architecture and Design">
+                    Architecture and Design
+                  </option>
+                  <option value="Artificial Intelligence">
+                    Artificial Intelligence
+                  </option>
+                  <option value="Automotive Engineering">
+                    Automotive Engineering
+                  </option>
+                  <option value="Aviation Management">
+                    Aviation Management
+                  </option>
+                  <option value="Banking and Finance">
+                    Banking and Finance
+                  </option>
+                  <option value="Biochemistry">Biochemistry</option>
+                  <option value="Bioinformatics">Bioinformatics</option>
+                  <option value="Biological Sciences">
+                    Biological Sciences
+                  </option>
+                  <option value="Biomedical Engineering">
+                    Biomedical Engineering
+                  </option>
+                  <option value="Biotechnology">Biotechnology</option>
+                  <option value="Botany">Botany</option>
+                  <option value="Business Administration">
+                    Business Administration
+                  </option>
+                  <option value="Chemical Engineering">
+                    Chemical Engineering
+                  </option>
+                  <option value="Chemistry">Chemistry</option>
+                  <option value="Civil Engineering">Civil Engineering</option>
+                  <option value="Climate Change">Climate Change</option>
+                  <option value="Commerce">Commerce</option>
+                  <option value="Computer Engineering">
+                    Computer Engineering
+                  </option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Criminology">Criminology</option>
+                  <option value="Data Science">Data Science</option>
+                  <option value="Dentistry">Dentistry</option>
+                  <option value="Design and Visual Arts">
+                    Design and Visual Arts
+                  </option>
+                  <option value="Development Studies">
+                    Development Studies
+                  </option>
+                  <option value="Economics">Economics</option>
+                  <option value="Education">Education</option>
+                  <option value="Electrical Engineering">
+                    Electrical Engineering
+                  </option>
+                  <option value="Electronics Engineering">
+                    Electronics Engineering
+                  </option>
+                  <option value="Energy Systems Engineering">
+                    Energy Systems Engineering
+                  </option>
+                  <option value="English Language and Literature">
+                    English Language and Literature
+                  </option>
+                  <option value="Environmental Sciences">
+                    Environmental Sciences
+                  </option>
+                  <option value="Fashion Design">Fashion Design</option>
+                  <option value="Film and TV Production">
+                    Film and TV Production
+                  </option>
+                  <option value="Food Science and Technology">
+                    Food Science and Technology
+                  </option>
+                  <option value="Forensic Sciences">Forensic Sciences</option>
+                  <option value="Gender Studies">Gender Studies</option>
+                  <option value="Genetics">Genetics</option>
+                  <option value="Geography">Geography</option>
+                  <option value="Geology">Geology</option>
+                  <option value="Graphic Design">Graphic Design</option>
+                  <option value="Health and Physical Education">
+                    Health and Physical Education
+                  </option>
+                  <option value="History">History</option>
+                  <option value="Hospitality and Tourism Management">
+                    Hospitality and Tourism Management
+                  </option>
+                  <option value="Human Resource Management">
+                    Human Resource Management
+                  </option>
+                  <option value="Industrial Design">Industrial Design</option>
+                  <option value="Information Security">
+                    Information Security
+                  </option>
+                  <option value="Information Technology">
+                    Information Technology
+                  </option>
+                  <option value="International Relations">
+                    International Relations
+                  </option>
+                  <option value="Islamic Studies">Islamic Studies</option>
+                  <option value="Journalism and Mass Communication">
+                    Journalism and Mass Communication
+                  </option>
+                  <option value="Law">Law</option>
+                  <option value="Library and Information Science">
+                    Library and Information Science
+                  </option>
+                  <option value="Linguistics">Linguistics</option>
+                  <option value="Management Sciences">
+                    Management Sciences
+                  </option>
+                  <option value="Marine Sciences">Marine Sciences</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Materials Science and Engineering">
+                    Materials Science and Engineering
+                  </option>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="Mechanical Engineering">
+                    Mechanical Engineering
+                  </option>
+                  <option value="Media and Communication Studies">
+                    Media and Communication Studies
+                  </option>
+                  <option value="Medical Laboratory Technology">
+                    Medical Laboratory Technology
+                  </option>
+                  <option value="Medicine and Surgery">
+                    Medicine and Surgery
+                  </option>
+                  <option value="Metallurgy and Materials Engineering">
+                    Metallurgy and Materials Engineering
+                  </option>
+                  <option value="Microbiology">Microbiology</option>
+                  <option value="Mining Engineering">Mining Engineering</option>
+                  <option value="Multimedia Arts">Multimedia Arts</option>
+                  <option value="Nanotechnology">Nanotechnology</option>
+                  <option value="Natural Resource Management">
+                    Natural Resource Management
+                  </option>
+                  <option value="Neuroscience">Neuroscience</option>
+                  <option value="Nursing">Nursing</option>
+                  <option value="Nutrition and Dietetics">
+                    Nutrition and Dietetics
+                  </option>
+                  <option value="Peace and Conflict Studies">
+                    Peace and Conflict Studies
+                  </option>
+                  <option value="Pharmaceutical Sciences">
+                    Pharmaceutical Sciences
+                  </option>
+                  <option value="Pharmacy">Pharmacy</option>
+                  <option value="Philosophy">Philosophy</option>
+                  <option value="Physics">Physics</option>
+                  <option value="Physiotherapy">Physiotherapy</option>
+                  <option value="Plant Sciences">Plant Sciences</option>
+                  <option value="Political Science">Political Science</option>
+                  <option value="Project Management">Project Management</option>
+                  <option value="Psychology">Psychology</option>
+                  <option value="Public Administration">
+                    Public Administration
+                  </option>
+                  <option value="Public Health">Public Health</option>
+                  <option value="Quality Management">Quality Management</option>
+                  <option value="Renewable Energy Engineering">
+                    Renewable Energy Engineering
+                  </option>
+                  <option value="Robotics and Artificial Intelligence">
+                    Robotics and Artificial Intelligence
+                  </option>
+                  <option value="Social Sciences">Social Sciences</option>
+                  <option value="Software Engineering">
+                    Software Engineering
+                  </option>
+                  <option value="Sociology">Sociology</option>
+                  <option value="Soil and Environmental Sciences">
+                    Soil and Environmental Sciences
+                  </option>
+                  <option value="Statistics">Statistics</option>
+                  <option value="Supply Chain Management">
+                    Supply Chain Management
+                  </option>
+                  <option value="Telecommunication Engineering">
+                    Telecommunication Engineering
+                  </option>
+                  <option value="Textile Design">Textile Design</option>
+                  <option value="Textile Engineering">
+                    Textile Engineering
+                  </option>
+                  <option value="Tourism and Hospitality Management">
+                    Tourism and Hospitality Management
+                  </option>
+                  <option value="Transportation Engineering">
+                    Transportation Engineering
+                  </option>
+                  <option value="Urdu Language and Literature">
+                    Urdu Language and Literature
+                  </option>
+                  <option value="Veterinary Sciences">
+                    Veterinary Sciences
+                  </option>
+                  <option value="Water Resource Engineering">
+                    Water Resource Engineering
+                  </option>
+                  <option value="Zoology">Zoology</option>
+                </select>
+              </div>
+
+              {/* YEAR OR SESSION SELECTION UI CODE */}
+              <div className="w-12 ml-8">
+                <label htmlFor="session" className="label line1">
+                  Session
+                </label>
+
+                <input
+                  type="text"
+                  value={educationSessionInformation.second.from}
+                  onChange={(e) => {
+                    setEducationSessionInformation((prevState) => ({
+                      ...prevState,
+                      second: {
+                        ...prevState.second,
+                        from: e.target.value,
+                      },
+                    }));
+                  }}
+                  placeholder="2k19"
+                  className="input  input-bordered w-20"
+                />
+              </div>
+
+              <div className="ml-14 mt-14">
+                <h5 className="line1 font-medium">To</h5>
+              </div>
+
+              <div className="w-12 ml-6">
+                <label
+                  htmlFor="session"
+                  className="label line1 text-transparent"
+                >
+                  ,
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="2k23"
+                  className="input  input-bordered w-20"
+                  value={educationSessionInformation.second.to}
+                  onChange={(e) => {
+                    setEducationSessionInformation((prevState) => ({
+                      ...prevState,
+                      second: {
+                        ...prevState.second,
+                        to: e.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </div>
             </div>
+          ) : undefined}
+          {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+          {/* CODE FOR 3RD EDUCATION DETAILS UI CODE */}
+          {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+          {educationDetailsPart2 == true && value == 3 ? (
+            <div className="flex mb-6">
+              <div className="w-1/4">
+                <label className="label line1">Institute</label>
+                <select
+                  onChange={(e) => {
+                    setEducationalInformation((prevState) => ({
+                      ...prevState,
+                      institute: [...prevState.institute, e.target.value],
+                    }));
+                  }}
+                  value={educationalInformation.institute[2]}
+                  className="select select-bordered w-full  max-w-xs text-gray-500"
+                >
+                  <option disabled selected className="text-gray-700">
+                    Select Insitute
+                  </option>
+                  <option value="Air University Islamabad">
+                    Air University Islamabad
+                  </option>
+                  <option value="Bahauddin Zakariya University, Multan">
+                    Bahauddin Zakariya University, Multan
+                  </option>
+                  <option value="Balochistan University of Engineering and Technology, Khuzdar">
+                    Balochistan University of Engineering and Technology,
+                    Khuzdar
+                  </option>
+                  <option value="Balochistan University of Information Technology, Engineering and Management Sciences, Quetta">
+                    Balochistan University of Information Technology,
+                    Engineering and Management Sciences, Quetta
+                  </option>
+                  <option value="Benazir Bhutto Shaheed University, Lyari">
+                    Benazir Bhutto Shaheed University, Lyari
+                  </option>
+                  <option value="Benazir Bhutto Shaheed University of Technology and Skill Development, Khairpur Mirs">
+                    Benazir Bhutto Shaheed University of Technology and Skill
+                    Development, Khairpur Mirs
+                  </option>
+                  <option value="Comsats University Islamabad">
+                    Comsats University,Islamabad
+                  </option>
+                  <option value="Dow University of Health Sciences, Karachi">
+                    Dow University of Health Sciences, Karachi
+                  </option>
+                  <option value="Fatima Jinnah Women University, Rawalpindi">
+                    Fatima Jinnah Women University, Rawalpindi
+                  </option>
+                  <option value="Federal Urdu University of Arts, Sciences and Technology, Islamabad">
+                    Federal Urdu University of Arts, Sciences and Technology,
+                    Islamabad
+                  </option>
+                  <option value="Ghazi University, Dera Ghazi Khan">
+                    Ghazi University, Dera Ghazi Khan
+                  </option>
+                  <option value="Government College University, Faisalabad">
+                    Government College University, Faisalabad
+                  </option>
+                  <option value="Government College University, Lahore">
+                    Government College University, Lahore
+                  </option>
+                  <option value="Government College Women University, Sialkot">
+                    Government College Women University, Sialkot
+                  </option>
+                  <option value="Government Sadiq College Women University, Bahawalpur">
+                    Government Sadiq College Women University, Bahawalpur
+                  </option>
+                  <option value="Institute of Business Administration, Karachi">
+                    Institute of Business Administration, Karachi
+                  </option>
+                  <option value="Islamia University, Bahawalpur">
+                    Islamia University, Bahawalpur
+                  </option>
+                  <option value="Karakoram International University, Gilgit">
+                    Karakoram International University, Gilgit
+                  </option>
+                  <option value="Kohat University of Science and Technology, Kohat">
+                    Kohat University of Science and Technology, Kohat
+                  </option>
+                  <option value="Kwara State University, Malete">
+                    Kwara State University, Malete
+                  </option>
+                  <option value="Lahore College for Women University, Lahore">
+                    Lahore College for Women University, Lahore
+                  </option>
+                  <option value="Lahore Garrison University, Lahore">
+                    Lahore Garrison University, Lahore
+                  </option>
+                  <option value="Lahore University of Management Sciences, Lahore">
+                    Lahore University of Management Sciences, Lahore
+                  </option>
+                  <option value="Lasbela University of Agriculture, Water and Marine Sciences, Uthal">
+                    Lasbela University of Agriculture, Water and Marine
+                    Sciences, Uthal
+                  </option>
+
+                  <option value="Mirpur University of Science and Technology, Mirpur">
+                    Mirpur University of Science and Technology, Mirpur
+                  </option>
+                  <option value="Mohi-ud-Din Islamic University, Nerian Sharif">
+                    Mohi-ud-Din Islamic University, Nerian Sharif
+                  </option>
+                  <option value="Mohammad Ali Jinnah University, Islamabad">
+                    Mohammad Ali Jinnah University, Islamabad
+                  </option>
+                  <option value="Mohammad Ali Jinnah University, Karachi">
+                    Mohammad Ali Jinnah University, Karachi
+                  </option>
+                  <option value="Muhammad Nawaz Sharif University of Agriculture, Multan">
+                    Muhammad Nawaz Sharif University of Agriculture, Multan
+                  </option>
+                  <option value="Multan College of Arts, Multan">
+                    Multan College of Arts, Multan
+                  </option>
+                  <option value="Mehran University of Engineering and Technology, Jamshoro">
+                    Mehran University of Engineering and Technology, Jamshoro
+                  </option>
+                  <option value="Mir Chakar Khan Rind University of Technology, Dera Ghazi Khan">
+                    Mir Chakar Khan Rind University of Technology, Dera Ghazi
+                    Khan
+                  </option>
+                  <option value="NED University of Engineering and Technology, Karachi">
+                    NED University of Engineering and Technology, Karachi
+                  </option>
+                  <option value="National College of Arts, Lahore">
+                    National College of Arts, Lahore
+                  </option>
+                  <option value="National Defense University, Islamabad">
+                    National Defense University, Islamabad
+                  </option>
+                  <option value="National Textile University, Faisalabad">
+                    National Textile University, Faisalabad
+                  </option>
+                  <option value="National University of Computer and Emerging Sciences, Islamabad">
+                    National University of Computer and Emerging Sciences,
+                    Islamabad
+                  </option>
+                  <option value="National University of Modern Languages, Islamabad">
+                    National University of Modern Languages, Islamabad
+                  </option>
+                  <option value="National University of Sciences and Technology, Islamabad">
+                    National University of Sciences and Technology, Islamabad
+                  </option>
+                  <option value="NED University of Engineering and Technology, Karachi">
+                    NED University of Engineering and Technology, Karachi
+                  </option>
+                  <option value="Pakistan Institute of Development Economics, Islamabad">
+                    Pakistan Institute of Development Economics, Islamabad
+                  </option>
+                  <option value="Pakistan Institute of Engineering and Applied Sciences, Islamabad">
+                    Pakistan Institute of Engineering and Applied Sciences,
+                    Islamabad
+                  </option>
+                  <option value="Pakistan Military Academy, Abbottabad">
+                    Pakistan Military Academy, Abbottabad
+                  </option>
+                  <option value="Pakistan Naval Academy, Karachi">
+                    Pakistan Naval Academy, Karachi
+                  </option>
+                  <option value="Pir Mehr Ali Shah Arid Agriculture University, Rawalpindi">
+                    Pir Mehr Ali Shah Arid Agriculture University, Rawalpindi
+                  </option>
+                  <option value="Quaid-e-Awam University of Engineering, Science and Technology, Nawabshah">
+                    Quaid-e-Awam University of Engineering, Science and
+                    Technology, Nawabshah
+                  </option>
+                  <option value="Quaid-i-Azam University, Islamabad">
+                    Quaid-i-Azam University, Islamabad
+                  </option>
+
+                  <option value="The Women University, Multan">
+                    The Women University, Multan
+                  </option>
+                  <option value="University of Agriculture, Faisalabad">
+                    University of Agriculture, Faisalabad
+                  </option>
+                  <option value="University of Azad Jammu and Kashmir, Muzaffarabad">
+                    University of Azad Jammu and Kashmir, Muzaffarabad
+                  </option>
+                  <option value="University of Balochistan, Quetta">
+                    University of Balochistan, Quetta
+                  </option>
+                  <option value="University of Education, Lahore">
+                    University of Education, Lahore
+                  </option>
+                  <option value="University of Engineering and Technology, Lahore">
+                    University of Engineering and Technology, Lahore
+                  </option>
+                  <option value="University of Engineering and Technology, Peshawar">
+                    University of Engineering and Technology, Peshawar
+                  </option>
+                  <option value="University of Engineering and Technology, Taxila">
+                    University of Engineering and Technology, Taxila
+                  </option>
+                  <option value="University of FATA, Kohat">
+                    University of FATA, Kohat
+                  </option>
+                  <option value="University of Gujrat, Gujrat">
+                    University of Gujrat, Gujrat
+                  </option>
+                  <option value="University of Haripur, Haripur">
+                    University of Haripur, Haripur
+                  </option>
+                  <option value="University of Health Sciences, Lahore">
+                    University of Health Sciences, Lahore
+                  </option>
+                  <option value="University of Karachi, Karachi">
+                    University of Karachi, Karachi
+                  </option>
+                  <option value="University of Kotli Azad Jammu and Kashmir, Kotli">
+                    University of Kotli Azad Jammu and Kashmir, Kotli
+                  </option>
+                  <option value="University of Lahore, Lahore">
+                    University of Lahore, Lahore
+                  </option>
+                  <option value="University of Loralai, Loralai">
+                    University of Loralai, Loralai
+                  </option>
+                  <option value="University of Malakand, Chakdara">
+                    University of Malakand, Chakdara
+                  </option>
+                  <option value="University of Management and Technology, Lahore">
+                    University of Management and Technology, Lahore
+                  </option>
+                  <option value="University of Okara, Okara">
+                    University of Okara, Okara
+                  </option>
+                  <option value="University of Peshawar, Peshawar">
+                    University of Peshawar, Peshawar
+                  </option>
+                  <option value="University of Sargodha, Sargodha">
+                    University of Sargodha, Sargodha
+                  </option>
+                  <option value="University of Science and Technology, Bannu">
+                    University of Science and Technology, Bannu
+                  </option>
+
+                  <option value="University of Sindh, Jamshoro">
+                    University of Sindh, Jamshoro
+                  </option>
+                  <option value="University of Swabi, Swabi">
+                    University of Swabi, Swabi
+                  </option>
+                  <option value="University of Swat, Swat">
+                    University of Swat, Swat
+                  </option>
+                  <option value="University of the Punjab, Lahore">
+                    University of the Punjab, Lahore
+                  </option>
+                  <option value="University of Turbat, Turbat">
+                    University of Turbat, Turbat
+                  </option>
+                  <option value="University of Veterinary and Animal Sciences, Lahore">
+                    University of Veterinary and Animal Sciences, Lahore
+                  </option>
+                  <option value="University of Wah, Wah">
+                    University of Wah, Wah
+                  </option>
+                  <option value="Women University of Azad Jammu and Kashmir, Bagh">
+                    Women University of Azad Jammu and Kashmir, Bagh
+                  </option>
+                </select>
+              </div>
+
+              <div className="w-1/6 ml-6">
+                <label className="label line1">Level</label>
+                <select
+                  onChange={(e) => {
+                    setEducationalInformation((prevState) => ({
+                      ...prevState,
+                      level: [...prevState.level, e.target.value],
+                    }));
+                  }}
+                  value={educationalInformation.level[2]}
+                  className="select select-bordered w-full  max-w-xs text-gray-500"
+                >
+                  <option disabled selected className="text-gray-700">
+                    Under / Post Grad
+                  </option>
+                  <option>B.S</option>
+                  <option>M.S</option>
+                  <option>Ph.D</option>
+                </select>
+              </div>
+
+              <div className="w-1/5 ml-6">
+                <label className="label line1">Majors In</label>
+                <select
+                  onChange={(e) => {
+                    setEducationalInformation((prevState) => ({
+                      ...prevState,
+                      majors: [...prevState.majors, e.target.value],
+                    }));
+                  }}
+                  value={educationalInformation.majors[2]}
+                  className="select select-bordered w-full  max-w-xs text-gray-500"
+                >
+                  <option disabled selected className="text-gray-700">
+                    Degree Program
+                  </option>
+                  <option value="Accounting and Finance">
+                    Accounting and Finance
+                  </option>
+                  <option value="Actuarial Science">Actuarial Science</option>
+                  <option value="Aerospace Engineering">
+                    Aerospace Engineering
+                  </option>
+                  <option value="Agricultural Sciences">
+                    Agricultural Sciences
+                  </option>
+                  <option value="Anthropology">Anthropology</option>
+                  <option value="Applied Linguistics">
+                    Applied Linguistics
+                  </option>
+                  <option value="Applied Psychology">Applied Psychology</option>
+                  <option value="Architecture and Design">
+                    Architecture and Design
+                  </option>
+                  <option value="Artificial Intelligence">
+                    Artificial Intelligence
+                  </option>
+                  <option value="Automotive Engineering">
+                    Automotive Engineering
+                  </option>
+                  <option value="Aviation Management">
+                    Aviation Management
+                  </option>
+                  <option value="Banking and Finance">
+                    Banking and Finance
+                  </option>
+                  <option value="Biochemistry">Biochemistry</option>
+                  <option value="Bioinformatics">Bioinformatics</option>
+                  <option value="Biological Sciences">
+                    Biological Sciences
+                  </option>
+                  <option value="Biomedical Engineering">
+                    Biomedical Engineering
+                  </option>
+                  <option value="Biotechnology">Biotechnology</option>
+                  <option value="Botany">Botany</option>
+                  <option value="Business Administration">
+                    Business Administration
+                  </option>
+                  <option value="Chemical Engineering">
+                    Chemical Engineering
+                  </option>
+                  <option value="Chemistry">Chemistry</option>
+                  <option value="Civil Engineering">Civil Engineering</option>
+                  <option value="Climate Change">Climate Change</option>
+                  <option value="Commerce">Commerce</option>
+                  <option value="Computer Engineering">
+                    Computer Engineering
+                  </option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Criminology">Criminology</option>
+                  <option value="Data Science">Data Science</option>
+                  <option value="Dentistry">Dentistry</option>
+                  <option value="Design and Visual Arts">
+                    Design and Visual Arts
+                  </option>
+                  <option value="Development Studies">
+                    Development Studies
+                  </option>
+                  <option value="Economics">Economics</option>
+                  <option value="Education">Education</option>
+                  <option value="Electrical Engineering">
+                    Electrical Engineering
+                  </option>
+                  <option value="Electronics Engineering">
+                    Electronics Engineering
+                  </option>
+                  <option value="Energy Systems Engineering">
+                    Energy Systems Engineering
+                  </option>
+                  <option value="English Language and Literature">
+                    English Language and Literature
+                  </option>
+                  <option value="Environmental Sciences">
+                    Environmental Sciences
+                  </option>
+                  <option value="Fashion Design">Fashion Design</option>
+                  <option value="Film and TV Production">
+                    Film and TV Production
+                  </option>
+                  <option value="Food Science and Technology">
+                    Food Science and Technology
+                  </option>
+                  <option value="Forensic Sciences">Forensic Sciences</option>
+                  <option value="Gender Studies">Gender Studies</option>
+                  <option value="Genetics">Genetics</option>
+                  <option value="Geography">Geography</option>
+                  <option value="Geology">Geology</option>
+                  <option value="Graphic Design">Graphic Design</option>
+                  <option value="Health and Physical Education">
+                    Health and Physical Education
+                  </option>
+                  <option value="History">History</option>
+                  <option value="Hospitality and Tourism Management">
+                    Hospitality and Tourism Management
+                  </option>
+                  <option value="Human Resource Management">
+                    Human Resource Management
+                  </option>
+                  <option value="Industrial Design">Industrial Design</option>
+                  <option value="Information Security">
+                    Information Security
+                  </option>
+                  <option value="Information Technology">
+                    Information Technology
+                  </option>
+                  <option value="International Relations">
+                    International Relations
+                  </option>
+                  <option value="Islamic Studies">Islamic Studies</option>
+                  <option value="Journalism and Mass Communication">
+                    Journalism and Mass Communication
+                  </option>
+                  <option value="Law">Law</option>
+                  <option value="Library and Information Science">
+                    Library and Information Science
+                  </option>
+                  <option value="Linguistics">Linguistics</option>
+                  <option value="Management Sciences">
+                    Management Sciences
+                  </option>
+                  <option value="Marine Sciences">Marine Sciences</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Materials Science and Engineering">
+                    Materials Science and Engineering
+                  </option>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="Mechanical Engineering">
+                    Mechanical Engineering
+                  </option>
+                  <option value="Media and Communication Studies">
+                    Media and Communication Studies
+                  </option>
+                  <option value="Medical Laboratory Technology">
+                    Medical Laboratory Technology
+                  </option>
+                  <option value="Medicine and Surgery">
+                    Medicine and Surgery
+                  </option>
+                  <option value="Metallurgy and Materials Engineering">
+                    Metallurgy and Materials Engineering
+                  </option>
+                  <option value="Microbiology">Microbiology</option>
+                  <option value="Mining Engineering">Mining Engineering</option>
+                  <option value="Multimedia Arts">Multimedia Arts</option>
+                  <option value="Nanotechnology">Nanotechnology</option>
+                  <option value="Natural Resource Management">
+                    Natural Resource Management
+                  </option>
+                  <option value="Neuroscience">Neuroscience</option>
+                  <option value="Nursing">Nursing</option>
+                  <option value="Nutrition and Dietetics">
+                    Nutrition and Dietetics
+                  </option>
+                  <option value="Peace and Conflict Studies">
+                    Peace and Conflict Studies
+                  </option>
+                  <option value="Pharmaceutical Sciences">
+                    Pharmaceutical Sciences
+                  </option>
+                  <option value="Pharmacy">Pharmacy</option>
+                  <option value="Philosophy">Philosophy</option>
+                  <option value="Physics">Physics</option>
+                  <option value="Physiotherapy">Physiotherapy</option>
+                  <option value="Plant Sciences">Plant Sciences</option>
+                  <option value="Political Science">Political Science</option>
+                  <option value="Project Management">Project Management</option>
+                  <option value="Psychology">Psychology</option>
+                  <option value="Public Administration">
+                    Public Administration
+                  </option>
+                  <option value="Public Health">Public Health</option>
+                  <option value="Quality Management">Quality Management</option>
+                  <option value="Renewable Energy Engineering">
+                    Renewable Energy Engineering
+                  </option>
+                  <option value="Robotics and Artificial Intelligence">
+                    Robotics and Artificial Intelligence
+                  </option>
+                  <option value="Social Sciences">Social Sciences</option>
+                  <option value="Software Engineering">
+                    Software Engineering
+                  </option>
+                  <option value="Sociology">Sociology</option>
+                  <option value="Soil and Environmental Sciences">
+                    Soil and Environmental Sciences
+                  </option>
+                  <option value="Statistics">Statistics</option>
+                  <option value="Supply Chain Management">
+                    Supply Chain Management
+                  </option>
+                  <option value="Telecommunication Engineering">
+                    Telecommunication Engineering
+                  </option>
+                  <option value="Textile Design">Textile Design</option>
+                  <option value="Textile Engineering">
+                    Textile Engineering
+                  </option>
+                  <option value="Tourism and Hospitality Management">
+                    Tourism and Hospitality Management
+                  </option>
+                  <option value="Transportation Engineering">
+                    Transportation Engineering
+                  </option>
+                  <option value="Urdu Language and Literature">
+                    Urdu Language and Literature
+                  </option>
+                  <option value="Veterinary Sciences">
+                    Veterinary Sciences
+                  </option>
+                  <option value="Water Resource Engineering">
+                    Water Resource Engineering
+                  </option>
+                  <option value="Zoology">Zoology</option>
+                </select>
+              </div>
+
+              {/* YEAR OR SESSION SELECTION UI CODE */}
+              <div className="w-12 ml-8">
+                <label htmlFor="session" className="label line1">
+                  Session
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="2k19"
+                  className="input  input-bordered w-20"
+                  value={educationSessionInformation.third.from}
+                  onChange={(e) => {
+                    setEducationSessionInformation((prevState) => ({
+                      ...prevState,
+                      third: {
+                        ...prevState.third,
+                        from: e.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </div>
+
+              <div className="ml-14 mt-14">
+                <h5 className="line1 font-medium">To</h5>
+              </div>
+
+              <div className="w-12 ml-6">
+                <label
+                  htmlFor="session"
+                  className="label line1 text-transparent"
+                >
+                  ,
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="2k23"
+                  className="input  input-bordered w-20"
+                  value={educationSessionInformation.third.to}
+                  onChange={(e) => {
+                    setEducationSessionInformation((prevState) => ({
+                      ...prevState,
+                      third: {
+                        ...prevState.third,
+                        to: e.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </div>
+            </div>
+          ) : undefined}
+          <FiPlusCircle
+            onClick={() => {
+              setEducationaDetailsPart2(true);
+              setValue((previousValue) => {
+                if (previousValue <= 2) {
+                  return previousValue + 1;
+                } else {
+                  return previousValue;
+                }
+              });
+            }}
+            className="
+            hover:text-blue-500 hover:bg-white hover:rounded-md hover:shadow-xl
+            text-4xl cursor-pointer  text-gray-600 m-auto block text-center"
+          >
+            Add More
+          </FiPlusCircle>
+
+          {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+          {/* PROFESSIONAL EXPERIENCE  UI CODE */}
+          {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+
+          <h3 className="heading3 mt-8 block w-full font-medium">
+            <FcAssistant className="inline text-4xl mr-2" /> Professional
+            Experience
+          </h3>
+
+          <div className="flex mt-4">
+            <div className="w-5/12">
+              <label className="label line1">Title</label>
+              <input
+                type="text"
+                className="h-10 input input-bordered w-full"
+                id="text"
+                name="name"
+                autoComplete="on"
+                placeholder="Lead Backend Developer"
+                onChange={(e) => {
+                  setProfessionalInformation((prevState) => ({
+                    ...prevState,
+                    title: [e.target.value], // add many new values to the title array
+                  }));
+                }}
+                value={professionalInformation.title[0]}
+              />
+            </div>
+
+            <div className="ml-16">
+              <label className="label line1">Duration (/Years)</label>
+              <input
+                type="number"
+                className="h-10 input input-bordered w-1/2"
+                id="text"
+                name="year"
+                min={0}
+                autoComplete="on"
+                placeholder="0.6 / 5 -- In Years"
+                onChange={(e) => {
+                  setProfessionalInformation((prevState) => ({
+                    ...prevState,
+                    duration: [e.target.value], // add many new values to the title array
+                  }));
+                }}
+                value={professionalInformation.duration[0]}
+              />
+            </div>
+
+            <div className="ml-0">
+              <label className="label line1">Company Name</label>
+              <input
+                type="text"
+                className="h-10 input input-bordered w-full"
+                id="text"
+                name="company"
+                autoComplete="on"
+                placeholder="META"
+                onChange={(e) => {
+                  setProfessionalInformation((prevState) => ({
+                    ...prevState,
+                    companyName: [e.target.value], // add many new values to the title array
+                  }));
+                }}
+                value={professionalInformation.companyName[0]}
+              />
+            </div>
+          </div>
+          {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+          {/* PROFESSIONAL EXPERIENCE 2ND   UI CODE */}
+          {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+
+          {experienceDetails == true ? (
+            <div className="flex mt-4">
+              <div className="w-5/12">
+                <label className="label line1">Title</label>
+                <input
+                  type="text"
+                  className="h-10 input input-bordered w-full"
+                  id="text"
+                  name="name"
+                  autoComplete="on"
+                  placeholder="Software Architect"
+                />
+              </div>
+
+              <div className="ml-16">
+                <label className="label line1">Duration (/Years)</label>
+                <input
+                  type="number"
+                  className="h-10 input input-bordered w-1/2"
+                  id="text"
+                  name="year"
+                  min={0}
+                  autoComplete="on"
+                  placeholder="0.6 / 5 -- In Years"
+                />
+              </div>
+
+              <div className="ml-0">
+                <label className="label line1">Company Name</label>
+                <input
+                  type="text"
+                  className="h-10 input input-bordered w-full"
+                  id="text"
+                  name="company"
+                  autoComplete="on"
+                  placeholder="SAMSUNG"
+                />
+              </div>
+            </div>
+          ) : undefined}
+          <div className="block m-auto text-center mt-12 w-full">
+            <FiPlusCircle
+              className="
+             hover:text-blue-500 hover:bg-white hover:rounded-md hover:shadow-xl
+             text-4xl cursor-pointer  text-gray-600 m-auto block text-center"
+              onClick={() => setExperienceDetails(true)}
+            >
+              Add More...
+            </FiPlusCircle>
+          </div>
+        </div>
+
+        {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+        {/* CONTACT DETAILS UI CODE */}
+        {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+        <h3 className="heading3 mt-8 block w-full font-medium">
+          <FcAdvertising className="inline text-4xl mr-2" />
+          Contact / Social Handles
+        </h3>
+
+        <div className="flex w-full ">
+          <div className=" w-1/3">
+            <label className="label line1">Email Address</label>
+            <input
+              type="email"
+              className="h-10 input input-bordered w-full"
+              id="text"
+              name="name"
+              autoComplete="on"
+              placeholder="name@gmail.com"
+              onChange={(e) => {
+                setContactInformation((old) => ({
+                  ...old,
+                  emailAddress: e.target.value,
+                }));
+              }}
+              value={personalInformation.emailAddress}
+            />
+          </div>
+
+          <div className=" w-1/3 ml-16">
+            <label className="label line1">Phone / WhatsApp Number</label>
+            <input
+              type="tel"
+              className="h-10 input input-bordered w-full"
+              id="text"
+              name="phone number"
+              autoComplete="on"
+              placeholder="+92-340-111-222"
+              onChange={(e) => {
+                setContactInformation((old) => ({
+                  ...old,
+                  phoneNo: e.target.value,
+                }));
+              }}
+              value={personalInformation.phoneNo}
+            />
+          </div>
+        </div>
+
+        <div className=" w-1/3 ">
+          <label className="label line1">Linkedin Profile</label>
+          <input
+            type="url"
+            className="h-10 input input-bordered w-full"
+            id="text"
+            name="linkedin profile"
+            autoComplete="on"
+            placeholder="linkedin.com/Humza-Sajid"
+            onChange={(e) => {
+              setContactInformation((old) => ({
+                ...old,
+                linkedinProfile: e.target.value,
+              }));
+            }}
+            value={personalInformation.linkedinProfile}
+          />
+        </div>
+
+        <div className=" w-1/3 ml-10 ">
+          <label className="label line1">GitHub Profile </label>
+          <input
+            type="url"
+            className="h-10 input input-bordered w-full"
+            id="text"
+            name="linkedin profile"
+            autoComplete="on"
+            placeholder="github.com/META"
+            onChange={(e) => {
+              setContactInformation((old) => ({
+                ...old,
+                gitHubProfile: e.target.value,
+              }));
+            }}
+            value={personalInformation.gitHubProfile}
+          />
+        </div>
+
+        <div className="mt-4 flex justify-center m-auto p-4 items-center bg-transparent shadow-md cursor-pointer h-1/2 rounded-md">
+          <div
+            className="border bg-transparent border-gray-400 border-dashed rounded-md p-4 flex flex-col items-center justify-center
+            hover:bg-gray-100
+          "
+          >
+            <FcDocument className="text-4xl block" />
+            <h3 className="mt-2 line1">Upload Your Resume(Pdf)</h3>
+            <input
+              type="file"
+              name="resume"
+              onChange={handleResumeUpload}
+              id=""
+              alt="select resume  pdf"
+              accept="application/pdf"
+              style={{
+                position: "relative",
+                top: "5px",
+                background: "white",
+                color: "white",
+                display: "block",
+                margin: "auto",
+                width: "6.5em",
+                border: "1.5px solid black",
+                boxShadow: "2px 2px 2px 1px white",
+                borderRadius: "12px",
+              }}
+            />
+          </div>
+        </div>
+        <div className="flex w-full justify-center mt-12">
+          <button
+            style={{ textTransform: "capitalize" }}
+            className="btn bg-blue-600 border-none w-40 text-lg line1"
+            onClick={submit}
+          >
+            Submit
+          </button>
+        </div>
+
+        {/* LOADING ANIMATION CODE */}
+        <div className="flex justify-center  w-full">
+          <div className="block">
+            <BeatLoader
+              color={"blue"}
+              loading={loading}
+              cssOverride={CSSProperties}
+              size={10}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
           </div>
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white py-6 text-center">
-        <p className="text-gray-300">Powered by Smart Recruiter</p>
+      <footer className="bg-gray-700 h-12 flex justify-center items-center">
+        <h3 className="text-white line1">Powerd By Smart Hire </h3>
       </footer>
     </div>
   );

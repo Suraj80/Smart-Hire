@@ -85,7 +85,7 @@ function Login() {
               {/* Header */}
               <div className="text-center mb-6">
                 <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-3">
-                  Smart Cruiter
+                  Smart Hire
                 </h1>
                 <div className="flex justify-center mb-4">
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">

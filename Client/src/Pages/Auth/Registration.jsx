@@ -103,11 +103,11 @@ function Registration() {
             <img
               className="h-full w-full object-cover"
               src="https://images.unsplash.com/photo-1486175060817-5663aacc6655?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGJ1aWxkaW5nc3xlbnwwfHwwfHw%3D&w=1000&q=80"
-              alt="Smart Cruiter"
+              alt="Smart Hire"
             />
             <div className="absolute inset-0 flex items-center justify-center z-20">
               <div className="text-center text-white p-6">
-                <h3 className="text-3xl font-bold mb-4">Welcome to Smart Cruiter</h3>
+                <h3 className="text-3xl font-bold mb-4">Welcome to Smart Hire</h3>
                 <p className="text-lg opacity-90">Join thousands of companies finding their perfect candidates</p>
               </div>
             </div>
@@ -153,7 +153,7 @@ function Registration() {
                       <span className="font-bold text-blue-600">{formik.values.email}</span>
                     </p>
                     <p className="text-gray-600 mt-2 text-sm">
-                      You can now proceed to login and start using Smart Cruiter.
+                      You can now proceed to login and start using Smart Hire.
                     </p>
                   </div>
                 </ModalBody>
