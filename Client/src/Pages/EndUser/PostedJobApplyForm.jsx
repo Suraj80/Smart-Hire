@@ -214,7 +214,7 @@ function PostedJobApplyForm() {
             name="name"
             required
             autoComplete="on"
-            placeholder="Ali"
+            placeholder="Alex"
             value={personalInformation.firstName}
             onChange={(e) => {
               setPersonalInformation((oldValue) => ({
@@ -234,7 +234,7 @@ function PostedJobApplyForm() {
             id="text"
             name="name"
             autoComplete="on"
-            placeholder="Adnan"
+            placeholder="Smith"
             value={personalInformation.lastName}
             onChange={(e) => {
               setPersonalInformation((oldValue) => ({
@@ -304,7 +304,7 @@ function PostedJobApplyForm() {
             id="text"
             name="address"
             autoComplete="on"
-            placeholder="Islamabad"
+            placeholder="Bengaluru"
             value={personalInformation.city}
             onChange={(e) => {
               setPersonalInformation((oldValue) => ({
@@ -387,245 +387,68 @@ function PostedJobApplyForm() {
             <option disabled selected className="text-gray-700">
               Select Insitute
             </option>
-            <option value="Air University Islamabad">
-              Air University Islamabad
-            </option>
-            <option value="Bahauddin Zakariya University, Multan">
-              Bahauddin Zakariya University, Multan
-            </option>
-            <option value="Balochistan University of Engineering and Technology, Khuzdar">
-              Balochistan University of Engineering and Technology, Khuzdar
-            </option>
-            <option value="Balochistan University of Information Technology, Engineering and Management Sciences, Quetta">
-              Balochistan University of Information Technology, Engineering and
-              Management Sciences, Quetta
-            </option>
-            <option value="Benazir Bhutto Shaheed University, Lyari">
-              Benazir Bhutto Shaheed University, Lyari
-            </option>
-            <option value="Benazir Bhutto Shaheed University of Technology and Skill Development, Khairpur Mirs">
-              Benazir Bhutto Shaheed University of Technology and Skill
-              Development, Khairpur Mirs
-            </option>
-            <option value="Comsats University Islamabad">
-              Comsats University,Islamabad
-            </option>
-            <option value="Dow University of Health Sciences, Karachi">
-              Dow University of Health Sciences, Karachi
-            </option>
-            <option value="Fatima Jinnah Women University, Rawalpindi">
-              Fatima Jinnah Women University, Rawalpindi
-            </option>
-            <option value="Federal Urdu University of Arts, Sciences and Technology, Islamabad">
-              Federal Urdu University of Arts, Sciences and Technology,
-              Islamabad
-            </option>
-            <option value="Ghazi University, Dera Ghazi Khan">
-              Ghazi University, Dera Ghazi Khan
-            </option>
-            <option value="Government College University, Faisalabad">
-              Government College University, Faisalabad
-            </option>
-            <option value="Government College University, Lahore">
-              Government College University, Lahore
-            </option>
-            <option value="Government College Women University, Sialkot">
-              Government College Women University, Sialkot
-            </option>
-            <option value="Government Sadiq College Women University, Bahawalpur">
-              Government Sadiq College Women University, Bahawalpur
-            </option>
-            <option value="Institute of Business Administration, Karachi">
-              Institute of Business Administration, Karachi
-            </option>
-            <option value="Islamia University, Bahawalpur">
-              Islamia University, Bahawalpur
-            </option>
-            <option value="Karakoram International University, Gilgit">
-              Karakoram International University, Gilgit
-            </option>
-            <option value="Kohat University of Science and Technology, Kohat">
-              Kohat University of Science and Technology, Kohat
-            </option>
-            <option value="Kwara State University, Malete">
-              Kwara State University, Malete
-            </option>
-            <option value="Lahore College for Women University, Lahore">
-              Lahore College for Women University, Lahore
-            </option>
-            <option value="Lahore Garrison University, Lahore">
-              Lahore Garrison University, Lahore
-            </option>
-            <option value="Lahore University of Management Sciences, Lahore">
-              Lahore University of Management Sciences, Lahore
-            </option>
-            <option value="Lasbela University of Agriculture, Water and Marine Sciences, Uthal">
-              Lasbela University of Agriculture, Water and Marine Sciences,
-              Uthal
-            </option>
+           <option value="Indian Institute of Technology Bombay">
+  Indian Institute of Technology Bombay
+</option>
+<option value="Indian Institute of Technology Delhi">
+  Indian Institute of Technology Delhi
+</option>
+<option value="Indian Institute of Technology Madras">
+  Indian Institute of Technology Madras
+</option>
+<option value="Indian Institute of Technology Kanpur">
+  Indian Institute of Technology Kanpur
+</option>
+<option value="Indian Institute of Technology Kharagpur">
+  Indian Institute of Technology Kharagpur
+</option>
+<option value="National Institute of Technology Tiruchirappalli">
+  National Institute of Technology Tiruchirappalli
+</option>
+<option value="National Institute of Technology Surathkal">
+  National Institute of Technology Surathkal
+</option>
+<option value="Birla Institute of Technology and Science, Pilani">
+  Birla Institute of Technology and Science, Pilani
+</option>
+<option value="Vellore Institute of Technology, Vellore">
+  Vellore Institute of Technology, Vellore
+</option>
+<option value="Manipal Academy of Higher Education, Manipal">
+  Manipal Academy of Higher Education, Manipal
+</option>
+<option value="University of Delhi">
+  University of Delhi
+</option>
+<option value="Jawaharlal Nehru University, New Delhi">
+  Jawaharlal Nehru University, New Delhi
+</option>
+<option value="Jamia Millia Islamia, New Delhi">
+  Jamia Millia Islamia, New Delhi
+</option>
+<option value="Amity University, Noida">
+  Amity University, Noida
+</option>
+<option value="Christ University, Bengaluru">
+  Christ University, Bengaluru
+</option>
+<option value="Savitribai Phule Pune University, Pune">
+  Savitribai Phule Pune University, Pune
+</option>
+<option value="Osmania University, Hyderabad">
+  Osmania University, Hyderabad
+</option>
+<option value="Jadavpur University, Kolkata">
+  Jadavpur University, Kolkata
+</option>
+<option value="Banaras Hindu University, Varanasi">
+  Banaras Hindu University, Varanasi
+</option>
+<option value="Anna University, Chennai">
+  Anna University, Chennai
+</option>
 
-            <option value="Mirpur University of Science and Technology, Mirpur">
-              Mirpur University of Science and Technology, Mirpur
-            </option>
-            <option value="Mohi-ud-Din Islamic University, Nerian Sharif">
-              Mohi-ud-Din Islamic University, Nerian Sharif
-            </option>
-            <option value="Mohammad Ali Jinnah University, Islamabad">
-              Mohammad Ali Jinnah University, Islamabad
-            </option>
-            <option value="Mohammad Ali Jinnah University, Karachi">
-              Mohammad Ali Jinnah University, Karachi
-            </option>
-            <option value="Muhammad Nawaz Sharif University of Agriculture, Multan">
-              Muhammad Nawaz Sharif University of Agriculture, Multan
-            </option>
-            <option value="Multan College of Arts, Multan">
-              Multan College of Arts, Multan
-            </option>
-            <option value="Mehran University of Engineering and Technology, Jamshoro">
-              Mehran University of Engineering and Technology, Jamshoro
-            </option>
-            <option value="Mir Chakar Khan Rind University of Technology, Dera Ghazi Khan">
-              Mir Chakar Khan Rind University of Technology, Dera Ghazi Khan
-            </option>
-            <option value="NED University of Engineering and Technology, Karachi">
-              NED University of Engineering and Technology, Karachi
-            </option>
-            <option value="National College of Arts, Lahore">
-              National College of Arts, Lahore
-            </option>
-            <option value="National Defense University, Islamabad">
-              National Defense University, Islamabad
-            </option>
-            <option value="National Textile University, Faisalabad">
-              National Textile University, Faisalabad
-            </option>
-            <option value="National University of Computer and Emerging Sciences, Islamabad">
-              National University of Computer and Emerging Sciences, Islamabad
-            </option>
-            <option value="National University of Modern Languages, Islamabad">
-              National University of Modern Languages, Islamabad
-            </option>
-            <option value="National University of Sciences and Technology, Islamabad">
-              National University of Sciences and Technology, Islamabad
-            </option>
-            <option value="NED University of Engineering and Technology, Karachi">
-              NED University of Engineering and Technology, Karachi
-            </option>
-            <option value="Pakistan Institute of Development Economics, Islamabad">
-              Pakistan Institute of Development Economics, Islamabad
-            </option>
-            <option value="Pakistan Institute of Engineering and Applied Sciences, Islamabad">
-              Pakistan Institute of Engineering and Applied Sciences, Islamabad
-            </option>
-            <option value="Pakistan Military Academy, Abbottabad">
-              Pakistan Military Academy, Abbottabad
-            </option>
-            <option value="Pakistan Naval Academy, Karachi">
-              Pakistan Naval Academy, Karachi
-            </option>
-            <option value="Pir Mehr Ali Shah Arid Agriculture University, Rawalpindi">
-              Pir Mehr Ali Shah Arid Agriculture University, Rawalpindi
-            </option>
-            <option value="Quaid-e-Awam University of Engineering, Science and Technology, Nawabshah">
-              Quaid-e-Awam University of Engineering, Science and Technology,
-              Nawabshah
-            </option>
-            <option value="Quaid-i-Azam University, Islamabad">
-              Quaid-i-Azam University, Islamabad
-            </option>
-
-            <option value="The Women University, Multan">
-              The Women University, Multan
-            </option>
-            <option value="University of Agriculture, Faisalabad">
-              University of Agriculture, Faisalabad
-            </option>
-            <option value="University of Azad Jammu and Kashmir, Muzaffarabad">
-              University of Azad Jammu and Kashmir, Muzaffarabad
-            </option>
-            <option value="University of Balochistan, Quetta">
-              University of Balochistan, Quetta
-            </option>
-            <option value="University of Education, Lahore">
-              University of Education, Lahore
-            </option>
-            <option value="University of Engineering and Technology, Lahore">
-              University of Engineering and Technology, Lahore
-            </option>
-            <option value="University of Engineering and Technology, Peshawar">
-              University of Engineering and Technology, Peshawar
-            </option>
-            <option value="University of Engineering and Technology, Taxila">
-              University of Engineering and Technology, Taxila
-            </option>
-            <option value="University of FATA, Kohat">
-              University of FATA, Kohat
-            </option>
-            <option value="University of Gujrat, Gujrat">
-              University of Gujrat, Gujrat
-            </option>
-            <option value="University of Haripur, Haripur">
-              University of Haripur, Haripur
-            </option>
-            <option value="University of Health Sciences, Lahore">
-              University of Health Sciences, Lahore
-            </option>
-            <option value="University of Karachi, Karachi">
-              University of Karachi, Karachi
-            </option>
-            <option value="University of Kotli Azad Jammu and Kashmir, Kotli">
-              University of Kotli Azad Jammu and Kashmir, Kotli
-            </option>
-            <option value="University of Lahore, Lahore">
-              University of Lahore, Lahore
-            </option>
-            <option value="University of Loralai, Loralai">
-              University of Loralai, Loralai
-            </option>
-            <option value="University of Malakand, Chakdara">
-              University of Malakand, Chakdara
-            </option>
-            <option value="University of Management and Technology, Lahore">
-              University of Management and Technology, Lahore
-            </option>
-            <option value="University of Okara, Okara">
-              University of Okara, Okara
-            </option>
-            <option value="University of Peshawar, Peshawar">
-              University of Peshawar, Peshawar
-            </option>
-            <option value="University of Sargodha, Sargodha">
-              University of Sargodha, Sargodha
-            </option>
-            <option value="University of Science and Technology, Bannu">
-              University of Science and Technology, Bannu
-            </option>
-
-            <option value="University of Sindh, Jamshoro">
-              University of Sindh, Jamshoro
-            </option>
-            <option value="University of Swabi, Swabi">
-              University of Swabi, Swabi
-            </option>
-            <option value="University of Swat, Swat">
-              University of Swat, Swat
-            </option>
-            <option value="University of the Punjab, Lahore">
-              University of the Punjab, Lahore
-            </option>
-            <option value="University of Turbat, Turbat">
-              University of Turbat, Turbat
-            </option>
-            <option value="University of Veterinary and Animal Sciences, Lahore">
-              University of Veterinary and Animal Sciences, Lahore
-            </option>
-            <option value="University of Wah, Wah">
-              University of Wah, Wah
-            </option>
-            <option value="Women University of Azad Jammu and Kashmir, Bagh">
-              Women University of Azad Jammu and Kashmir, Bagh
-            </option>
+           
           </select>
         </div>
 
@@ -644,8 +467,12 @@ function PostedJobApplyForm() {
             <option disabled selected className="text-gray-700">
               Under / Post Grad
             </option>
-            <option>B.S</option>
-            <option>M.S</option>
+            <option>B.C.A</option>
+             <option>B.S.C</option>
+             <option>B.TECH</option>
+            <option>M.C.A</option>
+            <option>M.TECH</option>
+            <option>MBA</option>
             <option>Ph.D</option>
           </select>
         </div>
@@ -928,249 +755,151 @@ function PostedJobApplyForm() {
                   <option disabled selected className="text-gray-700">
                     Select Insitute
                   </option>
-                  <option value="Air University Islamabad">
-                    Air University Islamabad
-                  </option>
-                  <option value="Bahauddin Zakariya University, Multan">
-                    Bahauddin Zakariya University, Multan
-                  </option>
-                  <option value="Balochistan University of Engineering and Technology, Khuzdar">
-                    Balochistan University of Engineering and Technology,
-                    Khuzdar
-                  </option>
-                  <option value="Balochistan University of Information Technology, Engineering and Management Sciences, Quetta">
-                    Balochistan University of Information Technology,
-                    Engineering and Management Sciences, Quetta
-                  </option>
-                  <option value="Benazir Bhutto Shaheed University, Lyari">
-                    Benazir Bhutto Shaheed University, Lyari
-                  </option>
-                  <option value="Benazir Bhutto Shaheed University of Technology and Skill Development, Khairpur Mirs">
-                    Benazir Bhutto Shaheed University of Technology and Skill
-                    Development, Khairpur Mirs
-                  </option>
-                  <option value="Comsats University Islamabad">
-                    Comsats University,Islamabad
-                  </option>
-                  <option value="Dow University of Health Sciences, Karachi">
-                    Dow University of Health Sciences, Karachi
-                  </option>
-                  <option value="Fatima Jinnah Women University, Rawalpindi">
-                    Fatima Jinnah Women University, Rawalpindi
-                  </option>
-                  <option value="Federal Urdu University of Arts, Sciences and Technology, Islamabad">
-                    Federal Urdu University of Arts, Sciences and Technology,
-                    Islamabad
-                  </option>
-                  <option value="Ghazi University, Dera Ghazi Khan">
-                    Ghazi University, Dera Ghazi Khan
-                  </option>
-                  <option value="Government College University, Faisalabad">
-                    Government College University, Faisalabad
-                  </option>
-                  <option value="Government College University, Lahore">
-                    Government College University, Lahore
-                  </option>
-                  <option value="Government College Women University, Sialkot">
-                    Government College Women University, Sialkot
-                  </option>
-                  <option value="Government Sadiq College Women University, Bahawalpur">
-                    Government Sadiq College Women University, Bahawalpur
-                  </option>
-                  <option value="Institute of Business Administration, Karachi">
-                    Institute of Business Administration, Karachi
-                  </option>
-                  <option value="Islamia University, Bahawalpur">
-                    Islamia University, Bahawalpur
-                  </option>
-                  <option value="Karakoram International University, Gilgit">
-                    Karakoram International University, Gilgit
-                  </option>
-                  <option value="Kohat University of Science and Technology, Kohat">
-                    Kohat University of Science and Technology, Kohat
-                  </option>
-                  <option value="Kwara State University, Malete">
-                    Kwara State University, Malete
-                  </option>
-                  <option value="Lahore College for Women University, Lahore">
-                    Lahore College for Women University, Lahore
-                  </option>
-                  <option value="Lahore Garrison University, Lahore">
-                    Lahore Garrison University, Lahore
-                  </option>
-                  <option value="Lahore University of Management Sciences, Lahore">
-                    Lahore University of Management Sciences, Lahore
-                  </option>
-                  <option value="Lasbela University of Agriculture, Water and Marine Sciences, Uthal">
-                    Lasbela University of Agriculture, Water and Marine
-                    Sciences, Uthal
-                  </option>
+                  <option value="Indian Institute of Technology Bombay">
+  Indian Institute of Technology Bombay
+</option>
+<option value="Indian Institute of Technology Delhi">
+  Indian Institute of Technology Delhi
+</option>
+<option value="Indian Institute of Technology Madras">
+  Indian Institute of Technology Madras
+</option>
+<option value="Indian Institute of Technology Kanpur">
+  Indian Institute of Technology Kanpur
+</option>
+<option value="Indian Institute of Technology Kharagpur">
+  Indian Institute of Technology Kharagpur
+</option>
+<option value="National Institute of Technology Tiruchirappalli">
+  National Institute of Technology Tiruchirappalli
+</option>
+<option value="National Institute of Technology Surathkal">
+  National Institute of Technology Surathkal
+</option>
+<option value="Birla Institute of Technology and Science, Pilani">
+  Birla Institute of Technology and Science, Pilani
+</option>
+<option value="Vellore Institute of Technology, Vellore">
+  Vellore Institute of Technology, Vellore
+</option>
+<option value="Manipal Institute of Technology, Manipal">
+  Manipal Institute of Technology, Manipal
+</option>
+<option value="University of Delhi">
+  University of Delhi
+</option>
+<option value="Jawaharlal Nehru University, New Delhi">
+  Jawaharlal Nehru University, New Delhi
+</option>
+<option value="Jamia Millia Islamia, New Delhi">
+  Jamia Millia Islamia, New Delhi
+</option>
+<option value="Banaras Hindu University, Varanasi">
+  Banaras Hindu University, Varanasi
+</option>
+<option value="Aligarh Muslim University, Aligarh">
+  Aligarh Muslim University, Aligarh
+</option>
+<option value="Anna University, Chennai">
+  Anna University, Chennai
+</option>
+<option value="Savitribai Phule Pune University, Pune">
+  Savitribai Phule Pune University, Pune
+</option>
+<option value="University of Calcutta, Kolkata">
+  University of Calcutta, Kolkata
+</option>
+<option value="University of Mumbai, Mumbai">
+  University of Mumbai, Mumbai
+</option>
+<option value="Osmania University, Hyderabad">
+  Osmania University, Hyderabad
+</option>
+<option value="Jadavpur University, Kolkata">
+  Jadavpur University, Kolkata
+</option>
+<option value="Amity University, Noida">
+  Amity University, Noida
+</option>
+<option value="Christ University, Bengaluru">
+  Christ University, Bengaluru
+</option>
+<option value="Shiv Nadar University, Greater Noida">
+  Shiv Nadar University, Greater Noida
+</option>
+<option value="Ashoka University, Sonepat">
+  Ashoka University, Sonepat
+</option>
+<option value="SRM Institute of Science and Technology, Chennai">
+  SRM Institute of Science and Technology, Chennai
+</option>
+<option value="Sharda University, Greater Noida">
+  Sharda University, Greater Noida
+</option>
+<option value="Guru Gobind Singh Indraprastha University, Delhi">
+  Guru Gobind Singh Indraprastha University, Delhi
+</option>
+<option value="Indira Gandhi Delhi Technical University for Women">
+  Indira Gandhi Delhi Technical University for Women
+</option>
+<option value="Dr. A.P.J. Abdul Kalam Technical University, Lucknow">
+  Dr. A.P.J. Abdul Kalam Technical University, Lucknow
+</option>
+<option value="IIIT Hyderabad">
+  IIIT Hyderabad
+</option>
+<option value="IIIT Bangalore">
+  IIIT Bangalore
+</option>
+<option value="IIIT Allahabad">
+  IIIT Allahabad
+</option>
+<option value="Delhi Technological University, Delhi">
+  Delhi Technological University, Delhi
+</option>
+<option value="Netaji Subhas University of Technology, Delhi">
+  Netaji Subhas University of Technology, Delhi
+</option>
+<option value="BMS College of Engineering, Bengaluru">
+  BMS College of Engineering, Bengaluru
+</option>
+<option value="PES University, Bengaluru">
+  PES University, Bengaluru
+</option>
+<option value="College of Engineering, Pune">
+  College of Engineering, Pune
+</option>
+<option value="LD College of Engineering, Ahmedabad">
+  LD College of Engineering, Ahmedabad
+</option>
+<option value="Thapar Institute of Engineering and Technology, Patiala">
+  Thapar Institute of Engineering and Technology, Patiala
+</option>
+<option value="Lovely Professional University, Phagwara">
+  Lovely Professional University, Phagwara
+</option>
+<option value="Graphic Era University, Dehradun">
+  Graphic Era University, Dehradun
+</option>
+<option value="KIIT University, Bhubaneswar">
+  KIIT University, Bhubaneswar
+</option>
+<option value="SRM University, Delhi-NCR">
+  SRM University, Delhi-NCR
+</option>
+<option value="Vel Tech University, Chennai">
+  Vel Tech University, Chennai
+</option>
+<option value="SASTRA University, Thanjavur">
+  SASTRA University, Thanjavur
+</option>
+<option value="Tezpur University, Assam">
+  Tezpur University, Assam
+</option>
+<option value="North Eastern Hill University, Shillong">
+  North Eastern Hill University, Shillong
+</option>
 
-                  <option value="Mirpur University of Science and Technology, Mirpur">
-                    Mirpur University of Science and Technology, Mirpur
-                  </option>
-                  <option value="Mohi-ud-Din Islamic University, Nerian Sharif">
-                    Mohi-ud-Din Islamic University, Nerian Sharif
-                  </option>
-                  <option value="Mohammad Ali Jinnah University, Islamabad">
-                    Mohammad Ali Jinnah University, Islamabad
-                  </option>
-                  <option value="Mohammad Ali Jinnah University, Karachi">
-                    Mohammad Ali Jinnah University, Karachi
-                  </option>
-                  <option value="Muhammad Nawaz Sharif University of Agriculture, Multan">
-                    Muhammad Nawaz Sharif University of Agriculture, Multan
-                  </option>
-                  <option value="Multan College of Arts, Multan">
-                    Multan College of Arts, Multan
-                  </option>
-                  <option value="Mehran University of Engineering and Technology, Jamshoro">
-                    Mehran University of Engineering and Technology, Jamshoro
-                  </option>
-                  <option value="Mir Chakar Khan Rind University of Technology, Dera Ghazi Khan">
-                    Mir Chakar Khan Rind University of Technology, Dera Ghazi
-                    Khan
-                  </option>
-                  <option value="NED University of Engineering and Technology, Karachi">
-                    NED University of Engineering and Technology, Karachi
-                  </option>
-                  <option value="National College of Arts, Lahore">
-                    National College of Arts, Lahore
-                  </option>
-                  <option value="National Defense University, Islamabad">
-                    National Defense University, Islamabad
-                  </option>
-                  <option value="National Textile University, Faisalabad">
-                    National Textile University, Faisalabad
-                  </option>
-                  <option value="National University of Computer and Emerging Sciences, Islamabad">
-                    National University of Computer and Emerging Sciences,
-                    Islamabad
-                  </option>
-                  <option value="National University of Modern Languages, Islamabad">
-                    National University of Modern Languages, Islamabad
-                  </option>
-                  <option value="National University of Sciences and Technology, Islamabad">
-                    National University of Sciences and Technology, Islamabad
-                  </option>
-                  <option value="NED University of Engineering and Technology, Karachi">
-                    NED University of Engineering and Technology, Karachi
-                  </option>
-                  <option value="Pakistan Institute of Development Economics, Islamabad">
-                    Pakistan Institute of Development Economics, Islamabad
-                  </option>
-                  <option value="Pakistan Institute of Engineering and Applied Sciences, Islamabad">
-                    Pakistan Institute of Engineering and Applied Sciences,
-                    Islamabad
-                  </option>
-                  <option value="Pakistan Military Academy, Abbottabad">
-                    Pakistan Military Academy, Abbottabad
-                  </option>
-                  <option value="Pakistan Naval Academy, Karachi">
-                    Pakistan Naval Academy, Karachi
-                  </option>
-                  <option value="Pir Mehr Ali Shah Arid Agriculture University, Rawalpindi">
-                    Pir Mehr Ali Shah Arid Agriculture University, Rawalpindi
-                  </option>
-                  <option value="Quaid-e-Awam University of Engineering, Science and Technology, Nawabshah">
-                    Quaid-e-Awam University of Engineering, Science and
-                    Technology, Nawabshah
-                  </option>
-                  <option value="Quaid-i-Azam University, Islamabad">
-                    Quaid-i-Azam University, Islamabad
-                  </option>
-
-                  <option value="The Women University, Multan">
-                    The Women University, Multan
-                  </option>
-                  <option value="University of Agriculture, Faisalabad">
-                    University of Agriculture, Faisalabad
-                  </option>
-                  <option value="University of Azad Jammu and Kashmir, Muzaffarabad">
-                    University of Azad Jammu and Kashmir, Muzaffarabad
-                  </option>
-                  <option value="University of Balochistan, Quetta">
-                    University of Balochistan, Quetta
-                  </option>
-                  <option value="University of Education, Lahore">
-                    University of Education, Lahore
-                  </option>
-                  <option value="University of Engineering and Technology, Lahore">
-                    University of Engineering and Technology, Lahore
-                  </option>
-                  <option value="University of Engineering and Technology, Peshawar">
-                    University of Engineering and Technology, Peshawar
-                  </option>
-                  <option value="University of Engineering and Technology, Taxila">
-                    University of Engineering and Technology, Taxila
-                  </option>
-                  <option value="University of FATA, Kohat">
-                    University of FATA, Kohat
-                  </option>
-                  <option value="University of Gujrat, Gujrat">
-                    University of Gujrat, Gujrat
-                  </option>
-                  <option value="University of Haripur, Haripur">
-                    University of Haripur, Haripur
-                  </option>
-                  <option value="University of Health Sciences, Lahore">
-                    University of Health Sciences, Lahore
-                  </option>
-                  <option value="University of Karachi, Karachi">
-                    University of Karachi, Karachi
-                  </option>
-                  <option value="University of Kotli Azad Jammu and Kashmir, Kotli">
-                    University of Kotli Azad Jammu and Kashmir, Kotli
-                  </option>
-                  <option value="University of Lahore, Lahore">
-                    University of Lahore, Lahore
-                  </option>
-                  <option value="University of Loralai, Loralai">
-                    University of Loralai, Loralai
-                  </option>
-                  <option value="University of Malakand, Chakdara">
-                    University of Malakand, Chakdara
-                  </option>
-                  <option value="University of Management and Technology, Lahore">
-                    University of Management and Technology, Lahore
-                  </option>
-                  <option value="University of Okara, Okara">
-                    University of Okara, Okara
-                  </option>
-                  <option value="University of Peshawar, Peshawar">
-                    University of Peshawar, Peshawar
-                  </option>
-                  <option value="University of Sargodha, Sargodha">
-                    University of Sargodha, Sargodha
-                  </option>
-                  <option value="University of Science and Technology, Bannu">
-                    University of Science and Technology, Bannu
-                  </option>
-
-                  <option value="University of Sindh, Jamshoro">
-                    University of Sindh, Jamshoro
-                  </option>
-                  <option value="University of Swabi, Swabi">
-                    University of Swabi, Swabi
-                  </option>
-                  <option value="University of Swat, Swat">
-                    University of Swat, Swat
-                  </option>
-                  <option value="University of the Punjab, Lahore">
-                    University of the Punjab, Lahore
-                  </option>
-                  <option value="University of Turbat, Turbat">
-                    University of Turbat, Turbat
-                  </option>
-                  <option value="University of Veterinary and Animal Sciences, Lahore">
-                    University of Veterinary and Animal Sciences, Lahore
-                  </option>
-                  <option value="University of Wah, Wah">
-                    University of Wah, Wah
-                  </option>
-                  <option value="Women University of Azad Jammu and Kashmir, Bagh">
-                    Women University of Azad Jammu and Kashmir, Bagh
-                  </option>
                 </select>
               </div>
 
@@ -1189,9 +918,13 @@ function PostedJobApplyForm() {
                   <option disabled selected className="text-gray-700">
                     Under / Post Grad
                   </option>
-                  <option>B.S</option>
-                  <option>M.S</option>
-                  <option>Ph.D</option>
+                  <option>B.C.A</option>
+             <option>B.S.C</option>
+             <option>B.TECH</option>
+            <option>M.C.A</option>
+            <option>M.TECH</option>
+            <option>MBA</option>
+            <option>Ph.D</option>
                 </select>
               </div>
 
@@ -1504,249 +1237,151 @@ function PostedJobApplyForm() {
                   <option disabled selected className="text-gray-700">
                     Select Insitute
                   </option>
-                  <option value="Air University Islamabad">
-                    Air University Islamabad
-                  </option>
-                  <option value="Bahauddin Zakariya University, Multan">
-                    Bahauddin Zakariya University, Multan
-                  </option>
-                  <option value="Balochistan University of Engineering and Technology, Khuzdar">
-                    Balochistan University of Engineering and Technology,
-                    Khuzdar
-                  </option>
-                  <option value="Balochistan University of Information Technology, Engineering and Management Sciences, Quetta">
-                    Balochistan University of Information Technology,
-                    Engineering and Management Sciences, Quetta
-                  </option>
-                  <option value="Benazir Bhutto Shaheed University, Lyari">
-                    Benazir Bhutto Shaheed University, Lyari
-                  </option>
-                  <option value="Benazir Bhutto Shaheed University of Technology and Skill Development, Khairpur Mirs">
-                    Benazir Bhutto Shaheed University of Technology and Skill
-                    Development, Khairpur Mirs
-                  </option>
-                  <option value="Comsats University Islamabad">
-                    Comsats University,Islamabad
-                  </option>
-                  <option value="Dow University of Health Sciences, Karachi">
-                    Dow University of Health Sciences, Karachi
-                  </option>
-                  <option value="Fatima Jinnah Women University, Rawalpindi">
-                    Fatima Jinnah Women University, Rawalpindi
-                  </option>
-                  <option value="Federal Urdu University of Arts, Sciences and Technology, Islamabad">
-                    Federal Urdu University of Arts, Sciences and Technology,
-                    Islamabad
-                  </option>
-                  <option value="Ghazi University, Dera Ghazi Khan">
-                    Ghazi University, Dera Ghazi Khan
-                  </option>
-                  <option value="Government College University, Faisalabad">
-                    Government College University, Faisalabad
-                  </option>
-                  <option value="Government College University, Lahore">
-                    Government College University, Lahore
-                  </option>
-                  <option value="Government College Women University, Sialkot">
-                    Government College Women University, Sialkot
-                  </option>
-                  <option value="Government Sadiq College Women University, Bahawalpur">
-                    Government Sadiq College Women University, Bahawalpur
-                  </option>
-                  <option value="Institute of Business Administration, Karachi">
-                    Institute of Business Administration, Karachi
-                  </option>
-                  <option value="Islamia University, Bahawalpur">
-                    Islamia University, Bahawalpur
-                  </option>
-                  <option value="Karakoram International University, Gilgit">
-                    Karakoram International University, Gilgit
-                  </option>
-                  <option value="Kohat University of Science and Technology, Kohat">
-                    Kohat University of Science and Technology, Kohat
-                  </option>
-                  <option value="Kwara State University, Malete">
-                    Kwara State University, Malete
-                  </option>
-                  <option value="Lahore College for Women University, Lahore">
-                    Lahore College for Women University, Lahore
-                  </option>
-                  <option value="Lahore Garrison University, Lahore">
-                    Lahore Garrison University, Lahore
-                  </option>
-                  <option value="Lahore University of Management Sciences, Lahore">
-                    Lahore University of Management Sciences, Lahore
-                  </option>
-                  <option value="Lasbela University of Agriculture, Water and Marine Sciences, Uthal">
-                    Lasbela University of Agriculture, Water and Marine
-                    Sciences, Uthal
-                  </option>
+                 <option value="Indian Institute of Technology Bombay">
+  Indian Institute of Technology Bombay
+</option>
+<option value="Indian Institute of Technology Delhi">
+  Indian Institute of Technology Delhi
+</option>
+<option value="Indian Institute of Technology Madras">
+  Indian Institute of Technology Madras
+</option>
+<option value="Indian Institute of Technology Kanpur">
+  Indian Institute of Technology Kanpur
+</option>
+<option value="Indian Institute of Technology Kharagpur">
+  Indian Institute of Technology Kharagpur
+</option>
+<option value="National Institute of Technology Tiruchirappalli">
+  National Institute of Technology Tiruchirappalli
+</option>
+<option value="National Institute of Technology Surathkal">
+  National Institute of Technology Surathkal
+</option>
+<option value="Birla Institute of Technology and Science, Pilani">
+  Birla Institute of Technology and Science, Pilani
+</option>
+<option value="Vellore Institute of Technology, Vellore">
+  Vellore Institute of Technology, Vellore
+</option>
+<option value="Manipal Institute of Technology, Manipal">
+  Manipal Institute of Technology, Manipal
+</option>
+<option value="University of Delhi">
+  University of Delhi
+</option>
+<option value="Jawaharlal Nehru University, New Delhi">
+  Jawaharlal Nehru University, New Delhi
+</option>
+<option value="Jamia Millia Islamia, New Delhi">
+  Jamia Millia Islamia, New Delhi
+</option>
+<option value="Banaras Hindu University, Varanasi">
+  Banaras Hindu University, Varanasi
+</option>
+<option value="Aligarh Muslim University, Aligarh">
+  Aligarh Muslim University, Aligarh
+</option>
+<option value="Anna University, Chennai">
+  Anna University, Chennai
+</option>
+<option value="Savitribai Phule Pune University, Pune">
+  Savitribai Phule Pune University, Pune
+</option>
+<option value="University of Calcutta, Kolkata">
+  University of Calcutta, Kolkata
+</option>
+<option value="University of Mumbai, Mumbai">
+  University of Mumbai, Mumbai
+</option>
+<option value="Osmania University, Hyderabad">
+  Osmania University, Hyderabad
+</option>
+<option value="Jadavpur University, Kolkata">
+  Jadavpur University, Kolkata
+</option>
+<option value="Amity University, Noida">
+  Amity University, Noida
+</option>
+<option value="Christ University, Bengaluru">
+  Christ University, Bengaluru
+</option>
+<option value="Shiv Nadar University, Greater Noida">
+  Shiv Nadar University, Greater Noida
+</option>
+<option value="Ashoka University, Sonepat">
+  Ashoka University, Sonepat
+</option>
+<option value="SRM Institute of Science and Technology, Chennai">
+  SRM Institute of Science and Technology, Chennai
+</option>
+<option value="Sharda University, Greater Noida">
+  Sharda University, Greater Noida
+</option>
+<option value="Guru Gobind Singh Indraprastha University, Delhi">
+  Guru Gobind Singh Indraprastha University, Delhi
+</option>
+<option value="Indira Gandhi Delhi Technical University for Women">
+  Indira Gandhi Delhi Technical University for Women
+</option>
+<option value="Dr. A.P.J. Abdul Kalam Technical University, Lucknow">
+  Dr. A.P.J. Abdul Kalam Technical University, Lucknow
+</option>
+<option value="IIIT Hyderabad">
+  IIIT Hyderabad
+</option>
+<option value="IIIT Bangalore">
+  IIIT Bangalore
+</option>
+<option value="IIIT Allahabad">
+  IIIT Allahabad
+</option>
+<option value="Delhi Technological University, Delhi">
+  Delhi Technological University, Delhi
+</option>
+<option value="Netaji Subhas University of Technology, Delhi">
+  Netaji Subhas University of Technology, Delhi
+</option>
+<option value="BMS College of Engineering, Bengaluru">
+  BMS College of Engineering, Bengaluru
+</option>
+<option value="PES University, Bengaluru">
+  PES University, Bengaluru
+</option>
+<option value="College of Engineering, Pune">
+  College of Engineering, Pune
+</option>
+<option value="LD College of Engineering, Ahmedabad">
+  LD College of Engineering, Ahmedabad
+</option>
+<option value="Thapar Institute of Engineering and Technology, Patiala">
+  Thapar Institute of Engineering and Technology, Patiala
+</option>
+<option value="Lovely Professional University, Phagwara">
+  Lovely Professional University, Phagwara
+</option>
+<option value="Graphic Era University, Dehradun">
+  Graphic Era University, Dehradun
+</option>
+<option value="KIIT University, Bhubaneswar">
+  KIIT University, Bhubaneswar
+</option>
+<option value="SRM University, Delhi-NCR">
+  SRM University, Delhi-NCR
+</option>
+<option value="Vel Tech University, Chennai">
+  Vel Tech University, Chennai
+</option>
+<option value="SASTRA University, Thanjavur">
+  SASTRA University, Thanjavur
+</option>
+<option value="Tezpur University, Assam">
+  Tezpur University, Assam
+</option>
+<option value="North Eastern Hill University, Shillong">
+  North Eastern Hill University, Shillong
+</option>
 
-                  <option value="Mirpur University of Science and Technology, Mirpur">
-                    Mirpur University of Science and Technology, Mirpur
-                  </option>
-                  <option value="Mohi-ud-Din Islamic University, Nerian Sharif">
-                    Mohi-ud-Din Islamic University, Nerian Sharif
-                  </option>
-                  <option value="Mohammad Ali Jinnah University, Islamabad">
-                    Mohammad Ali Jinnah University, Islamabad
-                  </option>
-                  <option value="Mohammad Ali Jinnah University, Karachi">
-                    Mohammad Ali Jinnah University, Karachi
-                  </option>
-                  <option value="Muhammad Nawaz Sharif University of Agriculture, Multan">
-                    Muhammad Nawaz Sharif University of Agriculture, Multan
-                  </option>
-                  <option value="Multan College of Arts, Multan">
-                    Multan College of Arts, Multan
-                  </option>
-                  <option value="Mehran University of Engineering and Technology, Jamshoro">
-                    Mehran University of Engineering and Technology, Jamshoro
-                  </option>
-                  <option value="Mir Chakar Khan Rind University of Technology, Dera Ghazi Khan">
-                    Mir Chakar Khan Rind University of Technology, Dera Ghazi
-                    Khan
-                  </option>
-                  <option value="NED University of Engineering and Technology, Karachi">
-                    NED University of Engineering and Technology, Karachi
-                  </option>
-                  <option value="National College of Arts, Lahore">
-                    National College of Arts, Lahore
-                  </option>
-                  <option value="National Defense University, Islamabad">
-                    National Defense University, Islamabad
-                  </option>
-                  <option value="National Textile University, Faisalabad">
-                    National Textile University, Faisalabad
-                  </option>
-                  <option value="National University of Computer and Emerging Sciences, Islamabad">
-                    National University of Computer and Emerging Sciences,
-                    Islamabad
-                  </option>
-                  <option value="National University of Modern Languages, Islamabad">
-                    National University of Modern Languages, Islamabad
-                  </option>
-                  <option value="National University of Sciences and Technology, Islamabad">
-                    National University of Sciences and Technology, Islamabad
-                  </option>
-                  <option value="NED University of Engineering and Technology, Karachi">
-                    NED University of Engineering and Technology, Karachi
-                  </option>
-                  <option value="Pakistan Institute of Development Economics, Islamabad">
-                    Pakistan Institute of Development Economics, Islamabad
-                  </option>
-                  <option value="Pakistan Institute of Engineering and Applied Sciences, Islamabad">
-                    Pakistan Institute of Engineering and Applied Sciences,
-                    Islamabad
-                  </option>
-                  <option value="Pakistan Military Academy, Abbottabad">
-                    Pakistan Military Academy, Abbottabad
-                  </option>
-                  <option value="Pakistan Naval Academy, Karachi">
-                    Pakistan Naval Academy, Karachi
-                  </option>
-                  <option value="Pir Mehr Ali Shah Arid Agriculture University, Rawalpindi">
-                    Pir Mehr Ali Shah Arid Agriculture University, Rawalpindi
-                  </option>
-                  <option value="Quaid-e-Awam University of Engineering, Science and Technology, Nawabshah">
-                    Quaid-e-Awam University of Engineering, Science and
-                    Technology, Nawabshah
-                  </option>
-                  <option value="Quaid-i-Azam University, Islamabad">
-                    Quaid-i-Azam University, Islamabad
-                  </option>
-
-                  <option value="The Women University, Multan">
-                    The Women University, Multan
-                  </option>
-                  <option value="University of Agriculture, Faisalabad">
-                    University of Agriculture, Faisalabad
-                  </option>
-                  <option value="University of Azad Jammu and Kashmir, Muzaffarabad">
-                    University of Azad Jammu and Kashmir, Muzaffarabad
-                  </option>
-                  <option value="University of Balochistan, Quetta">
-                    University of Balochistan, Quetta
-                  </option>
-                  <option value="University of Education, Lahore">
-                    University of Education, Lahore
-                  </option>
-                  <option value="University of Engineering and Technology, Lahore">
-                    University of Engineering and Technology, Lahore
-                  </option>
-                  <option value="University of Engineering and Technology, Peshawar">
-                    University of Engineering and Technology, Peshawar
-                  </option>
-                  <option value="University of Engineering and Technology, Taxila">
-                    University of Engineering and Technology, Taxila
-                  </option>
-                  <option value="University of FATA, Kohat">
-                    University of FATA, Kohat
-                  </option>
-                  <option value="University of Gujrat, Gujrat">
-                    University of Gujrat, Gujrat
-                  </option>
-                  <option value="University of Haripur, Haripur">
-                    University of Haripur, Haripur
-                  </option>
-                  <option value="University of Health Sciences, Lahore">
-                    University of Health Sciences, Lahore
-                  </option>
-                  <option value="University of Karachi, Karachi">
-                    University of Karachi, Karachi
-                  </option>
-                  <option value="University of Kotli Azad Jammu and Kashmir, Kotli">
-                    University of Kotli Azad Jammu and Kashmir, Kotli
-                  </option>
-                  <option value="University of Lahore, Lahore">
-                    University of Lahore, Lahore
-                  </option>
-                  <option value="University of Loralai, Loralai">
-                    University of Loralai, Loralai
-                  </option>
-                  <option value="University of Malakand, Chakdara">
-                    University of Malakand, Chakdara
-                  </option>
-                  <option value="University of Management and Technology, Lahore">
-                    University of Management and Technology, Lahore
-                  </option>
-                  <option value="University of Okara, Okara">
-                    University of Okara, Okara
-                  </option>
-                  <option value="University of Peshawar, Peshawar">
-                    University of Peshawar, Peshawar
-                  </option>
-                  <option value="University of Sargodha, Sargodha">
-                    University of Sargodha, Sargodha
-                  </option>
-                  <option value="University of Science and Technology, Bannu">
-                    University of Science and Technology, Bannu
-                  </option>
-
-                  <option value="University of Sindh, Jamshoro">
-                    University of Sindh, Jamshoro
-                  </option>
-                  <option value="University of Swabi, Swabi">
-                    University of Swabi, Swabi
-                  </option>
-                  <option value="University of Swat, Swat">
-                    University of Swat, Swat
-                  </option>
-                  <option value="University of the Punjab, Lahore">
-                    University of the Punjab, Lahore
-                  </option>
-                  <option value="University of Turbat, Turbat">
-                    University of Turbat, Turbat
-                  </option>
-                  <option value="University of Veterinary and Animal Sciences, Lahore">
-                    University of Veterinary and Animal Sciences, Lahore
-                  </option>
-                  <option value="University of Wah, Wah">
-                    University of Wah, Wah
-                  </option>
-                  <option value="Women University of Azad Jammu and Kashmir, Bagh">
-                    Women University of Azad Jammu and Kashmir, Bagh
-                  </option>
                 </select>
               </div>
 
@@ -1765,9 +1400,13 @@ function PostedJobApplyForm() {
                   <option disabled selected className="text-gray-700">
                     Under / Post Grad
                   </option>
-                  <option>B.S</option>
-                  <option>M.S</option>
-                  <option>Ph.D</option>
+                 <option>B.C.A</option>
+             <option>B.S.C</option>
+             <option>B.TECH</option>
+            <option>M.C.A</option>
+            <option>M.TECH</option>
+            <option>MBA</option>
+            <option>Ph.D</option>
                 </select>
               </div>
 
