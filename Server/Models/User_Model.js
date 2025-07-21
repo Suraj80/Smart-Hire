@@ -33,15 +33,18 @@ const userSchema = new mongo.Schema({
     passwordResetToken: {
         type: String,
     },
+    passwordResetOTP: {
+        type: String,
+    },
+    passwordResetExpires: {
+        type: Date,
+    },
     org_registered: {
         type: Boolean, default: false
     },
     org_id: {
         type: String, default: '0'
     }
-    // passwordResetExpires: {
-    //     type: Date,
-    // }
 
 })
 

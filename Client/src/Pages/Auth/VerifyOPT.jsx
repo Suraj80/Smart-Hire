@@ -9,40 +9,39 @@ import {
 import MainButton from "../../Components/Common/MainButton";
 
 function VerifyOPT() {
-  const [inputCode, SetinputCode] = useState([]);
+  const [inputCode, SetinputCode] = useState("");
   const [error, SetError] = useState();
-  const [params, SetParam] = useState();
-
+  const [token, setToken] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Extract token from URL
+    const pathParts = location.pathname.split("/");
+    const tokenFromUrl = pathParts[pathParts.length - 1];
+    setToken(tokenFromUrl);
+  }, [location]);
+
   const handle = (e) => {
     e.preventDefault();
-
-    const convertValues = () => {
-      if (location && location?.search?.includes("email")) {
-        const emailValue = new URLSearchParams(location.search).get("email");
-        SetParam(emailValue);
-      }
-    };
-    convertValues();
     const options = {
-      url: "http://localhost:8080/verify-forget-pwd",
+      url: "http://localhost:8080/verify-forget-password",
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
       },
-      data: { params, inputCode },
+      data: { token, otp: inputCode },
     };
-
     axios(options)
       .then((response) => {
         if (response.status == 200) {
-          navigate("/newpassword" + "?id=" + response.data.id);
+          navigate(`/new-password/${token}`);
         }
       })
       .catch(function (error) {
-        if (error.response.status == 404) {
-          SetError("Invalid code try again");
+        if (error.response && error.response.status === 400) {
+          SetError("Invalid or expired OTP/token");
         } else {
           SetError("Error processing, something went wrong try again");
         }

@@ -32,9 +32,9 @@ function ForgetPassword() {
     axios(options)
       .then((response) => {
         if (response.status == 200) {
-          console.log(200);
-
-          navigate("/verifyotp?email=" + inputData.email);
+          // Expect backend to return token (if needed for navigation)
+          // For now, show success and instruct user to check email for link
+          alert('Check your email for the OTP and reset link.');
         }
       })
       .catch(function (error) {

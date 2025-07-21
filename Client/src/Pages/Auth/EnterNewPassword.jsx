@@ -2,14 +2,14 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { object, string, ref } from "yup";
 
 function EnterNewPassword() {
   const [error, SetError] = useState();
   const [success, SetSuccess] = useState(false);
-  const [id, SetIDParam] = useState();
   const navigate = useNavigate();
+  const { token } = useParams();
   const dataSchema = object({
     password: string()
       .max(25, "*password is too long")
@@ -26,30 +26,20 @@ function EnterNewPassword() {
     password: "",
     confirmpwd: "",
   };
-
   const handleSubmission = (pass) => {
-    const convertValues = () => {
-      if (location && location?.search?.includes("id")) {
-        const emailValue = new URLSearchParams(location.search).get("id");
-        SetIDParam(emailValue);
-      }
-    };
-    convertValues();
     const password = pass.confirmpwd;
     const options = {
-      url: "http://localhost:8080/new-password",
+      url: "http://localhost:8080/update-password",
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
       },
-      data: { id, password },
+      data: { token, password },
     };
-
     axios(options)
       .then((response) => {
         if (response.status == 200) {
-          console.log(200);
           SetSuccess(true);
           SetError(false);
           setTimeout(() => {
@@ -58,8 +48,8 @@ function EnterNewPassword() {
         }
       })
       .catch(function (error) {
-        if (error.response.status == 400) {
-          SetError("Must fill new-password field.");
+        if (error.response && error.response.status === 400) {
+          SetError("Token expired or invalid");
         } else {
           SetError("⚠️  Error processing password reset request try again");
         }

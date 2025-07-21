@@ -3,40 +3,25 @@ const userModel = require("../../Models/User_Model");
 const app = express();
 
 const verifyForgetPwd = async (req, res, next) => {
-
-    const { params, inputCode } = req.body;
-
-    console.log("This is the otp code")
-    console.log(params, inputCode);
-    //to remove space and , from code (as input is coming from an array[])
-    let newVal = inputCode.toString();
-    newVal = newVal.split(" ").pop()
-    newVal = newVal.replace(/,/g, '');
-
-
-
+    const { token, otp } = req.body;
     try {
-        console.log(newVal, params)
-        const user = await userModel.findOneAndUpdate(
-            {
-                $and: [{ email: params }, { passwordResetToken: newVal }],
-            },
-            { passwordResetToken: null }
-        );
+        const user = await userModel.findOne({
+            passwordResetToken: token,
+            passwordResetOTP: otp,
+            passwordResetExpires: { $gt: new Date() }
+        });
         if (!user) {
-            console.log('invalid otp');
-            return res.status(404).json({ error: "Invalid otp_code" });
+            return res.status(400).json({ error: "Invalid or expired OTP/token" });
         }
-
-        res.status(200).json({ id: user._id })
+        // Invalidate OTP/token after use
+        user.passwordResetToken = null;
+        user.passwordResetOTP = null;
+        user.passwordResetExpires = null;
+        await user.save();
+        res.status(200).json({ id: user._id, token });
     } catch (error) {
         return res.status(500).json({ error: "Something went wrong" });
     }
-    //this params will shared to the next route with req.data method.
-    req.data = {
-        params: params,
-    };
-    next();
 };
 
 module.exports = verifyForgetPwd;

@@ -39,4 +39,31 @@ async function testEndpoints() {
     }
 }
 
+// Test Mailjet SMTP email sending
+if (require.main === module) {
+  const nodemailer = require('nodemailer');
+  const transporter = nodemailer.createTransport({
+    host: 'in-v3.mailjet.com',
+    port: 587,
+    auth: {
+      user: 'e0d32ca41c20cccea55ee9027efb93d0', // API Key
+      pass: '56efbfb2155e99be5ac724c858cc152e', // Secret Key
+    },
+  });
+  const mailOptions = {
+    from: 'Surajjjangavali80@gmail.com',
+    to: 'Surajjjangavali80@gmail.com', // Change to your test recipient if needed
+    subject: 'Mailjet SMTP Test Email',
+    text: 'This is a test email sent using Mailjet SMTP and nodemailer.',
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Test email failed:', error);
+    } else {
+      console.log('Test email sent:', info.response);
+    }
+    process.exit(0);
+  });
+}
+
 testEndpoints(); 
