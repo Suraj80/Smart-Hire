@@ -27,36 +27,6 @@ function MainPageOfSetting() {
               </h2>
             </div>
           </Link>
-
-          {/* //2nd value */}
-
-          <div className="w-48 h-auto bg-white p-3 rounded-md shadow-md cursor-pointer hover:bg-gray-50 hover:modalShadow justify-center items-center">
-            <img className="m-auto" src={TeamIcon} alt="" />
-
-            <h2 className="text-center heading3 font-medium mt-4 mb-0">
-              Team Members
-            </h2>
-          </div>
-
-          {/* 3rd value */}
-
-          <div className="w-48 h-auto bg-white p-3 rounded-md shadow-md cursor-pointer hover:bg-gray-50 hover:modalShadow">
-            <img className="m-auto" src={TempleteIcon} alt="" />
-
-            <h2 className="text-center heading3 font-medium mt-4 mb-0">
-              Templetes
-            </h2>
-          </div>
-
-          {/* 4th value */}
-          {/* 
-          <div className="w-48 h-auto bg-white p-3 rounded-md shadow-md cursor-pointer hover:bg-gray-50 hover:modalShadow">
-            <img className="m-auto" src={CareerPage} alt="" />
-
-            <h2 className="text-center heading3 font-medium mt-4 mb-0">
-              Career Page
-            </h2>
-          </div> */}
         </div>
       </div>
     </div>

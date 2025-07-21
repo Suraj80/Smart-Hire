@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LeftMenuBar from "../../Components/Dashboard/LeftMenuBar";
 import TopNavigationBar from "../../Components/Dashboard/TopNavigationBar";
@@ -20,6 +20,7 @@ function Setting_EditProfile() {
     yt_url: "",
     insta_url: "",
   });
+  const [successMsg, setSuccessMsg] = useState("");
   // console.log(selectedFile);
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -77,6 +78,32 @@ function Setting_EditProfile() {
     // });
   };
 
+  // Fetch organization details
+  useEffect(() => {
+    const org_id = localStorage.getItem("organization_id");
+    if (!org_id) return;
+    axios
+      .post("http://localhost:8080/dashboard", { organization_id: org_id })
+      .then((res) => {
+        const org = res.data.organizaion;
+        setInputValue({
+          name: org.organization_name || "",
+          phone_no: org.phoneNo || "",
+          website: org.website || "",
+          address: org.office_address || "",
+          city: org.office_city || "",
+          country: org.office_country || "",
+          fb_url: org.fb_url || "",
+          linkedin_url: org.linkedIn_url || "",
+          yt_url: org.yt_url || "",
+          insta_url: org.insta_url || "",
+        });
+      })
+      .catch((err) => {
+        console.error("Failed to fetch organization details", err);
+      });
+  }, []);
+
   const callUpdateProfile = () => {
     // axios POST request
     const org_id = localStorage.getItem("organization_id");
@@ -95,9 +122,31 @@ function Setting_EditProfile() {
         }
       )
       .then((response) => {
-        console.log(response.data);
+        setSuccessMsg("Profile updated successfully!");
+        // Refetch details after update
+        axios
+          .post("http://localhost:8080/dashboard", { organization_id: org_id })
+          .then((res) => {
+            const org = res.data.organizaion;
+            setInputValue({
+              name: org.organization_name || "",
+              phone_no: org.phoneNo || "",
+              website: org.website || "",
+              address: org.office_address || "",
+              city: org.office_city || "",
+              country: org.office_country || "",
+              fb_url: org.fb_url || "",
+              linkedin_url: org.linkedIn_url || "",
+              yt_url: org.yt_url || "",
+              insta_url: org.insta_url || "",
+            });
+          })
+          .catch((err) => {
+            console.error("Failed to refetch organization details", err);
+          });
       })
       .catch((error) => {
+        setSuccessMsg("");
         console.error(error);
       });
   };
@@ -345,6 +394,9 @@ function Setting_EditProfile() {
         >
           UPDATE
         </button>
+        {successMsg && (
+          <div className="text-green-600 text-center mt-2">{successMsg}</div>
+        )}
       </div>
     </div>
   );
