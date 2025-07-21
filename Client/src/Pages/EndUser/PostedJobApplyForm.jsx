@@ -164,11 +164,11 @@ function PostedJobApplyForm() {
   // console.log(educationSessionInformation);
   return (
     <div>
-      <div className="bg-gradient-to-b from-gray-900 to-gray-600 bg-gradient-to-r h-40 flex items-center justify-center shadow-xl">
+      {/* <div className="bg-gradient-to-b from-gray-900 to-gray-600 bg-gradient-to-r h-40 flex items-center justify-center shadow-xl">
         <h1 className="text-4xl heading text-white text-center">
           Product Manager
         </h1>
-      </div>
+      </div> */}
       {/* ~~~ ON SUCESS JOB APPLY MODAL UI CODE */}
 
       {showModal == true ? (
@@ -1735,7 +1735,7 @@ function PostedJobApplyForm() {
                 id="text"
                 name="name"
                 autoComplete="on"
-                placeholder="Lead Backend Developer"
+                placeholder="Lead Backend Developer / N/A"
                 onChange={(e) => {
                   setProfessionalInformation((prevState) => ({
                     ...prevState,
@@ -1755,7 +1755,7 @@ function PostedJobApplyForm() {
                 name="year"
                 min={0}
                 autoComplete="on"
-                placeholder="0.6 / 5 -- In Years"
+                placeholder="2 / 0 "
                 onChange={(e) => {
                   setProfessionalInformation((prevState) => ({
                     ...prevState,
@@ -1774,7 +1774,7 @@ function PostedJobApplyForm() {
                 id="text"
                 name="company"
                 autoComplete="on"
-                placeholder="META"
+                placeholder="META / NA "
                 onChange={(e) => {
                   setProfessionalInformation((prevState) => ({
                     ...prevState,

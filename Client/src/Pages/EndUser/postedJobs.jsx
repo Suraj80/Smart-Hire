@@ -22,6 +22,18 @@ function PostedJobs() {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+      {/* Go Back Button */}
+      <div className="relative z-20 px-4 sm:px-6 lg:px-8 pt-6 flex justify-start">
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-5 py-2 rounded-lg font-semibold shadow-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-400"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          <span>Go Back to Smart Hire</span>
+        </button>
+      </div>
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
@@ -185,7 +197,7 @@ function PostedJobs() {
             <div className="flex items-center justify-center space-x-2 text-gray-300">
               <span className="text-sm">Powered by</span>
               <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-                Smart Cruiter
+                Smart Hire
               </span>
               <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
             </div>
