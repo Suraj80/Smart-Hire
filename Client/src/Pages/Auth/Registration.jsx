@@ -95,7 +95,18 @@ function Registration() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+        {/* Back to Index Button */}
+        <div className="absolute top-4 left-4 z-10">
+          <Link to="/">
+            <button className="flex items-center text-blue-600 hover:text-blue-800">
+              <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Index
+            </button>
+          </Link>
+        </div>
         <div className="flex flex-col lg:flex-row min-h-[500px]">
           {/* Left Panel - Image */}
           <div className="lg:w-2/5 relative overflow-hidden">

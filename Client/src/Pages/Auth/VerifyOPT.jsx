@@ -13,6 +13,40 @@ function VerifyOPT() {
   const [error, SetError] = useState();
   const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
+  const [resendMsg, setResendMsg] = useState("");
+  const [resendDisabled, setResendDisabled] = useState(false);
+  // Resend OTP handler
+  const handleResendOTP = async () => {
+    setResendMsg("");
+    if (!email) {
+      setResendMsg("No email found. Please go back and start again.");
+      return;
+    }
+    try {
+      const options = {
+        url: "http://localhost:8080/forget-password",
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+        data: { email },
+      };
+      const response = await axios(options);
+      if (response.status === 200) {
+        setResendMsg("A new OTP and link have been sent to your email. Please use the new link from your email to verify.");
+        setResendDisabled(true);
+      }
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        setResendMsg("Email address not found.");
+      } else if (err.response && err.response.status === 401) {
+        setResendMsg("Email address is not activated.");
+      } else {
+        setResendMsg("Failed to resend OTP. Please try again later.");
+      }
+    }
+  };
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -128,18 +162,26 @@ function VerifyOPT() {
                         type="submit"
                         onClick={handle}
                         className=" btnfont btn btn-wide  bg-primary border-none hover:bg-black shadow-sm"
+                        disabled={resendDisabled}
                       >
                         Verify Account
                       </button>
                     </div>
-                    <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
-                      <p>Didn't recieve code?</p>{" "}
-                      <a
-                        className="flex flex-row items-center text-blue-600"
-                        rel="noopener noreferrer"
-                      >
-                        Try again
-                      </a>
+                    <div className="flex flex-col items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
+                      <div className="flex flex-row items-center">
+                        <p>Didn't receive code?</p>{" "}
+                        <button
+                          type="button"
+                          className="flex flex-row items-center text-blue-600 hover:underline ml-1 disabled:text-gray-400"
+                          onClick={handleResendOTP}
+                          disabled={resendDisabled}
+                        >
+                          Try again
+                        </button>
+                      </div>
+                      {resendMsg && (
+                        <span className="text-xs text-green-600 mt-1">{resendMsg}</span>
+                      )}
                     </div>
                   </div>
                 </div>

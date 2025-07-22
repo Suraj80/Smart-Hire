@@ -82,6 +82,17 @@ function Login() {
           {/* Left Panel - Form */}
           <div className="flex-1 p-6 lg:p-8">
             <div className="max-w-sm mx-auto">
+              {/* Back to Index Button */}
+              <div className="mb-4">
+                <Link to="/">
+                  <button className="flex items-center text-blue-600 hover:text-blue-800">
+                    <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Back to Index
+                  </button>
+                </Link>
+              </div>
               {/* Header */}
               <div className="text-center mb-6">
                 <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-3">

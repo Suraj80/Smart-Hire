@@ -57,9 +57,11 @@ function PostedJobs() {
                 </h1>
                 <p className="text-xl sm:text-2xl text-gray-300 font-light">
                   Simply fill the form and
-                  <span className="inline-block ml-3 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-purple-500/25 transform hover:scale-105">
-                    Get Hired
-                  </span>
+                  <a href="#jobs">
+  <span className="inline-block ml-3 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-purple-500/25 transform hover:scale-105">
+    Get Hired
+  </span>
+</a>
                 </p>
               </div>
               
@@ -96,7 +98,7 @@ function PostedJobs() {
       </div>
 
       {/* Jobs Section */}
-      <div className="relative z-10 px-4 sm:px-6 lg:px-8 pb-16">
+      <div id="jobs" className="relative z-10 px-4 sm:px-6 lg:px-8 pb-16">
         <div className="max-w-7xl mx-auto">
           <div className="bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10 shadow-2xl p-8">
             {/* Section Header */}
