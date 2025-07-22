@@ -7,6 +7,7 @@ const GetComments = require('../Controllers/Recruitment Cycle/GetComments');
 const GetHiredCandidate = require('../Controllers/Recruitment Cycle/GetHiredCandidate');
 const GetReccomendedCandidatesDetails = require('../Controllers/Recruitment Cycle/GetReccomendedCandidateDetails');
 const GetReccomendedCandidates = require('../Controllers/Recruitment Cycle/GetReccomendedCandidates');
+const GetRejectedCandidates = require('../Controllers/Recruitment Cycle/GetRejectedCandidate');
 const GetWithdrawnCandidate = require('../Controllers/Recruitment Cycle/GetWithdrawnCandidate');
 const GetWithdrawnCandidateDetails = require('../Controllers/Recruitment Cycle/GetWithdrawnCandidateDetails');
 const HandleComments = require('../Controllers/Recruitment Cycle/HandleComments');
@@ -41,7 +42,7 @@ RecruitmentRouter.post("/active/reccomended/details", GetReccomendedCandidatesDe
 RecruitmentRouter.post("/active/hired", GetHiredCandidate);
 RecruitmentRouter.post("/active/hired/sendEmail", SentHiredEmail);
 
-RecruitmentRouter.post("/active/rejected", GetReccomendedCandidates);
+RecruitmentRouter.post("/active/rejected", GetRejectedCandidates);
 RecruitmentRouter.post("/active/withdrawn", GetWithdrawnCandidate);
 
 RecruitmentRouter.post("/active/withdrawn/details", GetWithdrawnCandidateDetails);

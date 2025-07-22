@@ -20,7 +20,7 @@ import PostedJobs from "./Pages/EndUser/postedJobs";
 import PostedJobDescription from "./Pages/EndUser/PostedJobDescription";
 import PostedJobApplyForm from "./Pages/EndUser/PostedJobApplyForm";
 import JobD from "./Pages/CreateJob/jobd";
-
+import InterviewsList from "./Pages/Interviews/InterviewsList";
 import AppliedCandidateDetails from "./Pages/RecruitmentCycle/AppliedCandidateDetails";
 import InterviewingCandidate from "./Pages/RecruitmentCycle/InterviewingCandidate";
 import InterviewingCandidateDetails from "./Pages/RecruitmentCycle/InterviewingCandidateDetails";
@@ -42,6 +42,8 @@ import ProtectedRoute from "./Components/Common/ProtectedRoute";
 import NotPageFound404 from "./Pages/Dashboard/NotPageFound404";
 import DepartmentDetails from "./Pages/Dashboard/DepartmentDetails";
 import IndexPage from "./Pages/IndexPage";
+import InterviewsJobsList from "./Pages/Interviews/InterviewsJobsList";
+import InterviewCandidatesList from "./Pages/Interviews/InterviewCandidatesList";
 
 function App() {
   return (
@@ -69,7 +71,7 @@ function App() {
           />
           <Route
             path="/JobDetails/interviewing/:id"
-            element={<InterviewingCandidate />}
+            element={<InterviewsList />}
           />
           <Route
             path="/JobDetails/interviewing/details/:id"
@@ -96,6 +98,11 @@ function App() {
             path="/JobDetails/withdrawn/details/:id"
             element={<WithdrawnDetails />}
           />
+          {/* ***************************************************** */}
+          {/* INTERVIEWS SECTION */}
+          {/* ***************************************************** */}
+          <Route path="/interviews" element={<InterviewsJobsList />} />
+          <Route path="/interviews/:jobId" element={<InterviewCandidatesList />} />
           {/* ***************************************************** */}
           {/* CANDIDATE SECTION IS STARTING FROM HERE */}
           {/* ***************************************************** */}

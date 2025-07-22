@@ -4,7 +4,7 @@ import { Rating, RoundedStar } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { useEffect } from "react";
 import { Alert, AlertIcon, AlertTitle } from "@chakra-ui/react";
-function FeedbackForm({ id, rating }) {
+function FeedbackForm({ id, rating, onRatingUpdate }) {
   const [startRating, setStartRating] = useState({
     first: 0,
     second: 0,
@@ -63,13 +63,28 @@ function FeedbackForm({ id, rating }) {
     axios(options)
       .then((response) => {
         if (response.status == 200) {
-          alert("Submited");
+          // Convert startRating object to array format for the parent component
+          const ratingArray = [
+            startRating.first,
+            startRating.second,
+            startRating.third,
+            startRating.fourth,
+            startRating.fifth
+          ];
+          
+          // Call the onRatingUpdate prop to update the parent component
+          if (onRatingUpdate) {
+            onRatingUpdate(ratingArray);
+          }
+          
+          alert("Submitted successfully");
         } else {
-          alert("something went wrong , refresh and try again");
+          alert("Something went wrong, please try again");
         }
       })
       .catch((e) => {
         console.log(e);
+        alert("Error submitting feedback");
       });
   };
 

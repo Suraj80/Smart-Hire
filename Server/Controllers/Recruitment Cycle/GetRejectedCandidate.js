@@ -9,7 +9,7 @@ const GetRejectedCandidates = async (req, res, next) => {
         const getUser = await Candidate.find(
             {
                 jobID: id,
-                recruitmentCycle: 'Rejected'
+                recruitmentCycle: 'Declined'
             }
         );
         if (getUser) {
