@@ -30,6 +30,12 @@ const userSchema = new mongo.Schema({
     isVerified: {
         type: Boolean, default: false
     },
+    emailVerificationToken: {
+        type: String,
+    },
+    emailVerificationExpires: {
+        type: Date,
+    },
     passwordResetToken: {
         type: String,
     },

@@ -19,6 +19,8 @@ import ErrorLogo from "../../assets/icons/error.png";
 
 function Registration() {
   const [error, Seterror] = useState();
+  const [resendStatus, setResendStatus] = useState("");
+  const [resendLoading, setResendLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const navigate = useNavigate();
@@ -164,19 +166,46 @@ function Registration() {
                       <span className="font-bold text-blue-600">{formik.values.email}</span>
                     </p>
                     <p className="text-gray-600 mt-2 text-sm">
-                      You can now proceed to login and start using Smart Hire.
+                      Please check your email for a verification link to activate your account.<br/>
+                      You must verify your email before you can log in.
                     </p>
+                    <div className="mt-4 flex flex-col items-center">
+                      <button
+                        className="btn btn-sm btn-outline btn-primary"
+                        disabled={resendLoading}
+                        onClick={async () => {
+                          setResendStatus("");
+                          setResendLoading(true);
+                          try {
+                            const res = await axios.post("http://localhost:8080/resend-verification", { email: formik.values.email });
+                            if (res.status === 200) {
+                              setResendStatus("Verification email sent!");
+                            } else {
+                              setResendStatus("Failed to send verification email.");
+                            }
+                          } catch (e) {
+                            setResendStatus("Failed to send verification email.");
+                          }
+                          setResendLoading(false);
+                        }}
+                      >
+                        {resendLoading ? "Sending..." : "Resend Verification Email"}
+                      </button>
+                      {resendStatus && (
+                        <span className={`mt-2 text-sm ${resendStatus.includes("sent") ? "text-green-600" : "text-red-600"}`}>{resendStatus}</span>
+                      )}
+                    </div>
                   </div>
                 </ModalBody>
                 <ModalFooter>
                   <Button
-                    onClick={() => navigate("/login")}
+                    onClick={onClose}
                     colorScheme="blue"
                     size="lg"
                     borderRadius="lg"
                     px={8}
                   >
-                    Go to Login
+                    Close
                   </Button>
                 </ModalFooter>
               </ModalContent>

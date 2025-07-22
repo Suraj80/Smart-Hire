@@ -1,4 +1,5 @@
 const express = require('express');
+const resendVerification = require('../Controllers/UserController/ResendVerification.js');
 const GetProfilePicture = require('../Controllers/Dashboard/GetProfilePic.js');
 const Home = require('../Controllers/Dashboard/Home.js');
 const Dashboard = require('../Controllers/Dashboard/Dashboard.js');
@@ -12,6 +13,7 @@ const AuthMiddleware = require('../Middleware/AuthMiddleware.js');
 const VerifyToken = require('../Middleware/VerifyToken.js');
 
 const UserRouter = express.Router();
+UserRouter.post("/resend-verification", resendVerification);
 
 
 
@@ -51,7 +53,7 @@ UserRouter.post("/update-password", updatePassword)
 
 // -> Verify Mail
 
-UserRouter.post("/verify-mail", VerifyMail)
+UserRouter.post("/verify-email", VerifyMail)
 
 
 

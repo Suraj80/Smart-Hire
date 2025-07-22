@@ -8,7 +8,8 @@ const app = express();
 
 // -> Email sending code
 
-const sendVerifyEmail = async (name, email, id) => {
+const crypto = require('crypto');
+const sendVerifyEmail = async (name, email, token) => {
   const htmlCode = `
     <!DOCTYPE html>
 <html>
@@ -19,7 +20,7 @@ const sendVerifyEmail = async (name, email, id) => {
 <body style="background-color: #e9ecef;">
   <h2>Welcome to Smart Hire, ${name}!</h2>
   <p>Thank you for registering. Please verify your email address by clicking the button below:</p>
-  <a href="http://localhost:3000/verify-mail?id=${id}" style="display: inline-block; padding: 16px 36px; font-size: 16px; color: #fff; background: #1a82e2; text-decoration: none; border-radius: 6px;">Verify Now</a>
+  <a href="http://localhost:5173/verify-email/${token}" style="display: inline-block; padding: 16px 36px; font-size: 16px; color: #fff; background: #1a82e2; text-decoration: none; border-radius: 6px;">Verify Now</a>
   <p>If you did not request this, please ignore this email.</p>
   <p><b>Smart Hire</b><br> ATS System</p>
 </body>
@@ -27,28 +28,50 @@ const sendVerifyEmail = async (name, email, id) => {
   `;
   try {
     const transporter = mailer.createTransport({
-      host: 'in-v3.mailjet.com',
+      host: 'smtp-relay.brevo.com',
       port: 587,
       auth: {
-        user: 'e0d32ca41c20cccea55ee9027efb93d0', // Mailjet API Key
-        pass: '56efbfb2155e99be5ac724c858cc152e', // Mailjet Secret Key
+        user: '8f6443001@smtp-brevo.com',
+        pass: process.env.BREVO_SMTP_KEY || "AgL9GctSra5Iszdh"
       },
     });
     const mailOptions = {
-      from: 'Surajjjangavali80@gmail.com', // Verified sender address
+      from: {
+        name: 'Smart Hire',
+        address: 'surajjangavali80@gmail.com'
+      },
       to: email,
       subject: 'Account Activation [Smart Hire]',
+      text: `Welcome to Smart Hire, ${name}!\n\nPlease verify your email address by clicking the link below:\nhttp://localhost:5173/verify-email/${token}\n\nIf you did not request this, please ignore this email.`,
       html: htmlCode,
     };
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log(`Email sent: ${info.response}`);
-      }
-    });
+
+    console.log('Sending verification email with options:', JSON.stringify({
+      ...mailOptions,
+      html: '[HTML content hidden for brevity]'
+    }, null, 2));
+
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log('Brevo verification email sent successfully');
+    console.log('Message ID:', info.messageId);
+    console.log('Response:', info.response);
+
+    return {
+      success: true,
+      messageId: info.messageId,
+      response: info.response
+    };
+
   } catch (error) {
-    console.log("Error -> " + error);
+    console.error('Brevo verification error details:', {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      response: error.response,
+      responseCode: error.responseCode
+    });
+    throw error;
   }
 }
 
@@ -121,17 +144,20 @@ const register = async (req, res, next) => {
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   // -> Saving user data in database
+  const emailVerificationToken = crypto.randomBytes(32).toString('hex');
+  const emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
   const user = await new userModel({
     f_name: f_name,
     username: username,
     email: email,
     company_name: company_name,
     password: hashedPassword,
+    emailVerificationToken,
+    emailVerificationExpires
   });
   try {
-
     await user.save();
-    await sendVerifyEmail(f_name, email, user._id)
+    await sendVerifyEmail(f_name, email, emailVerificationToken);
 
     // Create a new organization for the user
     const newOrganization = new OrganizationModal({
@@ -158,3 +184,4 @@ const register = async (req, res, next) => {
 }
 
 module.exports = register;
+module.exports.sendVerifyEmail = sendVerifyEmail;

@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import ForgetPassword from "./Pages/Auth/ForgetPassword";
 import Registration from "./Pages/Auth/Registration";
 import Login from "./Pages/Auth/Login";
+import EmailVerification from "./Pages/Auth/EmailVerification";
 import HomePage from "./Pages/Dashboard/HomePage";
 import VerifyOPT from "./Pages/Auth/VerifyOPT";
 import EnterNewPassword from "./Pages/Auth/EnterNewPassword";
@@ -126,6 +127,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgetpwd" element={<ForgetPassword />} />
         <Route path="/register" element={<Registration />} />
+        <Route path="/verify-email/:token" element={<EmailVerification />} />
         <Route path="portal/job" element={<PostedJobs />} />
         <Route
           path="portal/job/description/:id"
