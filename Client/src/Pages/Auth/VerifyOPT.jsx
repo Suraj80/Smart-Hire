@@ -9,9 +9,10 @@ import {
 import MainButton from "../../Components/Common/MainButton";
 
 function VerifyOPT() {
-  const [inputCode, SetinputCode] = useState("");
+  const [inputCode, SetinputCode] = useState("      "); // Initialize with 6 spaces
   const [error, SetError] = useState();
   const [token, setToken] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,6 +21,12 @@ function VerifyOPT() {
     const pathParts = location.pathname.split("/");
     const tokenFromUrl = pathParts[pathParts.length - 1];
     setToken(tokenFromUrl);
+    
+    // Get email from localStorage if available
+    const storedEmail = localStorage.getItem("email");
+    if (storedEmail) {
+      setEmail(storedEmail);
+    }
   }, [location]);
 
   const handle = (e) => {
@@ -47,7 +54,7 @@ function VerifyOPT() {
         }
       });
   };
-  useEffect(() => {}, [inputCode, params]);
+  useEffect(() => {}, [inputCode]);
   return (
     <div>
       {/* component */}
@@ -60,7 +67,7 @@ function VerifyOPT() {
               </div>
               <div className="flex flex-row text-gray-400 w-full ">
                 <p className="heading4 mt-4">
-                  We have sent a code to your email {params}
+                  We have sent a code to your email {email}
                 </p>
               </div>
             </div>
@@ -68,60 +75,44 @@ function VerifyOPT() {
               <form>
                 <div className="flex flex-col space-y-16">
                   <div className="flex flex-row items-center justify-between mx-auto w-full max-w-xs">
-                    <div className="w-16 h-16 ">
-                      <input
-                        maxLength={1}
-                        className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                        type="text"
-                        onChange={(e) => {
-                          SetinputCode((oldArray) => [
-                            ...oldArray,
-                            e.target.value,
-                          ]);
-                        }}
-                        // value={val[0]}
-                      />
-                    </div>
-                    <div className="w-16 h-16 ">
-                      <input
-                        maxLength={1}
-                        max={1}
-                        className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                        type="text"
-                        onChange={(e) => {
-                          SetinputCode((oldArray) => [
-                            ...oldArray,
-                            e.target.value,
-                          ]);
-                        }}
-                      />
-                    </div>
-                    <div className="w-16 h-16 ">
-                      <input
-                        maxLength={1}
-                        className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                        type="text"
-                        onChange={(e) => {
-                          SetinputCode((oldArray) => [
-                            ...oldArray,
-                            e.target.value,
-                          ]);
-                        }}
-                      />
-                    </div>
-                    <div className="w-16 h-16 ">
-                      <input
-                        maxLength={1}
-                        className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                        type="text"
-                        onChange={(e) => {
-                          SetinputCode((oldArray) => [
-                            ...oldArray,
-                            e.target.value,
-                          ]);
-                        }}
-                      />
-                    </div>
+                    {[0, 1, 2, 3, 4, 5].map((index) => (
+                      <div key={index} className="w-14 h-14">
+                        <input
+                          maxLength={1}
+                          className="w-full h-full flex flex-col items-center justify-center text-center px-4 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
+                          type="text"
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (/^[0-9]$/.test(value)) {
+                              SetinputCode((oldValue) => {
+                                const newArray = oldValue.split('');
+                                newArray[index] = value;
+                                return newArray.join('');
+                              });
+                              // Auto-focus next input
+                              const nextInput = e.target.parentElement.nextElementSibling?.querySelector('input');
+                              if (nextInput) nextInput.focus();
+                            }
+                          }}
+                          onKeyDown={(e) => {
+                            // Handle backspace
+                            if (e.key === 'Backspace' && !e.target.value) {
+                              const prevInput = e.target.parentElement.previousElementSibling?.querySelector('input');
+                              if (prevInput) {
+                                prevInput.focus();
+                                SetinputCode((oldValue) => {
+                                  const newArray = oldValue.split('');
+                                  newArray[index - 1] = '';
+                                  return newArray.join('');
+                                });
+                              }
+                            }
+                          }}
+                          pattern="\d*"
+                          inputMode="numeric"
+                        />
+                      </div>
+                    ))}
                   </div>
                   {/* -> ERROR MESSAGE UI CODE */}
                   {error == null ? null : (

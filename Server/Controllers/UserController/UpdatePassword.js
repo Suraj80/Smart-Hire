@@ -12,7 +12,8 @@ const updatePassword = async (req, res, next) => {
     try {
         const user = await userModel.findOne({
             passwordResetToken: token,
-            passwordResetExpires: { $gt: new Date() }
+            passwordResetExpires: { $gt: new Date() },
+            passwordResetOTP: null  // Ensure OTP was verified
         });
         if (!user) {
             return res.status(400).json({ error: "Token expired or invalid" });

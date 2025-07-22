@@ -37,7 +37,7 @@ const forget_password = async (req, res, next) => {
         <h3 style="margin: 0;">OTP: <strong>${otp}</strong></h3>
       </div>
       <div style="text-align: center; margin: 30px 0;">
-        <a href="http://localhost:3000/verify-otp/${token}" 
+        <a href="http://localhost:5173/verify-otp/${token}" 
            style="background-color: #28a745; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">
           Verify OTP
         </a>
@@ -58,7 +58,7 @@ You requested a password reset for your Smart Hire account.
 
 OTP: ${otp}
 
-Or visit this link: http://localhost:3000/verify-otp/${token}
+Or visit this link: http://localhost:5173/verify-otp/${token}
 
 This OTP and link will expire in 10 minutes.
 If you didn't request this, please ignore this email.

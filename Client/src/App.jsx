@@ -120,7 +120,9 @@ function App() {
         <Route path="/*" element={<NotPageFound404 />} />{" "}
         <Route path="/" element={<IndexPage />} />
         <Route path="/verifyotp" element={<VerifyOPT />} />
+        <Route path="/verify-otp/:token" element={<VerifyOPT />} />
         <Route path="/newpassword" element={<EnterNewPassword />} />
+        <Route path="/new-password/:token" element={<EnterNewPassword />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgetpwd" element={<ForgetPassword />} />
         <Route path="/register" element={<Registration />} />

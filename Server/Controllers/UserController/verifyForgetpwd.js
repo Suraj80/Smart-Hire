@@ -13,10 +13,8 @@ const verifyForgetPwd = async (req, res, next) => {
         if (!user) {
             return res.status(400).json({ error: "Invalid or expired OTP/token" });
         }
-        // Invalidate OTP/token after use
-        user.passwordResetToken = null;
-        user.passwordResetOTP = null;
-        user.passwordResetExpires = null;
+        // Mark OTP as verified but keep token valid for password reset
+        user.passwordResetOTP = null; // Clear only the OTP after verification
         await user.save();
         res.status(200).json({ id: user._id, token });
     } catch (error) {
