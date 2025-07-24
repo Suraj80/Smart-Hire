@@ -1,0 +1,130 @@
+const express = require('express');
+const Job = require('../../Models/JobModel');
+const app = express();
+const nodemailer = require("nodemailer");
+
+const SentHiredEmail = async (req, res, next) => {
+    try {
+        const { email_to, jobInfo, emailTitle, description } = req.body;
+        
+        if (!jobInfo || !jobInfo.job_id) {
+            return res.status(400).json({ message: "Job ID is required" });
+        }
+
+        // Find the job details
+        const findJob = await Job.findById(jobInfo.job_id);
+        if (!findJob) {
+            return res.status(404).json({ message: "No job found with this ID" });
+        }
+
+        const org_name = findJob.org_name;
+        const job_title = findJob.jobPosition;
+
+        // Create Brevo transporter using their primary SMTP server
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.brevo.com',
+            port: 587,
+            auth: {
+                user: process.env.BREVO_USER || '8f6443001@smtp-brevo.com',
+                pass: process.env.BREVO_SMTP_KEY || 'AgL9GctSra5Iszdh'
+            },
+            tls: {
+                ciphers: 'SSLv3',
+                rejectUnauthorized: false
+            },
+            debug: true,
+            logger: true
+        });
+
+    // *********************************
+
+        const htmlTemplate = `
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>${emailTitle}</title>
+            </head>
+            <body style="font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f4f4f4;">
+                <div style="max-width: 600px; margin: 20px auto; background: white; border-radius: 10px; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                    <div style="text-align: center; padding-bottom: 20px;">
+                        <h1 style="color: #2596be; margin: 0;">${emailTitle}</h1>
+                    </div>
+                    
+                    <div style="background-color: white; padding: 20px; border-radius: 5px;">
+                        <div style="color: #333; margin-bottom: 20px;">
+                            ${description}
+                        </div>
+                        
+                        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
+                            <p>Position: ${job_title}</p>
+                            <p>Organization: ${org_name}</p>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; color: #666;">
+                        <p style="font-size: 12px;">This is an automated message from Smart Hire. Please do not reply to this email.</p>
+                    </div>
+                </div>
+            </body>
+        </html>`;
+
+        try {
+            const mailOptions = {
+                from: {
+                    name: 'Smart Hire',
+                    address: 'surajjangavali80@gmail.com'
+                },
+                to: email_to,
+                subject: emailTitle,
+                html: htmlTemplate
+            };
+
+            // Verify SMTP configuration
+            await new Promise((resolve, reject) => {
+                transporter.verify(function (error, success) {
+                    if (error) {
+                        console.error('SMTP Configuration Error:', error);
+                        reject(error);
+                    } else {
+                        console.log("SMTP server is ready to take our messages");
+                        resolve(success);
+                    }
+                });
+            });
+
+            console.log('Attempting to send hired email to:', email_to);
+            const info = await transporter.sendMail(mailOptions);
+            console.log('Email sent successfully:', {
+                messageId: info.messageId,
+                response: info.response,
+                accepted: info.accepted,
+                rejected: info.rejected
+            });
+
+            res.status(200).json({
+                status: 200,
+                message: 'Email sent successfully',
+                messageId: info.messageId
+            });
+
+        } catch (error) {
+            console.error('Error sending email:', error);
+            res.status(500).json({
+                status: 500,
+                message: 'Failed to send email',
+                error: error.message
+            });
+        }
+    } catch (error) {
+        console.error('Error in SentHiredEmail:', error);
+        res.status(500).json({
+            status: 500,
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+};
+
+module.exports = SentHiredEmail;

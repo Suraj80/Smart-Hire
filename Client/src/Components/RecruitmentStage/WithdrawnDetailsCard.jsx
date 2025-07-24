@@ -55,34 +55,39 @@ function WithdrawnDetailsCard({ id }) {
     }
   }, [id]);
 
-  const handleTextValue = () => {
-    const options = {
-      url: "http://localhost:8080/details/active/withdrawn/update",
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json;charset=UTF-8",
-      },
-      data: { id, description },
-    };
+  const handleTextValue = async () => {
+    if (!description) {
+      toast.error("Please enter a withdrawal reason");
+      return;
+    }
 
-    axios(options)
-      .then((response) => {
-        if (response.status == 200) {
-          notify();
-        } else {
-          alert("Something went wrong, try again");
-        }
-      })
-      .catch((e) => {
-        alert("Something went wrong, try again");
+    try {
+      const response = await axios({
+        url: "http://localhost:8080/details/active/withdrawn/details/updateReason",
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+        data: { id, description },
       });
+
+      if (response.status === 200) {
+        notify();
+      } else {
+        toast.error(response.data?.message || "Failed to update reason");
+      }
+    } catch (error) {
+      console.error("Error updating reason:", error);
+      toast.error(
+        error.response?.data?.message || 
+        "Failed to update reason. Please try again."
+      );
+    }
   };
 
   return (
-    <div>
-      <h3 className="heading3">Withdrawn Candidate</h3>
-
+    <div className="space-y-6">
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -96,67 +101,44 @@ function WithdrawnDetailsCard({ id }) {
         theme="light"
       />
 
-      <div className="flex p-4">
-        <div className=" w-1/2 flex items-center">
+      <div className="bg-white rounded-lg p-6">
+        <h3 className="text-2xl font-semibold text-gray-800 mb-6">Withdrawn Candidate</h3>
+
+        <div className="flex items-center space-x-6">
           <img
-            width={200}
-            height={200}
-            className="rounded-3xl"
+            width={120}
+            height={120}
+            className="rounded-full object-cover"
             src={userDetails?.ResumeURL}
-            alt=""
-            srcset=""
+            alt={`${userDetails?.firstName} ${userDetails?.lastName}`}
           />
 
-          <h2 className="ml-8 heading2b">
-            {userDetails?.firstName + " " + userDetails?.lastName}
+          <h2 className="text-2xl font-bold text-gray-900">
+            {userDetails?.firstName} {userDetails?.lastName}
           </h2>
-        </div>
-
-        <div className="flex justify-end w-1/2 p-4 ">
-          <label htmlFor="my-modal-3" className="btn bg-primary border-none ">
-            View Resume
-          </label>
-
-          {/* **********************************
-          MODAL UI CODE
-********************************** */}
-
-          <input type="checkbox" id="my-modal-3" className="modal-toggle" />
-          <div className="modal">
-            <div className="modal-box w-11/12 max-w-5xl h-full relative">
-              <label
-                htmlFor="my-modal-3"
-                className="btn btn-sm btn-circle absolute right-2 top-2"
-              >
-                ✕
-              </label>
-              <iframe
-                src={userDetails?.profilePic}
-                height="100%"
-                width="100%"
-              ></iframe>
-            </div>
-          </div>
-          {/* *****************************
-           ***************************** */}
         </div>
       </div>
 
-      <div className="w-11/12 m-auto mt-8 mb-8">
-        <h2 className="heading3">Widthdrawn Reason</h2>
+      <div className="bg-white rounded-lg p-6">
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold text-gray-800">Withdrawal Reason</h2>
 
-        <ReactQuill
-          value={description}
-          onChange={setDescription}
-          className="w-full  bg-gray-100 rounded-lg p-1  mt-2 h-auto overflow-hidden"
-        />
+          <ReactQuill
+            value={description}
+            onChange={setDescription}
+            className="bg-gray-50 rounded-lg"
+            style={{ minHeight: '200px' }}
+          />
 
-        <button
-          onClick={handleTextValue}
-          className="btn bg-primary border-none text-center block m-auto mt-6"
-        >
-          Update
-        </button>
+          <div className="flex justify-center">
+            <button
+              onClick={handleTextValue}
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+            >
+              Update Reason
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
