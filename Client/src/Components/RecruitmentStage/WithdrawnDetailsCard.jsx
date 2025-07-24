@@ -22,35 +22,42 @@ function WithdrawnDetailsCard({ id }) {
     });
 
   useEffect(() => {
-    // axios POST request
-    const options = {
-      url: "http://localhost:8080/details/active/withdrawn/details",
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json;charset=UTF-8",
-      },
-      data: { id },
+    const getCandidates = async () => {
+      const options = {
+        url: "http://localhost:8080/details/active/withdrawn/details",
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+        data: { id },
+      };
+
+      axios(options)
+        .then((response) => {
+          if (response.status === 200 && response.data) {
+            setUserDetails(response.data);
+            setDescription(response.data.withdrawn_reason || "");
+            console.log("Withdrawn candidate details:", response.data); // For debugging
+          } else {
+            console.error("Error response:", response);
+            toast.error("Failed to load candidate details");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching withdrawn details:", error);
+          toast.error("Failed to load candidate details");
+        });
     };
 
-    axios(options)
-      .then((response) => {
-        if (response.status == 200) {
-          setUserDetails(response.data);
-          setDescription(response.data.withdrawn_reason);
-        } else {
-          alert("Something went wrong, refresh page and try again");
-        }
-      })
-      .catch((e) => {
-        alert("Something went wrong, refresh page and try again");
-      });
-  }, [0]);
+    if (id) {
+      getCandidates();
+    }
+  }, [id]);
 
   const handleTextValue = () => {
-    // axios POST request
     const options = {
-      url: "http://localhost:8080/details/active/withdrawn/details/updateReason",
+      url: "http://localhost:8080/details/active/withdrawn/update",
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -63,13 +70,12 @@ function WithdrawnDetailsCard({ id }) {
       .then((response) => {
         if (response.status == 200) {
           notify();
-          console.log(response);
         } else {
-          alert("Something went wrong, refresh page and try again");
+          alert("Something went wrong, try again");
         }
       })
       .catch((e) => {
-        alert("Something went wrong, refresh page and try again");
+        alert("Something went wrong, try again");
       });
   };
 

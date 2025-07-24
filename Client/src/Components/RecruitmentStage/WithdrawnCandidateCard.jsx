@@ -16,7 +16,7 @@ function WithdrawnCandidateCard({ id }) {
   useEffect(() => {
     const getCandidates = async () => {
       const options = {
-        url: "https://smart-cruiter-fyp-production.up.railway.app/details/active/withdrawn",
+        url: "http://localhost:8080/details/active/withdrawn",
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -40,7 +40,7 @@ function WithdrawnCandidateCard({ id }) {
     };
 
     getCandidates();
-  }, [0]);
+  }, [id]);
 
   const navigate = useNavigate();
 

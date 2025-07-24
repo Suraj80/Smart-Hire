@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import TopRcruitementCycle from "../../Components/Dashboard/CreateJob/TopRcruitementCycle";
 import LeftMenuBar from "../../Components/Dashboard/LeftMenuBar";
 import TopNavigationBar from "../../Components/Dashboard/TopNavigationBar";
 import SwitchStatus from "../../Components/RecruitmentStage/SwitchStatus";
@@ -21,10 +20,9 @@ function ReccomendedCandidatesDetails() {
         <div className="w-screen bg-background ">
           <div className="p-0 w-full">
             <TopNavigationBar className="w-full" />
-            <TopRcruitementCycle />
           </div>
           <div className="w-11/12 m-auto">
-            <SwitchStatus id={user} />
+            <SwitchStatus id={id} />
           </div>
           <div className="w-11/12 m-auto mt-4  ">
             <GoBackButton location={"Reccomended"} name={user?.firstName} />

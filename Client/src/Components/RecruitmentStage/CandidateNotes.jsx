@@ -63,7 +63,7 @@ function CandidateNotes({ id }) {
   };
 
   useEffect(() => {
-    //get the detial of inditatls state and show at relevent places
+    if (!id) return;
 
     const getComments = () => {
       // axios GET request
@@ -77,22 +77,28 @@ function CandidateNotes({ id }) {
         data: { id },
       };
 
-      axios(options).then((response) => {
-        if (response.status == 200) {
-          setAddComment(false);
-          setComment(() => ({
-            Applied: response.data.Applied,
-            Interviewing: response.data.Interviewing,
-            Reccomended: response.data.Reccomended,
-            Hired: response.data.Hired,
-            Rejected: response.data.Rejected,
-          }));
-        }
-      });
+      axios(options)
+        .then((response) => {
+          if (response.status === 200) {
+            setAddComment(false);
+            setComment(() => ({
+              Applied: response.data.Applied || "",
+              Interviewing: response.data.Interviewing || "",
+              Reccomended: response.data.Reccomended || "",
+              Hired: response.data.Hired || "",
+              Rejected: response.data.Rejected || "",
+            }));
+          } else {
+            console.error("Error fetching comments:", response);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching comments:", error);
+        });
     };
 
     getComments();
-  }, [0]);
+  }, [id]);
 
   const notify = () =>
     toast.success("Remarks are saved", {
